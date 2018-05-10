@@ -1,7 +1,18 @@
 Start logging
-1: Mon May  7 02:41:32 2018  [INFO]: ../resources/models/cow.3DS
-2: Mon May  7 02:41:32 2018  [INFO]: Import of scene ../resources/models/cow.3DS succeeded
-3: Mon May  7 02:41:32 2018  [INFO]: meshes: 4
-4: Mon May  7 02:41:32 2018  [INFO]: size of image ../resources/textures/COWSKIN.JPG is: 793 x 440
-5: Mon May  7 02:41:32 2018  [INFO]: size of image ../resources/textures/COWEYE.JPG is: 220 x 220
-6: Mon May  7 02:41:32 2018  [INFO]: size of image ../resources/textures/COWCUER.JPG is: 168 x 168
+1: Fri May 11 00:21:23 2018  [INFO]: ../resources/models/cow.3DS
+2: Fri May 11 00:21:23 2018  [INFO]: Import of scene ../resources/models/cow.3DS succeeded
+3: Fri May 11 00:21:23 2018  [INFO]: meshes: 4
+4: Fri May 11 00:21:23 2018  [WARNING]: Model has not normal vectors
+5: Fri May 11 00:21:23 2018  [WARNING]: size of image ../resources/textures/COWSKIN.JPG is: 793 x 440
+6: Fri May 11 00:21:23 2018  [WARNING]: Model has not normal vectors
+7: Fri May 11 00:21:23 2018  [WARNING]: Model has not normal vectors
+8: Fri May 11 00:21:23 2018  [WARNING]: size of image ../resources/textures/COWEYE.JPG is: 220 x 220
+9: Fri May 11 00:21:23 2018  [WARNING]: Model has not normal vectors
+10: Fri May 11 00:21:23 2018  [WARNING]: size of image ../resources/textures/COWCUER.JPG is: 168 x 168
+11: Fri May 11 00:21:23 2018  [INFO]: ../resources/models/cube.ASE
+12: Fri May 11 00:21:23 2018  [INFO]: Import of scene ../resources/models/cube.ASE succeeded
+13: Fri May 11 00:21:23 2018  [INFO]: meshes: 1
+14: Fri May 11 00:21:23 2018  [WARNING]: Model has not normal vectors
+15: Fri May 11 00:21:23 2018  [INFO]: Loading vertex shader
+16: Fri May 11 00:21:23 2018  [INFO]: Loading fragment shader
+17: Fri May 11 00:21:23 2018  [ERROR]: Unknown error

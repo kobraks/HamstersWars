@@ -55,6 +55,7 @@ const float time_step = 1.f / 60.f;
 const int timer_time = 14;
 float data[] = { 0.0, 1.0, 0.0, -1.0, -1.0, 0.0, 1.0, -1.0, 0.0 };
 model::Model* modela = nullptr;
+model::Model* modelb = nullptr;
 
 namespace game
 {
@@ -84,22 +85,36 @@ void game::Game::on_draw()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
+
 	gluLookAt(
 		pos.x, pos.y, pos.z,
 		pos.x + dir.x, pos.y + dir.y, pos.z + dir.z,
 		0.0f, 1.0f, 0.0f
 	);
 	
+
 	glPushMatrix();
 	glTranslatef(0, 0, 2);
 	//glTranslatef(0, -200, 1000);
 	//glRotatef(90, 1, 0, 0);
 	glScalef(0.005, 0.005, 0.005);
+	modela->draw();
 
-	//modela->get_mesh(0)->draw();
+	glPopMatrix();
+	
+	glPushMatrix();
+	glTranslatef(0, 0, -4);
+	glScalef(0.05, 0.05, 0.05);
+	modelb->draw();
 
-	if (modela)
-		modela->draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	//glColor4f(0, 1, 1, 1);
+	glTranslatef(0, 0, 4);
+	//glScalef(1.5f, 0.2f, 0.5f);
+	glutSolidCube(1.f);
+
 	glPopMatrix();
 
 	glFlush();
@@ -109,9 +124,10 @@ void game::Game::on_draw()
 
 void game::Game::on_reshape(int width, int height)
 {
+	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glViewport(0, 0, width, height);
+	
 	gluPerspective(60.0f, static_cast<float>(width) / height, .01f, 100.0f);
 }
 
@@ -157,19 +173,16 @@ game::Game* game::Game::get_instance()
 void game::Game::initialize(int argc, char** argv, const char* window_name, const sf::Vector2i& position, const int& width, const int& height)
 {
 	Log::stream().rdbuf(get_instance()->log_file_.rdbuf());
-
 	glutInit(&argc, argv);
 
 	glutInitWindowPosition(position.x, position.y);
 	glutInitWindowSize(width, height);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_TEXTURE_2D);
 	//glEnable(GL_LIGHTING);
 	//glEnable(GL_LIGHT0);
 	//glEnable(GL_CULL_FACE); // W³¹czenie face culling'u, czyli nie renderowanie dwóch stron prymitywów
-	//glFrontFace(GL_CCW); // Interpretacja jako przednich œcian tych, które s¹ rysowane w kierunku przeciwnym do ruchu zegara. Alternatywa : GL_CW
+	//glFrontFace(GL_CW); // Interpretacja jako przednich œcian tych, które s¹ rysowane w kierunku przeciwnym do ruchu zegara. Alternatywa : GL_CW
 	//glCullFace(GL_BACK);
 
 	glutCreateWindow(window_name);
@@ -183,6 +196,12 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 	if (GLEW_OK != (glew_init_result = glewInit()))
 		throw exception::GlewException(glew_init_result);
 
+	//glClearColor(0.f, 1.f, 1.f, 1.f);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_TEXTURE_2D);
+	//glDepthFunc(GL_LESS);
+	glEnable(GL_CULL_FACE);
+
 	Keyboard::initialize();
 	Mouse::initialize();
 
@@ -192,33 +211,38 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 	Mouse::set_event_on_mouse_move([](const int& x, const int& y) { captureMouse = true; mousePosition.x = x; mousePosition.y = y; });
 
 	modela = model::ModelLoader::load(MODELS_PATH "cow.3DS");
+	modelb = model::ModelLoader::load(MODELS_PATH "cube.ASE");
 
 	window_width = width;
 	window_height = height;
 
+	Log::level() = Log::log_info;
+	Log::print("Loading vertex shader");
 	gl::Shader vertex(gl::shader_type::Vertex);
-	vertex.load_source_form_file(SHADERS_PATH "shader.vs");
+	vertex.load_source_form_file(SHADERS_PATH "texture.vert");
 	vertex.compile();
+
+	Log::level() = Log::log_info;
+	Log::print("Loading fragment shader");
 	gl::Shader fragment(gl::shader_type::Fragment);
-	fragment.load_source_form_file(SHADERS_PATH"shader.ps");
+	fragment.load_source_form_file(SHADERS_PATH"texture.frag");
 	fragment.compile();
 
 	program = new gl::Program(vertex, fragment);
 
 	GLfloat light_position[3] = {1, 1, 1};
 
-	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+	//glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 	glActiveTexture(GL_TEXTURE0);
 
 	glUniform1i(glGetUniformLocation(*program, "mytex"), 0);
 
-	glBindAttribLocation(*program, VERTEX_INDEX, "inPosition");
-	glBindAttribLocation(*program, COLOR_INDEX, "inColor");
-	glBindAttribLocation(*program, TEXCOORD_INDEX, "inTexcoord");
-	glBindAttribLocation(*program, NORMAL_INDEX, "inNormal");
+	program->set_attribute("inPosition", VERTEX_INDEX);
+	program->set_attribute("inColor", COLOR_INDEX);
+	program->set_attribute("inTexcoord", TEXCOORD_INDEX);
 
 	program->link();
-	//program->use();
+	program->use();
 
 	/*
 	 * attribute vec3 inPosition;

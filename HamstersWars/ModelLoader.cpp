@@ -16,10 +16,10 @@
 model::Model* model::ModelLoader::load(const std::string& file)
 {
 	auto importer = new Assimp::Importer();
-	const aiScene* scene = importer->ReadFile(file, !aiProcess_JoinIdenticalVertices & aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_PreTransformVertices | aiProcess_GenNormals);
+	const aiScene* scene = importer->ReadFile(file, aiProcess_Triangulate | aiProcess_PreTransformVertices | aiProcess_GenNormals | aiProcess_SplitLargeMeshes);
 
 
-	if (!scene)
+	if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
 		Log::level() = Log::log_error;
 		Log::print(importer->GetErrorString());

@@ -38,8 +38,6 @@ namespace model
 		void scale(const glm::vec3& scale);
 		void scale(const float& x, const float& y, const float& z);
 	private:
-		gl::VertexBuffer* testing_;
-
 		gl::VertexBuffer* vertex_buffer_;
 		gl::VertexBuffer* color_buffer_;
 		gl::VertexBuffer* normals_buffer_;
@@ -55,9 +53,10 @@ namespace model
 
 
 		Material material_;
-		int inditer_;
 		GLfloat* vertices_;
 		size_t vertex_count_;
+		size_t element_count_;
+		GLuint indler_;
 
 		static glm::mat4x4 convert(const aiMatrix4x4& matrix);
 	};

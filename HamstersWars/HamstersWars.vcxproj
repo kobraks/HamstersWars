@@ -168,8 +168,8 @@
     <ClInclude Include="VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\resources\shaders\shader.ps" />
-    <None Include="..\resources\shaders\shader.vs" />
+    <None Include="..\resources\shaders\texture.frag" />
+    <None Include="..\resources\shaders\texture.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

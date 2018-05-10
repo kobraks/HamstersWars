@@ -1,10 +1,14 @@
 #include "VertexArray.h"
 
 #include "VertexBuffer.h"
+#include <ostream>
+#include <iostream>
 
 gl::VertexArray::VertexArray()
 {
+	std::cout << this << std::endl;
 	obj_ = std::shared_ptr<GLuint>(new GLuint(0), [=](GLuint* id) { glDeleteVertexArrays(1, id); });
+	std::cout << *obj_ << &*obj_ << std::endl;
 
 	glGenVertexArrays(1, &*obj_);
 }
@@ -22,12 +26,15 @@ void gl::VertexArray::bind_attribute(const Attribute& attribute, const VertexBuf
 	glVertexAttribPointer(attribute, count, type, GL_FALSE, stride, reinterpret_cast<const GLvoid*>(offset));
 	glEnableVertexAttribArray(attribute);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
 }
 
 void gl::VertexArray::bind_elements(const VertexBuffer& elements) const
 {
 	bind();
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elements);
+	glBindVertexArray(0);
+
 }
 
 void gl::VertexArray::bind_transfrom_feedback(const unsigned& index, const VertexBuffer& buffer) const
@@ -35,6 +42,8 @@ void gl::VertexArray::bind_transfrom_feedback(const unsigned& index, const Verte
 	bind();
 
 	glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, index, buffer);
+	glBindVertexArray(0);
+
 }
 
 void gl::VertexArray::bind() const

@@ -1,6 +1,8 @@
 #include "Program.h"
 #include "LinkException.h"
 #include "Shader.h"
+#include <glm/gtc/type_ptr.hpp>
+#include "Texture2d.h"
 
 gl::Program::Program()
 {
@@ -68,4 +70,44 @@ std::string gl::Program::get_info_log() const
 	}
 	else
 		return "";
+}
+
+void gl::Program::set_attribute(const std::string& attrib_name, const Attribute& attribute)
+{
+	glBindAttribLocation(*obj_, attribute, attrib_name.c_str());
+}
+
+gl::Attribute gl::Program::get_attribute(const std::string& name) const
+{
+	return glGetAttribLocation(*obj_, name.c_str());
+}
+
+void gl::Program::set_uniform(const Uniform& uniform, glm::mat4 value)
+{
+	glUniformMatrix4fv(uniform, 1, GL_FALSE, glm::value_ptr(value));
+}
+
+void gl::Program::set_uniform(const Uniform& uniform, float value)
+{
+	glUniform1f(uniform, value);
+}
+
+void gl::Program::set_uniform(const Uniform& uniform, int value)
+{
+	glUniform1i(uniform, value);
+}
+
+void gl::Program::set_uniform(const Uniform& uniform, glm::vec2 value)
+{
+	glUniform2fv(uniform, 1, glm::value_ptr(value));
+}
+
+void gl::Program::set_uniform(const Uniform& uniform, glm::vec3 value)
+{
+	glUniform3fv(uniform, 1, glm::value_ptr(value));
+}
+
+void gl::Program::set_uniform(const Uniform& uniform, glm::vec4 value)
+{
+	glUniform4fv(uniform, 1, glm::value_ptr(value));
 }

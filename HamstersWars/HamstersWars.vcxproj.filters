@@ -78,14 +78,14 @@
     <ClCompile Include="VertexBuffer.cpp">
       <Filter>Source Files\gl</Filter>
     </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ShaderParameter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Program.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\gl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -146,21 +146,21 @@
     <ClInclude Include="LinkException.h">
       <Filter>Header Files\gl</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ShaderParameter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Program.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\gl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\resources\shaders\shader.vs">
+    <None Include="..\resources\shaders\texture.frag">
       <Filter>Header Files\shaders</Filter>
     </None>
-    <None Include="..\resources\shaders\shader.ps">
+    <None Include="..\resources\shaders\texture.vert">
       <Filter>Header Files\shaders</Filter>
     </None>
   </ItemGroup>
