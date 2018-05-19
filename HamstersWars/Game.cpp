@@ -1,6 +1,9 @@
 #include "Game.h"
 #include <GL/glew.h>
 #include <GL/freeglut.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 
 #include "Defines.h"
 #include "Log.h"
@@ -17,6 +20,7 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Program.h"
+#include <iostream>
 
 
 glm::vec3 pos(0.f, 1.f, 4.f);
@@ -32,7 +36,7 @@ float velocity_horizontal;
 
 float window_height, window_width;
 
-gl::Program* program;
+gl::Program* shader;
 
 void update()
 {
@@ -83,39 +87,51 @@ void game::Game::on_draw()
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
 
+	glm::mat4 view_matrix = glm::lookAt(
+		pos,
+		pos + dir,
+		glm::vec3(0.0f, 1.0f, 0.0f)
+	);
 
-	gluLookAt(
+	glm::mat4 model_view_matrix = view_matrix;
+
+	/*gluLookAt(
 		pos.x, pos.y, pos.z,
 		pos.x + dir.x, pos.y + dir.y, pos.z + dir.z,
 		0.0f, 1.0f, 0.0f
-	);
-	
+	);*/
 
-	glPushMatrix();
-	glTranslatef(0, 0, 2);
-	//glTranslatef(0, -200, 1000);
-	//glRotatef(90, 1, 0, 0);
-	glScalef(0.005, 0.005, 0.005);
-	modela->draw();
+	for (size_t i = 0; i < modela->count(); ++i)
+	{
+		shader->get_parameter("mode")->set_value(1);
+		shader->get_parameter("model")->set_value(modela->get_mesh(i)->get_model_matrix());
+		modela->get_mesh(i)->draw();
+		//modela->get_mesh(i)->bounding_box()->get_model_matrix()
 
-	glPopMatrix();
-	
-	glPushMatrix();
-	glTranslatef(0, 0, -4);
-	glScalef(0.05, 0.05, 0.05);
-	modelb->draw();
+		shader->get_parameter("mode")->set_value(-1);
+		shader->get_parameter("model")->set_value(modela->get_mesh(i)->bounding_box()->get_model_matrix());
+		modela->get_mesh(i)->bounding_box()->draw();
+		shader->get_parameter("mode")->set_value(1);
+	}
 
-	glPopMatrix();
+	for (size_t i = 0; i < modelb->count(); ++i)
+	{
+		shader->get_parameter("mode")->set_value(1);
+		shader->get_parameter("model")->set_value(modelb->get_mesh(i)->get_model_matrix());
+		modelb->get_mesh(i)->draw();
+		//modela->get_mesh(i)->bounding_box()->get_model_matrix()
 
-	glPushMatrix();
-	//glColor4f(0, 1, 1, 1);
-	glTranslatef(0, 0, 4);
-	//glScalef(1.5f, 0.2f, 0.5f);
-	glutSolidCube(1.f);
+		shader->get_parameter("mode")->set_value(-1);
+		shader->get_parameter("model")->set_value(modelb->get_mesh(i)->bounding_box()->get_model_matrix());
+		modelb->get_mesh(i)->bounding_box()->draw();
+		shader->get_parameter("mode")->set_value(1);
+	}
 
-	glPopMatrix();
+	if (modela->colide(*modelb))
+		std::cout << "GOWNO" << std::endl;
+
+	glLoadMatrixf(&model_view_matrix[0][0]);
 
 	glFlush();
 	glutSwapBuffers();
@@ -145,6 +161,42 @@ void game::Game::on_timer(int id)
 		velocity_horizontal = 1;
 	if (Keyboard::is_down('d'))
 		velocity_horizontal = -1;
+
+	if (Keyboard::is_down('8'))
+	{
+		for (size_t i = 0; i < modela->count(); ++i)
+			modela->get_mesh(i)->rotate(1.f, 1.f, 0, 0);
+	}
+
+	if (Keyboard::is_down('2'))
+	{
+		for (size_t i = 0; i < modela->count(); ++i)
+			modela->get_mesh(i)->rotate(-1.f, 1.f, 0, 0);
+	}
+
+	if (Keyboard::is_down('4'))
+	{
+		for (size_t i = 0; i < modela->count(); ++i)
+			modela->get_mesh(i)->rotate(1.f, 0.f, 1.f, 0);
+	}
+
+	if (Keyboard::is_down('6'))
+	{
+		for (size_t i = 0; i < modela->count(); ++i)
+			modela->get_mesh(i)->rotate(-1.f, 0, 1.f, 0);
+	}
+
+	if (Keyboard::is_down('7'))
+	{
+		for (size_t i = 0; i < modela->count(); ++i)
+			modela->get_mesh(i)->rotate(1.f, 0.f, 0, 1.f);
+	}
+
+	if (Keyboard::is_down('9'))
+	{
+		for (size_t i = 0; i < modela->count(); ++i)
+			modela->get_mesh(i)->rotate(-1.f, 0, 0, 1.f);
+	}
 
 	if (captureMouse)
 	{
@@ -179,32 +231,23 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 	glutInitWindowSize(width, height);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 
-	//glEnable(GL_LIGHTING);
-	//glEnable(GL_LIGHT0);
-	//glEnable(GL_CULL_FACE); // W³¹czenie face culling'u, czyli nie renderowanie dwóch stron prymitywów
-	//glFrontFace(GL_CW); // Interpretacja jako przednich œcian tych, które s¹ rysowane w kierunku przeciwnym do ruchu zegara. Alternatywa : GL_CW
-	//glCullFace(GL_BACK);
+	get_instance()->window_handle_ = glutCreateWindow(window_name);
 
-	glutCreateWindow(window_name);
-
-	glutDisplayFunc(game::on_draw_callback);
-	glutReshapeFunc(game::on_reshape);
-	glutTimerFunc(timer_time, game::on_timer, 0);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_CULL_FACE);
 
 	glewExperimental = GL_TRUE;
 	GLenum glew_init_result;
 	if (GLEW_OK != (glew_init_result = glewInit()))
 		throw exception::GlewException(glew_init_result);
 
-	//glClearColor(0.f, 1.f, 1.f, 1.f);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_TEXTURE_2D);
-	//glDepthFunc(GL_LESS);
-	glEnable(GL_CULL_FACE);
-
+	glutDisplayFunc(game::on_draw_callback);
+	glutReshapeFunc(game::on_reshape);
+	glutTimerFunc(timer_time, game::on_timer, 0);
+	
 	Keyboard::initialize();
 	Mouse::initialize();
-
 
 	Mouse::set_position(width / 2, height / 2);
 	Mouse::set_cursor(GLUT_CURSOR_NONE);
@@ -212,6 +255,11 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 
 	modela = model::ModelLoader::load(MODELS_PATH "cow.3DS");
 	modelb = model::ModelLoader::load(MODELS_PATH "cube.ASE");
+
+	modela->set_matrix(glm::mat4(1.f) * glm::translate(glm::mat4(1.f), glm::vec3(0, 0, 2)) *
+		glm::scale(glm::mat4(1.f), glm::vec3(0.005, 0.005, 0.005)));
+	*modelb = *modela;
+	modelb->set_matrix(glm::mat4(1.f) * glm::translate(glm::mat4(1.f), glm::vec3(0, 0, 1)) * glm::scale(glm::mat4(1.f), glm::vec3(0.005, 0.005, 0.005)));
 
 	window_width = width;
 	window_height = height;
@@ -228,30 +276,23 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 	fragment.load_source_form_file(SHADERS_PATH"texture.frag");
 	fragment.compile();
 
-	program = new gl::Program(vertex, fragment);
+	shader = new gl::Program(vertex, fragment);
 
 	GLfloat light_position[3] = {1, 1, 1};
 
 	//glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 	glActiveTexture(GL_TEXTURE0);
 
-	glUniform1i(glGetUniformLocation(*program, "mytex"), 0);
+	shader->set_attribute("inPosition", VERTEX_INDEX);
+	shader->set_attribute("inColor", COLOR_INDEX);
+	shader->set_attribute("inTexcoord", TEXCOORD_INDEX);
+	shader->set_attribute("inNormal", NORMAL_INDEX);
 
-	program->set_attribute("inPosition", VERTEX_INDEX);
-	program->set_attribute("inColor", COLOR_INDEX);
-	program->set_attribute("inTexcoord", TEXCOORD_INDEX);
+	shader->link();
+	shader->use();
 
-	program->link();
-	program->use();
-
-	/*
-	 * attribute vec3 inPosition;
-attribute vec4 inColor;
-attribute vec2 inTexcoord; 
-attribute vec3 inNormal; 
-	 */
-
-	//shader->use();
+	shader->set_uniform(shader->get_uniform("mytex"), GL_TEXTURE0);
+	shader->set_uniform(shader->get_uniform("mode"), 1);
 }
 
 void game::Game::run()
@@ -262,6 +303,11 @@ void game::Game::run()
 void game::Game::stop()
 {
 	glutLeaveMainLoop();
+}
+
+void game::Game::close()
+{
+	glutDestroyWindow(get_instance()->window_handle_);
 }
 
 game::Game::Game()

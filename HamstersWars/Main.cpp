@@ -15,6 +15,9 @@ int main(int argc, char** argv)
 	{
 		Log::level() = Log::log_error;
 		Log::print("%s", ex.what());
+		game::Game::stop();
+		game::Game::close();
+
 		system("pause");
 	}
 

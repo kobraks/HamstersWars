@@ -1,18 +1,103 @@
 Start logging
-1: Fri May 11 00:21:23 2018  [INFO]: ../resources/models/cow.3DS
-2: Fri May 11 00:21:23 2018  [INFO]: Import of scene ../resources/models/cow.3DS succeeded
-3: Fri May 11 00:21:23 2018  [INFO]: meshes: 4
-4: Fri May 11 00:21:23 2018  [WARNING]: Model has not normal vectors
-5: Fri May 11 00:21:23 2018  [WARNING]: size of image ../resources/textures/COWSKIN.JPG is: 793 x 440
-6: Fri May 11 00:21:23 2018  [WARNING]: Model has not normal vectors
-7: Fri May 11 00:21:23 2018  [WARNING]: Model has not normal vectors
-8: Fri May 11 00:21:23 2018  [WARNING]: size of image ../resources/textures/COWEYE.JPG is: 220 x 220
-9: Fri May 11 00:21:23 2018  [WARNING]: Model has not normal vectors
-10: Fri May 11 00:21:23 2018  [WARNING]: size of image ../resources/textures/COWCUER.JPG is: 168 x 168
-11: Fri May 11 00:21:23 2018  [INFO]: ../resources/models/cube.ASE
-12: Fri May 11 00:21:23 2018  [INFO]: Import of scene ../resources/models/cube.ASE succeeded
-13: Fri May 11 00:21:23 2018  [INFO]: meshes: 1
-14: Fri May 11 00:21:23 2018  [WARNING]: Model has not normal vectors
-15: Fri May 11 00:21:23 2018  [INFO]: Loading vertex shader
-16: Fri May 11 00:21:23 2018  [INFO]: Loading fragment shader
-17: Fri May 11 00:21:23 2018  [ERROR]: Unknown error
+1: Sat May 19 21:19:20 2018  [INFO]: ../resources/models/cow.3DS
+2: Sat May 19 21:19:20 2018  [INFO]: Import of scene ../resources/models/cow.3DS succeeded
+3: Sat May 19 21:19:20 2018  [INFO]: meshes: 4
+4: Sat May 19 21:19:20 2018  [WARNING]: Model has not normal vectors
+5: Sat May 19 21:19:20 2018  [WARNING]: size of image ../resources/textures/COWSKIN.JPG is: 793 x 440
+6: Sat May 19 21:19:21 2018  [WARNING]: Model has not normal vectors
+7: Sat May 19 21:19:21 2018  [WARNING]: Model has not normal vectors
+8: Sat May 19 21:19:21 2018  [WARNING]: size of image ../resources/textures/COWEYE.JPG is: 220 x 220
+9: Sat May 19 21:19:21 2018  [WARNING]: Model has not normal vectors
+10: Sat May 19 21:19:21 2018  [WARNING]: size of image ../resources/textures/COWCUER.JPG is: 168 x 168
+11: Sat May 19 21:19:21 2018  [INFO]: ../resources/models/cube.ASE
+12: Sat May 19 21:19:21 2018  [INFO]: Import of scene ../resources/models/cube.ASE succeeded
+13: Sat May 19 21:19:21 2018  [INFO]: meshes: 1
+14: Sat May 19 21:19:21 2018  [WARNING]: Model has not normal vectors
+15: Sat May 19 21:19:21 2018  [INFO]: Loading vertex shader
+16: Sat May 19 21:19:21 2018  [INFO]: Loading fragment shader
+17: Sat May 19 21:19:21 2018  [INFO]: Atributes count: 7
+18: Sat May 19 21:19:21 2018  [DEBUG]: 
+	Attribute: 0
+	name: model
+	type: 35676
+	length: 5
+	size: 1
+19: Sat May 19 21:19:21 2018  [DEBUG]: 
+	Attribute: 1
+	name: forced_color
+	type: 35666
+	length: 12
+	size: 1
+20: Sat May 19 21:19:21 2018  [DEBUG]: 
+	Attribute: 2
+	name: mytex
+	type: 35678
+	length: 5
+	size: 1
+21: Sat May 19 21:19:21 2018  [DEBUG]: 
+	Attribute: 3
+	name: mode
+	type: 5124
+	length: 4
+	size: 1
+22: Sat May 19 21:19:21 2018  [DEBUG]: 
+	Attribute: 4
+	name: gl_ProjectionMatrix
+	type: 35676
+	length: 19
+	size: 1
+23: Sat May 19 21:19:21 2018  [DEBUG]: 
+	Attribute: 5
+	name: gl_ModelViewMatrix
+	type: 35676
+	length: 18
+	size: 1
+24: Sat May 19 21:19:21 2018  [DEBUG]: 
+	Attribute: 6
+	name: gl_NormalMatrix
+	type: 35675
+	length: 15
+	size: 1
+25: Sat May 19 21:19:21 2018  [INFO]: Atributes count: 7
+26: Sat May 19 21:19:21 2018  [DEBUG]: 
+	Attribute: 0
+	name: model
+	type: 35676
+	length: 5
+	size: 1
+27: Sat May 19 21:19:21 2018  [DEBUG]: 
+	Attribute: 1
+	name: forced_color
+	type: 35666
+	length: 12
+	size: 1
+28: Sat May 19 21:19:21 2018  [DEBUG]: 
+	Attribute: 2
+	name: mytex
+	type: 35678
+	length: 5
+	size: 1
+29: Sat May 19 21:19:21 2018  [DEBUG]: 
+	Attribute: 3
+	name: mode
+	type: 5124
+	length: 4
+	size: 1
+30: Sat May 19 21:19:21 2018  [DEBUG]: 
+	Attribute: 4
+	name: gl_ProjectionMatrix
+	type: 35676
+	length: 19
+	size: 1
+31: Sat May 19 21:19:21 2018  [DEBUG]: 
+	Attribute: 5
+	name: gl_ModelViewMatrix
+	type: 35676
+	length: 18
+	size: 1
+32: Sat May 19 21:19:21 2018  [DEBUG]: 
+	Attribute: 6
+	name: gl_NormalMatrix
+	type: 35675
+	length: 15
+	size: 1

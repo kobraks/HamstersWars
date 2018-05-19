@@ -3,6 +3,9 @@
 #include <string>
 #include <memory>
 #include <glm/glm.hpp>
+#include <map>
+
+#include "ProgramParameter.h"
 
 namespace model {
 	class Texture2d;
@@ -10,11 +13,10 @@ namespace model {
 
 namespace gl
 {
-	typedef GLint Uniform;
-	typedef GLint Attribute;
+	typedef GLuint Uniform;
+	typedef GLuint Attribute;
 
 	class Shader;
-
 
 	class Program
 	{
@@ -35,7 +37,9 @@ namespace gl
 		std::string get_info_log() const;
 
 		void set_attribute(const std::string& attrib_name, const Attribute& attribute);
+
 		Attribute get_attribute(const std::string& name) const;
+		Uniform get_uniform(const std::string& name) const;
 
 		void set_uniform(const Uniform& uniform, glm::mat4 value);
 		void set_uniform(const Uniform& uniform, float value);
@@ -43,9 +47,16 @@ namespace gl
 		void set_uniform(const Uniform& uniform, glm::vec2 value);
 		void set_uniform(const Uniform& uniform, glm::vec3 value);
 		void set_uniform(const Uniform& uniform, glm::vec4 value);
-		void set_uniform(const Uniform& uniform, model::Texture2d& texture);
+		void set_uniform(const Uniform& uniform, const GLuint& texture_id_, model::Texture2d& texture);
+
+		std::shared_ptr<ProgramParameter> operator[] (const std::string& name);
+		std::shared_ptr<ProgramParameter> get_parameter(const std::string& name);
 
 	private:
 		std::shared_ptr<GLuint> obj_;
+
+		std::map<std::string, std::shared_ptr<ProgramParameter>> parameters_;
+
+		void populate_parameters();
 	};
 }

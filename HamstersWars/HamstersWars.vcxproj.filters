@@ -31,7 +31,7 @@
     <Filter Include="Header Files\gl">
       <UniqueIdentifier>{002d0a2e-0ef6-4c99-a220-0448ee48ecea}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\shaders">
+    <Filter Include="Source Files\shaders">
       <UniqueIdentifier>{55ed9b7d-8db3-4d16-8072-8cde739a28d3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -78,14 +78,17 @@
     <ClCompile Include="VertexBuffer.cpp">
       <Filter>Source Files\gl</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderParameter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Program.cpp">
       <Filter>Source Files\gl</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>Source Files\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgramParameter.cpp">
+      <Filter>Source Files\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundingBox.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -146,22 +149,25 @@
     <ClInclude Include="LinkException.h">
       <Filter>Header Files\gl</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderParameter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Program.h">
       <Filter>Header Files\gl</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>Header Files\gl</Filter>
     </ClInclude>
+    <ClInclude Include="ProgramParameter.h">
+      <Filter>Header Files\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundingBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\shaders\texture.frag">
-      <Filter>Header Files\shaders</Filter>
+      <Filter>Source Files\shaders</Filter>
     </None>
     <None Include="..\resources\shaders\texture.vert">
-      <Filter>Header Files\shaders</Filter>
+      <Filter>Source Files\shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

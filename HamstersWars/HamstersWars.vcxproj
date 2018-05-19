@@ -125,6 +125,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameException.cpp" />
     <ClCompile Include="Keyboard.cpp" />
@@ -137,7 +138,7 @@
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="ShaderParameter.cpp" />
+    <ClCompile Include="ProgramParameter.cpp" />
     <ClCompile Include="Texture2d.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="VertexArray.cpp" />
@@ -145,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BadLogStreamException.h" />
+    <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="CompileException.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="Game.h" />
@@ -160,7 +162,7 @@
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Program.h" />
     <ClInclude Include="Shader.h" />
-    <ClInclude Include="ShaderParameter.h" />
+    <ClInclude Include="ProgramParameter.h" />
     <ClInclude Include="Texture2d.h" />
     <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="Types.h" />

@@ -16,8 +16,9 @@
 model::Model* model::ModelLoader::load(const std::string& file)
 {
 	auto importer = new Assimp::Importer();
-	const aiScene* scene = importer->ReadFile(file, aiProcess_Triangulate | aiProcess_PreTransformVertices | aiProcess_GenNormals | aiProcess_SplitLargeMeshes);
-
+	const aiScene* scene = importer->ReadFile(
+		file, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_PreTransformVertices | aiProcess_GenNormals
+		| aiProcess_SplitLargeMeshes);
 
 	if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{

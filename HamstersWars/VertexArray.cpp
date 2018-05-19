@@ -6,9 +6,7 @@
 
 gl::VertexArray::VertexArray()
 {
-	std::cout << this << std::endl;
 	obj_ = std::shared_ptr<GLuint>(new GLuint(0), [=](GLuint* id) { glDeleteVertexArrays(1, id); });
-	std::cout << *obj_ << &*obj_ << std::endl;
 
 	glGenVertexArrays(1, &*obj_);
 }

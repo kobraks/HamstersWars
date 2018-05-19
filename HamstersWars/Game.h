@@ -15,6 +15,7 @@ namespace game
 		static void run();
 
 		static void stop();
+		static void close();
 	private:
 		Game();
 		~Game();
@@ -26,6 +27,7 @@ namespace game
 		void on_timer(int id);
 
 		static Game* get_instance();
+		int window_handle_;
 		
 		friend void on_draw_callback();
 		friend void on_reshape(int, int);
