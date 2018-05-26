@@ -2,6 +2,9 @@
 
 #include <fstream>
 #include <SFML/System.hpp>
+#include "Camera.h"
+#include "Program.h"
+#include "SceneManager.h"
 
 namespace game
 {
@@ -21,6 +24,9 @@ namespace game
 		~Game();
 
 		std::fstream log_file_;
+		gl::Camera* camera_;
+		gl::Program* shader_;
+		game::SceneManager* manager_;
 
 		void on_draw();
 		void on_reshape(int width, int height);

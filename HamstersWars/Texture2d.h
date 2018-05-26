@@ -1,13 +1,13 @@
 #pragma once
 #include <GL/glew.h>
+#include "Texture.h"
 
 namespace model
 {
 	class Texture2d
 	{
 	public:
-		Texture2d(const unsigned& width, const unsigned& height, const GLuint& texture_id);
-		~Texture2d();
+		Texture2d(const unsigned& width, const unsigned& height, const gl::Texture& texture);
 
 		operator GLuint() const;
 
@@ -26,7 +26,7 @@ namespace model
 		unsigned width_;
 		unsigned height_;
 
-		GLuint texture_id_;
+		gl::Texture texture_;
 
 	};
 }

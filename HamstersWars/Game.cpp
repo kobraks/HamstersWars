@@ -35,8 +35,7 @@ float velocity_vertical;
 float velocity_horizontal;
 
 float window_height, window_width;
-
-gl::Program* shader;
+model::Model* modela;
 
 void update()
 {
@@ -57,9 +56,6 @@ void update()
 
 const float time_step = 1.f / 60.f;
 const int timer_time = 14;
-float data[] = { 0.0, 1.0, 0.0, -1.0, -1.0, 0.0, 1.0, -1.0, 0.0 };
-model::Model* modela = nullptr;
-model::Model* modelb = nullptr;
 
 namespace game
 {
@@ -84,54 +80,27 @@ namespace game
 
 void game::Game::on_draw()
 {
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 
-	glm::mat4 view_matrix = glm::lookAt(
-		pos,
-		pos + dir,
-		glm::vec3(0.0f, 1.0f, 0.0f)
-	);
+	glm::mat4 model_view_matrix = camera_->get_view();
+	glLoadMatrixf(&model_view_matrix[0][0]);
 
-	glm::mat4 model_view_matrix = view_matrix;
+	shader_->get_parameter("mode")->set_value(1);
 
-	/*gluLookAt(
-		pos.x, pos.y, pos.z,
-		pos.x + dir.x, pos.y + dir.y, pos.z + dir.z,
-		0.0f, 1.0f, 0.0f
-	);*/
-
+	
 	for (size_t i = 0; i < modela->count(); ++i)
 	{
-		shader->get_parameter("mode")->set_value(1);
-		shader->get_parameter("model")->set_value(modela->get_mesh(i)->get_model_matrix());
-		modela->get_mesh(i)->draw();
-		//modela->get_mesh(i)->bounding_box()->get_model_matrix()
+		auto mesh = modela->get_mesh(i);
+		shader_->get_parameter("model")->set_value(mesh->get_model_matrix());
+		mesh->draw();
 
-		shader->get_parameter("mode")->set_value(-1);
-		shader->get_parameter("model")->set_value(modela->get_mesh(i)->bounding_box()->get_model_matrix());
-		modela->get_mesh(i)->bounding_box()->draw();
-		shader->get_parameter("mode")->set_value(1);
+		shader_->get_parameter("mode")->set_value(-1);
+		shader_->get_parameter("model")->set_value(mesh->bounding_box()->get_model_matrix());
+		mesh->bounding_box()->draw();
 	}
 
-	for (size_t i = 0; i < modelb->count(); ++i)
-	{
-		shader->get_parameter("mode")->set_value(1);
-		shader->get_parameter("model")->set_value(modelb->get_mesh(i)->get_model_matrix());
-		modelb->get_mesh(i)->draw();
-		//modela->get_mesh(i)->bounding_box()->get_model_matrix()
-
-		shader->get_parameter("mode")->set_value(-1);
-		shader->get_parameter("model")->set_value(modelb->get_mesh(i)->bounding_box()->get_model_matrix());
-		modelb->get_mesh(i)->bounding_box()->draw();
-		shader->get_parameter("mode")->set_value(1);
-	}
-
-	if (modela->colide(*modelb))
-		std::cout << "GOWNO" << std::endl;
-
-	glLoadMatrixf(&model_view_matrix[0][0]);
+	manager_->draw();
 
 	glFlush();
 	glutSwapBuffers();
@@ -142,9 +111,13 @@ void game::Game::on_reshape(int width, int height)
 {
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	
-	gluPerspective(60.0f, static_cast<float>(width) / height, .01f, 100.0f);
+	camera_->set_width(width);
+	camera_->set_height(height);
+
+	auto projection = camera_->get_projection();
+
+	glLoadMatrixf(&projection[0][0]);
+
 }
 
 void game::Game::on_timer(int id)
@@ -162,42 +135,6 @@ void game::Game::on_timer(int id)
 	if (Keyboard::is_down('d'))
 		velocity_horizontal = -1;
 
-	if (Keyboard::is_down('8'))
-	{
-		for (size_t i = 0; i < modela->count(); ++i)
-			modela->get_mesh(i)->rotate(1.f, 1.f, 0, 0);
-	}
-
-	if (Keyboard::is_down('2'))
-	{
-		for (size_t i = 0; i < modela->count(); ++i)
-			modela->get_mesh(i)->rotate(-1.f, 1.f, 0, 0);
-	}
-
-	if (Keyboard::is_down('4'))
-	{
-		for (size_t i = 0; i < modela->count(); ++i)
-			modela->get_mesh(i)->rotate(1.f, 0.f, 1.f, 0);
-	}
-
-	if (Keyboard::is_down('6'))
-	{
-		for (size_t i = 0; i < modela->count(); ++i)
-			modela->get_mesh(i)->rotate(-1.f, 0, 1.f, 0);
-	}
-
-	if (Keyboard::is_down('7'))
-	{
-		for (size_t i = 0; i < modela->count(); ++i)
-			modela->get_mesh(i)->rotate(1.f, 0.f, 0, 1.f);
-	}
-
-	if (Keyboard::is_down('9'))
-	{
-		for (size_t i = 0; i < modela->count(); ++i)
-			modela->get_mesh(i)->rotate(-1.f, 0, 0, 1.f);
-	}
-
 	if (captureMouse)
 	{
 		float theta = atan2(dir.z, dir.x);
@@ -214,6 +151,11 @@ void game::Game::on_timer(int id)
 	}
 
 	update();
+
+	camera_->set_position(pos);
+	camera_->set_target(pos + dir);
+
+	manager_->update();
 }
 
 game::Game* game::Game::get_instance()
@@ -253,16 +195,10 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 	Mouse::set_cursor(GLUT_CURSOR_NONE);
 	Mouse::set_event_on_mouse_move([](const int& x, const int& y) { captureMouse = true; mousePosition.x = x; mousePosition.y = y; });
 
-	modela = model::ModelLoader::load(MODELS_PATH "cow.3DS");
-	modelb = model::ModelLoader::load(MODELS_PATH "cube.ASE");
-
-	modela->set_matrix(glm::mat4(1.f) * glm::translate(glm::mat4(1.f), glm::vec3(0, 0, 2)) *
-		glm::scale(glm::mat4(1.f), glm::vec3(0.005, 0.005, 0.005)));
-	*modelb = *modela;
-	modelb->set_matrix(glm::mat4(1.f) * glm::translate(glm::mat4(1.f), glm::vec3(0, 0, 1)) * glm::scale(glm::mat4(1.f), glm::vec3(0.005, 0.005, 0.005)));
-
 	window_width = width;
 	window_height = height;
+
+	get_instance()->camera_ = new gl::Camera(width, height, pos, pos + dir, glm::vec3(0, 1, 0), 60.f);
 
 	Log::level() = Log::log_info;
 	Log::print("Loading vertex shader");
@@ -276,12 +212,12 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 	fragment.load_source_form_file(SHADERS_PATH"texture.frag");
 	fragment.compile();
 
-	shader = new gl::Program(vertex, fragment);
+	auto shader = get_instance()->shader_ = new gl::Program(vertex, fragment);
 
-	GLfloat light_position[3] = {1, 1, 1};
-
-	//glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 	glActiveTexture(GL_TEXTURE0);
+
+	modela = model::ModelLoader::load(MODELS_PATH"cow.3DS");
+	modela->set_matrix(glm::mat4(1.f) * glm::translate(glm::mat4(1.f), glm::vec3(0, 0, 2)) * glm::scale(glm::mat4(1.f), glm::vec3(0.005)));
 
 	shader->set_attribute("inPosition", VERTEX_INDEX);
 	shader->set_attribute("inColor", COLOR_INDEX);
@@ -293,6 +229,22 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 
 	shader->set_uniform(shader->get_uniform("mytex"), GL_TEXTURE0);
 	shader->set_uniform(shader->get_uniform("mode"), 1);
+
+	get_instance()->manager_ = new game::SceneManager(*shader, [](gl::Program& shader, const model::Model*)
+	{
+		shader.get_parameter("mode")->set_value(1);
+
+		for (size_t i = 0; i < modela->count(); ++i)
+		{
+			auto mesh = modela->get_mesh(i);
+			shader.get_parameter("model")->set_value(mesh->get_model_matrix());
+			mesh->draw();
+
+			shader.get_parameter("mode")->set_value(-1);
+			shader.get_parameter("model")->set_value(mesh->bounding_box()->get_model_matrix());
+			mesh->bounding_box()->draw();
+		}
+	});
 }
 
 void game::Game::run()

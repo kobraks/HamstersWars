@@ -41,13 +41,20 @@ namespace gl
 		Attribute get_attribute(const std::string& name) const;
 		Uniform get_uniform(const std::string& name) const;
 
-		void set_uniform(const Uniform& uniform, glm::mat4 value);
-		void set_uniform(const Uniform& uniform, float value);
-		void set_uniform(const Uniform& uniform, int value);
-		void set_uniform(const Uniform& uniform, glm::vec2 value);
-		void set_uniform(const Uniform& uniform, glm::vec3 value);
-		void set_uniform(const Uniform& uniform, glm::vec4 value);
+		void set_uniform(const Uniform& uniform, const glm::mat4& value);
+		void set_uniform(const Uniform& uniform, const float& value);
+		void set_uniform(const Uniform& uniform, const int& value);
+		void set_uniform(const Uniform& uniform, const glm::vec2& value);
+		void set_uniform(const Uniform& uniform, const glm::vec3& value);
+		void set_uniform(const Uniform& uniform, const glm::vec4& value);
 		void set_uniform(const Uniform& uniform, const GLuint& texture_id_, model::Texture2d& texture);
+
+		void set_uniform(const std::string& name, const glm::mat4& value);
+		void set_uniform(const std::string& name, const float& value);
+		void set_uniform(const std::string& name, const glm::vec2& value);
+		void set_uniform(const std::string& name, const glm::vec3& value);
+		void set_uniform(const std::string& name, const glm::vec4& value);
+		void set_uniform(const std::string& name, const GLuint& texture_id, model::Texture2d& texture);
 
 		std::shared_ptr<ProgramParameter> operator[] (const std::string& name);
 		std::shared_ptr<ProgramParameter> get_parameter(const std::string& name);

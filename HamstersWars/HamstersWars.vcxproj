@@ -126,8 +126,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BoundingBox.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EntityScriptHandler.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameException.cpp" />
+    <ClCompile Include="Image.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -137,8 +142,11 @@
     <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Program.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="ScriptHandler.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ProgramParameter.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Texture2d.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="VertexArray.cpp" />
@@ -147,11 +155,16 @@
   <ItemGroup>
     <ClInclude Include="BadLogStreamException.h" />
     <ClInclude Include="BoundingBox.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="CompileException.h" />
+    <ClInclude Include="Component.h" />
     <ClInclude Include="Defines.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityScriptHandler.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameException.h" />
     <ClInclude Include="GlewException.h" />
+    <ClInclude Include="Image.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="LinkException.h" />
     <ClInclude Include="Log.h" />
@@ -160,12 +173,17 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="OpenFileException.h" />
     <ClInclude Include="Program.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="ScriptHandler.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ProgramParameter.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Texture2d.h" />
     <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="Types.h" />
+    <ClInclude Include="UnknownFormatException.h" />
     <ClInclude Include="VertexArray.h" />
     <ClInclude Include="VertexBuffer.h" />
   </ItemGroup>

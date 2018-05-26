@@ -90,32 +90,32 @@ gl::Uniform gl::Program::get_uniform(const std::string& name) const
 	return glGetUniformLocation(*obj_, name.c_str());
 }
 
-void gl::Program::set_uniform(const Uniform& uniform, glm::mat4 value)
+void gl::Program::set_uniform(const Uniform& uniform, const glm::mat4& value)
 {
 	glUniformMatrix4fv(uniform, 1, GL_FALSE, glm::value_ptr(value));
 }
 
-void gl::Program::set_uniform(const Uniform& uniform, float value)
+void gl::Program::set_uniform(const Uniform& uniform, const float& value)
 {
 	glUniform1f(uniform, value);
 }
 
-void gl::Program::set_uniform(const Uniform& uniform, int value)
+void gl::Program::set_uniform(const Uniform& uniform, const int& value)
 {
 	glUniform1i(uniform, value);
 }
 
-void gl::Program::set_uniform(const Uniform& uniform, glm::vec2 value)
+void gl::Program::set_uniform(const Uniform& uniform, const glm::vec2& value)
 {
 	glUniform2fv(uniform, 1, glm::value_ptr(value));
 }
 
-void gl::Program::set_uniform(const Uniform& uniform, glm::vec3 value)
+void gl::Program::set_uniform(const Uniform& uniform, const glm::vec3& value)
 {
 	glUniform3fv(uniform, 1, glm::value_ptr(value));
 }
 
-void gl::Program::set_uniform(const Uniform& uniform, glm::vec4 value)
+void gl::Program::set_uniform(const Uniform& uniform, const glm::vec4& value)
 {
 	glUniform4fv(uniform, 1, glm::value_ptr(value));
 }
@@ -126,6 +126,36 @@ void gl::Program::set_uniform(const Uniform& uniform, const GLuint& texture_id_,
 	glBindTexture(GL_TEXTURE_2D, texture);
 
 	glUniform1i(uniform, texture_id_);
+}
+
+void gl::Program::set_uniform(const std::string& name, const glm::mat4& value)
+{
+	get_parameter(name)->set_value(value);
+}
+
+void gl::Program::set_uniform(const std::string& name, const float& value)
+{
+	get_parameter(name)->set_value(value);
+}
+
+void gl::Program::set_uniform(const std::string& name, const glm::vec2& value)
+{
+	get_parameter(name)->set_value(value);
+}
+
+void gl::Program::set_uniform(const std::string& name, const glm::vec3& value)
+{
+	get_parameter(name)->set_value(value);
+}
+
+void gl::Program::set_uniform(const std::string& name, const glm::vec4& value)
+{
+	get_parameter(name)->set_value(value);
+}
+
+void gl::Program::set_uniform(const std::string& name, const GLuint& texture_id, model::Texture2d& texture)
+{
+	get_parameter(name)->set_value(texture);
 }
 
 std::shared_ptr<gl::ProgramParameter> gl::Program::operator[](const std::string& name)

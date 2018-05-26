@@ -2,7 +2,7 @@
 
 uniform sampler2D mytex; 
 uniform int mode;
-uniform vec4 forced_color = vec4(1.f, 1.f, 1.f, 1.f);
+uniform vec4 color = vec4(1.f, 1.f, 1.f, 1.f);
 
 varying vec2 texCoord; 
 varying vec4 outColor;
@@ -23,18 +23,18 @@ vec4 no_textures()
 
 vec4 no_color()
 {
-	return forced_color;
+	return color;
 }
 
 void main() 
 {
-	vec4 color;
+	vec4 result;
 	if (mode == 1)
-		color = textured();
+		result = textured();
 	else if (mode == 0)
-		color = no_textures();
+		result = no_textures();
 	else if (mode == -1)
-		color = no_color();
+		result = no_color();
    
-	gl_FragColor = color;
+	gl_FragColor = result;
 }
