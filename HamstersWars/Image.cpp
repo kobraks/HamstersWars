@@ -138,7 +138,7 @@ void gl::util::Image::load(const std::string& file_name)
 
 void gl::util::Image::save(const std::string& file_name, image_type::image_type_t type)
 {
-	auto handler = FreeImage_Allocate(width_, height_, 32);
+	auto handler = FreeImage_Allocate(width_, height_, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
 
 	for (size_t i = 0; i < width_; ++i)
 		for (size_t j = 0; j < height_; ++j)
