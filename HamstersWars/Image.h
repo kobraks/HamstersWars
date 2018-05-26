@@ -53,8 +53,9 @@ namespace gl::util
 		glm::vec4 operator()(const unsigned int& x, const unsigned int& y) const;
 		glm::vec4& operator()(const unsigned int& x, const unsigned int& y);
 
-		static glm::vec4 translate_color(const unsigned char& r, const unsigned char& g, const unsigned char& b, const unsigned char& a);
-		static glm::vec4 translate_color(const unsigned char color[4]);
+		static inline glm::vec4 translate_color(const unsigned char& r, const unsigned char& g, const unsigned char& b,
+		                                        const unsigned char& a);
+		static inline glm::vec4 translate_color(const unsigned char color[4]);
 	private:
 		glm::vec4* pixels_;
 		unsigned int width_;

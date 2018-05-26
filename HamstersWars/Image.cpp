@@ -146,10 +146,10 @@ void gl::util::Image::save(const std::string& file_name, image_type::image_type_
 			RGBQUAD color;
 
 			auto pixel = get_pixel(i, j);
-			color.rgbRed = pixel.r;
-			color.rgbGreen = pixel.g;
-			color.rgbBlue = pixel.b;
-			color.rgbReserved = pixel.a;
+			color.rgbRed = static_cast<BYTE>(pixel.r * 255);
+			color.rgbGreen = static_cast<BYTE>(pixel.g * 255);
+			color.rgbBlue = static_cast<BYTE>(pixel.b * 255);
+			color.rgbReserved = static_cast<BYTE>(pixel.a * 255);
 
 			FreeImage_SetPixelColor(handler, i, j, &color);
 		}
@@ -207,14 +207,17 @@ glm::vec4& gl::util::Image::operator()(const unsigned& x, const unsigned& y)
 	return get_pixel(x, y);
 }
 
-glm::vec4 gl::util::Image::translate_color(const unsigned char& r, const unsigned char& g, const unsigned char& b, const unsigned char& a)
+glm::vec4 gl::util::Image::translate_color(const unsigned char& r, const unsigned char& g, const unsigned char& b,
+                                           const unsigned char& a)
 {
-	return glm::vec4(static_cast<float>(r) / 255, static_cast<float>(g) / 255, static_cast<float>(b) / 255, static_cast<float>(a) / 255);
+	return glm::vec4(static_cast<float>(r) / 255, static_cast<float>(g) / 255, static_cast<float>(b) / 255,
+	                 static_cast<float>(a) / 255);
 }
 
 glm::vec4 gl::util::Image::translate_color(const unsigned char color[4])
 {
-	return glm::vec4(static_cast<float>(color[0]) / 255, static_cast<float>(color[1]) / 255, static_cast<float>(color[2]) / 255, static_cast<float>(color[3]) / 255);
+	return glm::vec4(static_cast<float>(color[0]) / 255, static_cast<float>(color[1]) / 255,
+	                 static_cast<float>(color[2]) / 255, static_cast<float>(color[3]) / 255);
 
 }
 
@@ -231,7 +234,8 @@ void gl::util::Image::load_to_memory(void* image_file)
 	pixels_ = new glm::vec4[width_ * height_];
 
 	for (size_t i = 0; i < width_ * height_; ++i)
-		pixels_[i] = translate_color(pixels[i * 4 + 2], pixels[i * 4 + 1], pixels[i * 4], pixels[i * 4 + 3]);
+		pixels_[i] = translate_color(pixels[i * 4 + FI_RGBA_RED], pixels[i * 4 + FI_RGBA_GREEN], pixels[i * 4 + FI_RGBA_BLUE],
+		                             pixels[i * 4 + FI_RGBA_ALPHA]);
 
 	FreeImage_Unload(image);
 }
