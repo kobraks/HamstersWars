@@ -4,7 +4,7 @@
 #define ADD_FUNCTION(x) addFunction(#x, &EntityScriptHandler::x)
 #define ADD_FUNCTION_PARAMS(x,params) addFunction(#x, &EntityScriptHandler::x, params)
 
-game::component::ScriptHandler::ScriptHandler(game::Entity* owner, const std::shared_ptr<LuaIntf::LuaContext>& context, const LuaIntf::LuaRef& function) : context_(context), function_(function), Component(owner)
+game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> owner, const std::shared_ptr<LuaIntf::LuaContext>& context, const LuaIntf::LuaRef& function) : context_(context), function_(function), Component(owner)
 {
 	if (!function_.isFunction())
 		throw std::exception();
@@ -36,12 +36,12 @@ void game::component::ScriptHandler::register_functions()
 		.ADD_FUNCTION_PARAMS(scale, LUA_ARGS(glm::vec3))
 		.ADD_FUNCTION_PARAMS(translate, LUA_ARGS(glm::vec3))
 		.ADD_FUNCTION_PARAMS(rotate, LUA_ARGS(float, glm::vec3))
-		.ADD_FUNCTION(get_collider)
+		.ADD_FUNCTION(is_colliding)
 		.ADD_FUNCTION(destroy)
 		.endClass();
 }
 
-game::component::ScriptHandler::ScriptHandler(Entity* owner, const std::string& code) : Component(owner)
+game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> owner, const std::string& code) : Component(owner)
 {
 	context_->doString(code.c_str());
 	function_ = LuaIntf::LuaRef(*context_, "update");

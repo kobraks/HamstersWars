@@ -26,7 +26,6 @@ namespace game
 		std::fstream log_file_;
 		gl::Camera* camera_;
 		gl::Program* shader_;
-		game::SceneManager* manager_;
 
 		void on_draw();
 		void on_reshape(int width, int height);

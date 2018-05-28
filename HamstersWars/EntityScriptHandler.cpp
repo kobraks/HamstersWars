@@ -1,8 +1,9 @@
 #include "EntityScriptHandler.h"
 #include "Log.h"
 
+#include "SceneManager.h"
 
-game::script::EntityScriptHandler::EntityScriptHandler(Entity* entity) : entity_(entity)
+game::script::EntityScriptHandler::EntityScriptHandler(std::shared_ptr<Entity> entity) : entity_(entity)
 {
 }
 
@@ -32,9 +33,16 @@ void game::script::EntityScriptHandler::destroy()
 {
 }
 
-game::script::EntityScriptHandler* game::script::EntityScriptHandler::get_collider()
+bool game::script::EntityScriptHandler::is_colliding()
 {
-	return &EntityScriptHandler(entity_);
+	return SceneManager::get_collision_handler()->has_collision(entity_);
+}
+
+std::vector<game::script::EntityScriptHandler> game::script::EntityScriptHandler::get_colliders()
+{
+	auto colliders = SceneManager::get_collision_handler()->get_colliders(entity_);
+
+	return std::vector<game::script::EntityScriptHandler>();
 }
 
 void game::script::EntityScriptHandler::print_log(const std::string& log_level, const std::string& log)

@@ -1,5 +1,6 @@
 #pragma once
 #include <GL/glew.h>
+#include <memory>
 #include "Texture.h"
 
 namespace model
@@ -7,7 +8,7 @@ namespace model
 	class Texture2d
 	{
 	public:
-		Texture2d(const unsigned& width, const unsigned& height, const gl::Texture& texture);
+		Texture2d(const unsigned& width, const unsigned& height, std::shared_ptr<gl::Texture> texture);
 
 		operator GLuint() const;
 
@@ -26,7 +27,7 @@ namespace model
 		unsigned width_;
 		unsigned height_;
 
-		gl::Texture texture_;
+		std::shared_ptr<gl::Texture> texture_;
 
 	};
 }

@@ -17,13 +17,30 @@ void game::CollisionHandler::set_action_on_colision(std::shared_ptr<Entity> enti
 	handlers_[entity] = function;
 }
 
-std::shared_ptr<game::Entity> game::CollisionHandler::collision(std::shared_ptr<Entity> entity)
+bool game::CollisionHandler::has_collision(std::shared_ptr<Entity> entity)
 {
+	return collisions_.find(entity) != collisions_.end();
+}
+
+std::vector<std::shared_ptr<game::Entity>> game::CollisionHandler::get_colliders(std::shared_ptr<Entity> entity)
+{
+	if (collisions_.find(entity) != collisions_.end())
+		return collisions_[entity];
+	
+	return std::vector<std::shared_ptr<game::Entity>>();
+}
+
+std::shared_ptr<game::Entity> game::CollisionHandler::get_first_collider(std::shared_ptr<Entity> entity)
+{
+	if (collisions_.find(entity) != collisions_.end())
+		return collisions_[entity][0];
+
 	return nullptr;
 }
 
 void game::CollisionHandler::update()
 {
+	collisions_.clear();
 	auto to_detect = manager_->get_entites();
 
 	for(auto entity : to_detect)

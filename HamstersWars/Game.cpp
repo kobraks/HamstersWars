@@ -100,7 +100,7 @@ void game::Game::on_draw()
 		mesh->bounding_box()->draw();
 	}
 
-	manager_->draw();
+	SceneManager::draw();
 
 	glFlush();
 	glutSwapBuffers();
@@ -155,7 +155,7 @@ void game::Game::on_timer(int id)
 	camera_->set_position(pos);
 	camera_->set_target(pos + dir);
 
-	manager_->update();
+	SceneManager::update();
 }
 
 game::Game* game::Game::get_instance()
@@ -230,7 +230,23 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 	shader->set_uniform(shader->get_uniform("mytex"), GL_TEXTURE0);
 	shader->set_uniform(shader->get_uniform("mode"), 1);
 
-	get_instance()->manager_ = new game::SceneManager(*shader, [](gl::Program& shader, const model::Model*)
+	/*get_instance()->manager_ = new game::SceneManager(*shader, [](gl::Program& shader, const model::Model*)
+	{
+		shader.get_parameter("mode")->set_value(1);
+
+		for (size_t i = 0; i < modela->count(); ++i)
+		{
+			auto mesh = modela->get_mesh(i);
+			shader.get_parameter("model")->set_value(mesh->get_model_matrix());
+			mesh->draw();
+
+			shader.get_parameter("mode")->set_value(-1);
+			shader.get_parameter("model")->set_value(mesh->bounding_box()->get_model_matrix());
+			mesh->bounding_box()->draw();
+		}
+	});*/
+
+	SceneManager::initialize(*shader, [](gl::Program& shader, const model::Model*)
 	{
 		shader.get_parameter("mode")->set_value(1);
 

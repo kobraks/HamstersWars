@@ -17,27 +17,39 @@ namespace game
 	class SceneManager
 	{
 	public:
-		SceneManager();
-		explicit SceneManager(const gl::Program& program, shader_behavior behavior = nullptr);
+		SceneManager(const SceneManager&) = delete;
+
+		SceneManager& operator = (const SceneManager&) = delete;
+
 		~SceneManager();
 
-		void draw();
-		void update();
+		static void initialize(const gl::Program& program, shader_behavior behavior = nullptr);
 
-		void set_shader(const gl::Program& program);
-		void set_shader_behavior(shader_behavior& behavior);
+		static void draw();
+		static void update();
 
-		void load_from_file(const std::string& file_name);
+		static void set_shader(const gl::Program& program);
+		static void set_shader_behavior(shader_behavior& behavior);
 
-		std::vector<std::shared_ptr<Entity>> get_entites() const;
+		static void load_from_file(const std::string& file_name);
 
-		void destroy(std::shared_ptr<Entity> entity);
+		static std::vector<std::shared_ptr<Entity>> get_entites();
+
+		static void destroy(std::shared_ptr<Entity> entity);
+
+		static CollisionHandler* get_collision_handler();
+
+		static void draw_bounding_boxes(bool enable);
 
 	private:
+		SceneManager();;
+		static SceneManager * get_instance();
+
 		shader_behavior shader_behavior_;
 		std::vector<std::shared_ptr<Entity>> entities_;
 		std::stack<std::shared_ptr<Entity>> to_destroy_;
 		gl::Program shader_;
+		bool draw_bounding_boxes_;
 
 		void destroy();
 

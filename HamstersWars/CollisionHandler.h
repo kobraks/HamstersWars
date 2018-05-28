@@ -18,7 +18,9 @@ namespace game
 
 		void set_action_on_colision(std::shared_ptr<Entity> entity, const collision_handler& function);
 
-		std::shared_ptr<Entity> collision(std::shared_ptr<Entity> entity);
+		bool has_collision(std::shared_ptr<Entity> entity);
+		std::vector<std::shared_ptr<Entity>> get_colliders(std::shared_ptr<Entity> entity);
+		std::shared_ptr<Entity> get_first_collider(std::shared_ptr<Entity> entity);
 
 		void update();
 

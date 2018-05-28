@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 
 namespace game {
 	class Entity;
@@ -11,15 +12,15 @@ namespace game
 		class Component
 		{
 		public:
-			explicit Component(Entity* owner);
+			explicit Component(std::shared_ptr<Entity> owner);
 			virtual ~Component() = default;
 
 			virtual Component* copy() const = 0;
 
-			Entity* get_owner() const;
-			void set_owner(Entity* entity);
+			std::shared_ptr<Entity> get_owner() const;
+			void set_owner(std::shared_ptr<Entity> entity);
 		private:
-			Entity* owner_;
+			std::shared_ptr<Entity> owner_;
 		};
 	}
 }

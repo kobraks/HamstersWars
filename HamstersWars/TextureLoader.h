@@ -1,7 +1,9 @@
 #pragma once
-#include "Texture2d.h"
 #include <string>
 #include <map>
+#include <memory>
+
+#include "Texture2d.h"
 
 namespace gl
 {
@@ -21,7 +23,7 @@ namespace model
 		static model::Texture2d* load_texture(const std::string& file);
 
 	private:
-		static std::map<std::string, gl::Texture> textures_;
+		static std::map<std::string, std::shared_ptr<gl::Texture>> textures_;
 	};
 
 }

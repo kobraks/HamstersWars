@@ -4,13 +4,14 @@
 #include <Lua/lua.hpp>
 #include <Lua/LuaIntf.h>
 #include <glm/vec3.hpp>
+#include <memory>
 
 namespace game::script
 {
 	class EntityScriptHandler
 	{
 	public:
-		EntityScriptHandler(Entity* entity);
+		EntityScriptHandler(std::shared_ptr<Entity> entity);
 		~EntityScriptHandler();
 
 		float get_elapsed_time();
@@ -22,7 +23,10 @@ namespace game::script
 
 		void destroy();
 
-		EntityScriptHandler* get_collider();
+		bool is_colliding();
+
+		std::vector<EntityScriptHandler> get_colliders();
+
 		void set_texture(const std::string& file);
 		void set_model(const std::string& file);
 
@@ -31,6 +35,6 @@ namespace game::script
 		void print_error(const std::string& error_message);
 
 	private:
-		Entity* entity_;
+		std::shared_ptr<Entity> entity_;
 	};
 }
