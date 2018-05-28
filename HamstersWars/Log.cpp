@@ -5,6 +5,7 @@
 #include <sstream>
 #include <ctime>
 #include <cstdio>
+#include <algorithm>
 
 #include "BadLogStreamException.h"
 
@@ -48,6 +49,31 @@ std::ostream& Log::stream()
 {
 	static std::ostream ostream(std::cout.rdbuf());
 	return ostream;
+}
+
+Log::TLogLevel Log::log_level_from_string(const std::string& string)
+{
+	std::string str = string;
+
+	std::transform(str.begin(), str.end(), str.begin(), ::toupper);
+
+	if (str == "LOG_ERROR")
+		return TLogLevel::log_error;
+	if (str == "LOG_WARNING")
+		return log_warning;
+	if (str == "LOG_INFO")
+		return log_info;
+	if (str == "LOG_DEBUG")
+		return log_debug;
+	if (str == "LOG_DEBUG1")
+		return log_debug1;
+	if (str == "LOG_DEBUG2")
+		return log_debug2;
+	if (str == "LOG_DEBUG3")
+		return log_debug3;
+	if (str == "LOG_DEBUG4")
+		return log_debug4;
+	return no_log;
 }
 
 unsigned long Log::log_line()

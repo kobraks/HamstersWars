@@ -95,10 +95,9 @@ void game::Game::on_draw()
 		shader_->get_parameter("model")->set_value(mesh->get_model_matrix());
 		mesh->draw();
 
-		/*
 		shader_->get_parameter("mode")->set_value(-1);
 		shader_->get_parameter("model")->set_value(mesh->bounding_box()->get_model_matrix());
-		mesh->bounding_box()->draw();*/
+		mesh->bounding_box()->draw();
 	}
 
 	manager_->draw();

@@ -127,8 +127,10 @@
   <ItemGroup>
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CollisionHandler.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EntityLoader.cpp" />
     <ClCompile Include="EntityScriptHandler.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameException.cpp" />
@@ -156,10 +158,12 @@
     <ClInclude Include="BadLogStreamException.h" />
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="CompileException.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityLoader.h" />
     <ClInclude Include="EntityScriptHandler.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameException.h" />

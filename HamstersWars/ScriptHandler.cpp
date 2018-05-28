@@ -26,6 +26,7 @@ void game::component::ScriptHandler::register_functions()
 { 
 	using namespace script;
 	LuaIntf::LuaBinding(*context_).beginClass<glm::vec3>("vec3")
+		.addConstructor(LUA_ARGS(float, float, float))
 		.addVariable("x", &glm::vec3::x, true)
 		.addVariable("y", &glm::vec3::y, true)
 		.addVariable("z", &glm::vec3::z, true)
@@ -33,8 +34,9 @@ void game::component::ScriptHandler::register_functions()
 		.beginClass<EntityScriptHandler>("EntityScriptHandler")
 		.ADD_FUNCTION(get_elapsed_time)
 		.ADD_FUNCTION_PARAMS(scale, LUA_ARGS(glm::vec3))
-		.ADD_FUNCTION_PARAMS(translate, LUA_ARGS(float, float, float))
-		.ADD_FUNCTION_PARAMS(rotate, LUA_ARGS(float, float, float, float))
+		.ADD_FUNCTION_PARAMS(translate, LUA_ARGS(glm::vec3))
+		.ADD_FUNCTION_PARAMS(rotate, LUA_ARGS(float, glm::vec3))
+		.ADD_FUNCTION(get_collider)
 		.ADD_FUNCTION(destroy)
 		.endClass();
 }

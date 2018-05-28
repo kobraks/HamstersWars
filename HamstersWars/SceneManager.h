@@ -1,10 +1,14 @@
 #pragma once
 #include <functional>
 #include <vector>
+#include <stack>
 #include <string>
+#include <memory>
 
 #include "Program.h"
 #include "Model.h"
+#include "Entity.h"
+#include "CollisionHandler.h"
 
 namespace game
 {
@@ -25,10 +29,19 @@ namespace game
 
 		void load_from_file(const std::string& file_name);
 
+		std::vector<std::shared_ptr<Entity>> get_entites() const;
+
+		void destroy(std::shared_ptr<Entity> entity);
+
 	private:
 		shader_behavior shader_behavior_;
-		std::vector<model::Model*> models_;
+		std::vector<std::shared_ptr<Entity>> entities_;
+		std::stack<std::shared_ptr<Entity>> to_destroy_;
 		gl::Program shader_;
+
+		void destroy();
+
+		CollisionHandler* handler_;
 	};
 }
 

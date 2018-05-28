@@ -29,13 +29,15 @@ public:
 
 	static std::ostream& stream();
 
+	static TLogLevel log_level_from_string(const std::string& string);
+	static std::string log_level_to_string(const TLogLevel& log_level);
+
 	//static void clear();
 private:
 	Log() = default;
 
 	//static void print(const std::string& message, const int& log_level);
 	static unsigned long int log_line();
-	static std::string log_level_to_string(const TLogLevel& log_level);
 	static void add_log(const char* format, ...);
 	static std::string get_string(const char* format, va_list args);
 	static std::string get_time();

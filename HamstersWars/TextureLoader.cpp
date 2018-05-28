@@ -20,7 +20,10 @@ model::Texture2d* model::TextureLoader::load_texture(const std::string& file)
 	Log::level() = Log::log_info;
 	Log::print("Image size: %u, %u", image.width(), image.height());
 
-	gl::Texture texture(image);
+	auto texture = textures_[file] = gl::Texture(image);
+
 	return new Texture2d(image.width(), image.height(), texture);
 }
+
+std::map<std::string, gl::Texture> model::TextureLoader::textures_ = std::map<std::string, gl::Texture>();
 

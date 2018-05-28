@@ -6,9 +6,6 @@
 
 std::vector<std::shared_ptr<game::Entity>> game::EntityLoader::load(const std::string& file)
 {
-	lua_State* lua = luaL_newstate();
-	luaL_openlibs(lua);
-
 	LuaIntf::LuaContext L;
 
 	try
@@ -40,7 +37,7 @@ std::vector<std::shared_ptr<game::Entity>> game::EntityLoader::get_entities(cons
 			else
 			{
 				Log::level() = Log::log_error;
-				Log::write("Unable to load entity %s", entity_table.key<std::string>());
+				Log::print("Unable to load entity %s", entity_table.key<std::string>());
 			}
 		}
 		catch (LuaIntf::LuaException& ex)
@@ -51,7 +48,7 @@ std::vector<std::shared_ptr<game::Entity>> game::EntityLoader::get_entities(cons
 			try
 			{
 				Log::level() = Log::log_error;
-				Log::write("Unable to load entity %s", entity_table.key<std::string>());
+				Log::print("Unable to load entity %s", entity_table.key<std::string>());
 			}
 			catch(LuaIntf::LuaRef&)
 			{ }
