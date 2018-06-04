@@ -22,6 +22,11 @@ namespace model
 			return height_;
 		}
 
+		std::shared_ptr<gl::Texture> get_texture() const
+		{
+			return texture_;
+		}
+
 		void bind();
 	private:
 		unsigned width_;

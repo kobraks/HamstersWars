@@ -45,7 +45,7 @@ model::Model* model::ModelLoader::load(const std::string& file)
 
 		const auto& material = *scene->mMaterials[scene->mMeshes[i]->mMaterialIndex];
 
-		Texture2d* texture = nullptr;
+		std::shared_ptr<Texture2d> texture = nullptr;
 		aiColor4D albedo;
 		float specular_intensity;
 		float specular_power;
@@ -60,6 +60,7 @@ model::Model* model::ModelLoader::load(const std::string& file)
 		delete texture_file;
 
 		mesh->set_material(Material(albedo, specular_intensity, specular_power, texture));
+
 		model_meshes.push_back(mesh);
 	}
 

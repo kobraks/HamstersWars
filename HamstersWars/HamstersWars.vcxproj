@@ -127,6 +127,7 @@
   <ItemGroup>
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ColliderComponent.cpp" />
     <ClCompile Include="CollisionHandler.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -134,8 +135,10 @@
     <ClCompile Include="EntityScriptHandler.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameException.cpp" />
+    <ClCompile Include="GraphicComponent.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Material.cpp" />
@@ -151,6 +154,8 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Texture2d.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Transformable.cpp" />
     <ClCompile Include="VertexArray.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
   </ItemGroup>
@@ -158,18 +163,22 @@
     <ClInclude Include="BadLogStreamException.h" />
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="ColliderComponent.h" />
     <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="CompileException.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Defines.h" />
+    <ClInclude Include="Drawable.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityLoader.h" />
     <ClInclude Include="EntityScriptHandler.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameException.h" />
     <ClInclude Include="GlewException.h" />
+    <ClInclude Include="GraphicComponent.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="LinkException.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="Material.h" />
@@ -186,12 +195,16 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Texture2d.h" />
     <ClInclude Include="TextureLoader.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="Transformable.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="UnknownFormatException.h" />
     <ClInclude Include="VertexArray.h" />
     <ClInclude Include="VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\resources\lua_scripts\cow.lua" />
+    <None Include="..\resources\lua_scripts\entities.lua" />
     <None Include="..\resources\shaders\texture.frag" />
     <None Include="..\resources\shaders\texture.vert" />
   </ItemGroup>

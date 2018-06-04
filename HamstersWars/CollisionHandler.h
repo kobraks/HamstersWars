@@ -1,5 +1,5 @@
 #pragma once
-#include <map>
+#include <unordered_map>
 #include <vector>
 #include <functional>
 #include "Entity.h"
@@ -25,8 +25,8 @@ namespace game
 		void update();
 
 	private:
-		std::map<std::shared_ptr<Entity>, collision_handler> handlers_;
-		std::map<std::shared_ptr<Entity>, std::vector<std::shared_ptr<Entity>>> collisions_;
+		std::unordered_map<std::shared_ptr<Entity>, collision_handler> handlers_;
+		std::unordered_map<std::shared_ptr<Entity>, std::vector<std::shared_ptr<Entity>>> collisions_;
 		SceneManager* manager_;
 
 		bool exists_vector(std::shared_ptr<Entity> entity, std::vector<std::shared_ptr<Entity>> entities);

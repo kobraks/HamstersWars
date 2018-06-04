@@ -1,9 +1,9 @@
 #include "SceneManager.h"
-#include "Lua/lua.hpp"
-#include "lua/LuaIntf.h"
 #include "EntityLoader.h"
 
 #include "Log.h"
+#include "ScriptHandler.h"
+#include "GraphicComponent.h"
 
 game::SceneManager::SceneManager()
 {
@@ -29,6 +29,17 @@ void game::SceneManager::initialize(const gl::Program& program, shader_behavior 
 
 void game::SceneManager::draw()
 {
+	auto instance = get_instance();
+
+	instance->shader_.use();
+
+	for (auto entity : instance->entities_)
+	{
+		auto component = entity->get_component<component::GraphicComponent>();
+		if (component)
+			component->draw();
+	}
+
 	/*shader_.use();
 
 	for (auto model : models_)
@@ -45,6 +56,13 @@ void game::SceneManager::update()
 	get_instance()->destroy();
 
 	get_instance()->handler_->update();
+
+	for (auto entity : get_instance()->entities_)
+	{
+		auto script = entity->get_component<component::ScriptHandler>();
+		if (script)
+			script->update();
+	}
 }
 
 void game::SceneManager::set_shader(const gl::Program& program)

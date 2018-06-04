@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <SFML/System.hpp>
 
 namespace game {
 	class Entity;
@@ -9,7 +10,7 @@ namespace game
 {
 	namespace component
 	{
-		class Component
+		class Component : public sf::NonCopyable
 		{
 		public:
 			explicit Component(std::shared_ptr<Entity> owner);

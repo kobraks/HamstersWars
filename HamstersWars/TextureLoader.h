@@ -1,14 +1,9 @@
 #pragma once
 #include <string>
-#include <map>
+#include <unordered_map>
 #include <memory>
 
 #include "Texture2d.h"
-
-namespace gl
-{
-	class Texture;
-}
 
 namespace model
 {
@@ -20,10 +15,10 @@ namespace model
 
 		TextureLoader& operator = (const TextureLoader&) = delete;
 
-		static model::Texture2d* load_texture(const std::string& file);
+		static std::shared_ptr<Texture2d> load_texture(const std::string& file);
 
 	private:
-		static std::map<std::string, std::shared_ptr<gl::Texture>> textures_;
+		static std::unordered_map<std::string, std::shared_ptr<Texture2d>> textures_;
 	};
 
 }

@@ -2,6 +2,7 @@
 
 #include "SceneManager.h"
 #include <algorithm>
+#include "ColliderComponent.h"
 
 
 game::CollisionHandler::CollisionHandler(SceneManager* manager) : manager_(manager)
@@ -43,12 +44,27 @@ void game::CollisionHandler::update()
 	collisions_.clear();
 	auto to_detect = manager_->get_entites();
 
-	for(auto entity : to_detect)
+	while(!to_detect.empty())
+	{
+		auto iter = to_detect.begin();
+		auto entity = *iter;
+
+		to_detect.erase(iter);
+
+		if (!entity->get_component<component::ColliderComponent>())
+			continue;
+
 		for (auto entity2 : manager_->get_entites())
-			if (entity != entity2)
+		{
+			if (entity == entity2)
+				continue;
+
+			if (entity2->get_component<component::ColliderComponent>())
 			{
-				//TODO
+				add_colision(entity, entity2);
 			}
+		}
+	}
 }
 
 
@@ -59,6 +75,9 @@ bool game::CollisionHandler::exists_vector(std::shared_ptr<Entity> entity, std::
 
 void game::CollisionHandler::add_colision(std::shared_ptr<Entity> entity, std::shared_ptr<Entity> entity2)
 {
+	if (entity == entity2)
+		return;
+
 	run_handler(entity, entity2);
 
 	if(collisions_.find(entity) != collisions_.end())

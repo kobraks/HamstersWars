@@ -23,6 +23,9 @@ model::Mesh::Mesh(const aiMesh& mesh) : model_matrix_(glm::mat4(1.f))
 	auto normals = new glm::vec3[mesh.mNumVertices];
 	auto indices = new GLuint[mesh.mNumFaces * 3];
 
+	glm::vec3 min, max;
+	min = max = glm::vec3(mesh.mVertices[0].x, mesh.mVertices[0].y, mesh.mVertices[0].z);
+
 	if (mesh.HasNormals())
 	{
 		Log::level() = Log::log_warning;
@@ -32,6 +35,24 @@ model::Mesh::Mesh(const aiMesh& mesh) : model_matrix_(glm::mat4(1.f))
 	for (size_t i = 0; i <  mesh.mNumVertices; ++i)
 	{
 		vertices_->push_back(glm::vec3(mesh.mVertices[i].x, mesh.mVertices[i].y, mesh.mVertices[i].z));
+
+		if (min.x > mesh.mVertices[i].x)
+			min.x = mesh.mVertices[i].x;
+
+		if (max.x < mesh.mVertices[i].x)
+			max.x = mesh.mVertices[i].x;
+
+		if (min.y > mesh.mVertices[i].y)
+			min.y = mesh.mVertices[i].y;
+
+		if (max.y < mesh.mVertices[i].y)
+			max.y = mesh.mVertices[i].y;
+
+		if (min.z > mesh.mVertices[i].z)
+			min.z = mesh.mVertices[i].z;
+
+		if (max.z < mesh.mVertices[i].z)
+			max.z = mesh.mVertices[i].z;
 
 		if (mesh.HasVertexColors(0))
 			colors[i] = glm::vec4(mesh.mColors[0][i].r, mesh.mColors[0][1].g, mesh.mColors[0][1].b, mesh.mColors[0][1].a);
@@ -85,6 +106,8 @@ model::Mesh::Mesh(const aiMesh& mesh) : model_matrix_(glm::mat4(1.f))
 	delete[] texcoords;
 	delete[] normals;
 	delete[] indices;
+
+	center_ = glm::vec3((max.x + min.x) / 2, (max.y + min.y) / 2, (max.z + min.z) / 2);
 }
 
 model::Mesh::Mesh(const Mesh& mesh)
@@ -199,6 +222,21 @@ void model::Mesh::scale(const float& x, const float& y, const float& z)
 	scale(glm::vec3(x, y, z));
 }
 
+void model::Mesh::translate(const glm::mat4& matrix, const glm::vec3& axis)
+{
+	model_matrix_ = glm::translate(matrix, axis);
+}
+
+void model::Mesh::rotate(const glm::mat4& matrix, const float& angle, glm::vec3 axis)
+{
+	model_matrix_ = glm::rotate(matrix, glm::radians(angle), axis);
+}
+
+void model::Mesh::scale(const glm::mat4& matrix, const glm::vec3& scale)
+{
+	model_matrix_ = glm::scale(matrix, scale);
+}
+
 void model::Mesh::set_model_matrix(const glm::mat4& matrix)
 {
 	model_matrix_ = matrix;
@@ -214,6 +252,11 @@ glm::mat4 model::Mesh::get_model_matrix() const
 model::BoundingBox* model::Mesh::bounding_box() const
 {
 	return box_;
+}
+
+glm::vec3 model::Mesh::get_center() const
+{
+	return center_;
 }
 
 glm::mat4x4 model::Mesh::convert(const aiMatrix4x4& matrix)

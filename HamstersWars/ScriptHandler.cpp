@@ -17,6 +17,11 @@ game::component::ScriptHandler::~ScriptHandler()
 {
 }
 
+game::component::Component* game::component::ScriptHandler::copy() const
+{
+	return nullptr;
+}
+
 void game::component::ScriptHandler::update()
 {
 	function_(script::EntityScriptHandler(get_owner()));

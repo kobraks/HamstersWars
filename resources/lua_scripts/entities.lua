@@ -1,9 +1,4 @@
 entities = 
 {
-	ghost = 
-	{
-		file = "";
-		
-		
-	}
+	cow = "cow.lua";
 }

@@ -1,11 +1,17 @@
 #include "TextureLoader.h"
 
 #include "Image.h"
-#include "Texture2D.h"
 #include "Log.h"
 
-model::Texture2d* model::TextureLoader::load_texture(const std::string& file)
+std::shared_ptr<model::Texture2d> model::TextureLoader::load_texture(const std::string& file)
 {
+	auto iter = textures_.find(file);
+	if (iter != textures_.end())
+	{
+		Log::level() = Log::log_info;
+		Log::print("Texture loaded before file_name = %s", file.c_str());
+		return iter->second;
+	}
 	gl::util::Image image;
 	try
 	{
@@ -20,10 +26,9 @@ model::Texture2d* model::TextureLoader::load_texture(const std::string& file)
 	Log::level() = Log::log_info;
 	Log::print("Image size: %u, %u", image.width(), image.height());
 
-	auto texture = textures_[file] = std::make_shared<gl::Texture>(image);
-
-	return new Texture2d(image.width(), image.height(), texture);
+	return textures_[file] = std::make_shared<model::Texture2d>(image.width(), image.height(), std::make_shared<gl::Texture>(image));
 }
 
-std::map<std::string, std::shared_ptr<gl::Texture>> model::TextureLoader::textures_ = std::map<std::string, std::shared_ptr<gl::Texture>>();
+std::unordered_map<std::string, std::shared_ptr<model::Texture2d>> model::TextureLoader::textures_ = std::unordered_map<
+	std::string, std::shared_ptr<model::Texture2d>>();
 

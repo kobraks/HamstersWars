@@ -45,10 +45,17 @@ namespace model
 		void scale(const glm::vec3& scale);
 		void scale(const float& x, const float& y, const float& z);
 
+		void translate(const glm::mat4& matrix, const glm::vec3& axis);
+		void rotate(const glm::mat4& matrix, const float& angle, glm::vec3 axis);
+		void scale(const glm::mat4& matrix, const glm::vec3& scale);
+
+
 		void set_model_matrix(const glm::mat4& matrix);
 		glm::mat4 get_model_matrix() const;
 
 		BoundingBox* bounding_box() const;
+
+		glm::vec3 get_center() const;
 	private:
 		gl::VertexBuffer* vertex_buffer_;
 		gl::VertexBuffer* color_buffer_;
@@ -64,7 +71,7 @@ namespace model
 		std::shared_ptr<std::vector<glm::vec3>> vertices_;
 		size_t element_count_;
 		glm::mat4 model_matrix_;
-		
+		glm::vec3 center_;
 
 		static glm::mat4x4 convert(const aiMatrix4x4& matrix);
 	};

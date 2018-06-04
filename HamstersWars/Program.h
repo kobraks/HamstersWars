@@ -58,7 +58,6 @@ namespace gl
 
 		std::shared_ptr<ProgramParameter> operator[] (const std::string& name);
 		std::shared_ptr<ProgramParameter> get_parameter(const std::string& name);
-
 	private:
 		std::shared_ptr<GLuint> obj_;
 

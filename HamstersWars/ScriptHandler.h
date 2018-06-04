@@ -23,7 +23,7 @@ namespace game::component
 		ScriptHandler(std::shared_ptr<Entity> owner, const std::shared_ptr<LuaIntf::LuaContext>& context, const LuaIntf::LuaRef& function);
 		~ScriptHandler();
 
-		Component* copy();
+		Component* copy() const override;
 
 		void update();
 	private:

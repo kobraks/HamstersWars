@@ -9,11 +9,10 @@
 #include "Model.h"
 #include "Entity.h"
 #include "CollisionHandler.h"
+#include "Types.h"
 
 namespace game
 {
-	typedef std::function<void(gl::Program&, const model::Model*)> shader_behavior;
-
 	class SceneManager
 	{
 	public:

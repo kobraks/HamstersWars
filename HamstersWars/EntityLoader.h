@@ -9,6 +9,7 @@
 
 namespace LuaIntf {
 	class LuaRef;
+	class LuaContext;
 }
 
 namespace game
@@ -20,11 +21,13 @@ namespace game
 
 	private:
 		static void load_components_from_file(std::shared_ptr<Entity> entity, const std::string& entity_name, const std::string& file);
-		static std::shared_ptr<Entity> load_entity(const std::string& type, const LuaIntf::LuaRef& ref);
-		static std::vector<std::shared_ptr<Entity>> get_entities(const LuaIntf::LuaRef& ref);
-		static void get_component(std::shared_ptr<Entity> entity, const std::string& component, const LuaIntf::LuaRef& ref);
+
+		static std::shared_ptr<Entity> load_entity(const std::string& type, const LuaIntf::LuaRef& table,
+		                                           const std::shared_ptr<LuaIntf::LuaContext>& context);
+		static std::vector<std::shared_ptr<Entity>> get_entities(const LuaIntf::LuaRef& table, const std::shared_ptr<LuaIntf::LuaContext>& context);
+		static void get_component(std::shared_ptr<Entity> entity, const std::string& component,
+		                          const LuaIntf::LuaRef& table, const std::shared_ptr<LuaIntf::LuaContext>& context);
 
 		EntityLoader() = default;
-
 	};
 }
