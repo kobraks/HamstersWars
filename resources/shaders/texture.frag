@@ -1,17 +1,17 @@
-#version 120
+#version 330
 
-uniform sampler2D mytex; 
+uniform sampler2D my_texture; 
 uniform int mode;
 uniform vec4 color = vec4(1.f, 1.f, 1.f, 1.f);
 
-varying vec2 texCoord; 
-varying vec4 outColor;
-varying vec3 normal;
-varying vec4 position;
+in vec2 texCoord; 
+in vec4 outColor;
+in vec3 normal;
+out vec4 frag_color;
 
 vec4 textured()
 {
-	vec4 result = texture2D(mytex, texCoord.st);
+	vec4 result = vec4(texture(my_texture, texCoord.st).rgb, 1.f);
 
 	return result * outColor;
 }
@@ -36,5 +36,8 @@ void main()
 	else if (mode == -1)
 		result = no_color();
    
-	gl_FragColor = result;
+	//gl_FragColor = result;
+
+	frag_color = result;
+	//frag_color = vec4(1.f, 1.f, 1.f, 1.f);
 }

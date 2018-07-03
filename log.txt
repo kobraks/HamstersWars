@@ -1,103 +1,91 @@
 Start logging
-1: Tue Jul  3 02:49:17 2018  [INFO]: Loading vertex shader
-2: Tue Jul  3 02:49:17 2018  [INFO]: Loading fragment shader
-3: Tue Jul  3 02:49:17 2018  [INFO]: Atributes count: 7
-4: Tue Jul  3 02:49:17 2018  [DEBUG]: 
+1: Tue Jul  3 13:13:24 2018  [INFO]: Loading vertex shader
+2: Tue Jul  3 13:13:24 2018  [INFO]: Loading fragment shader
+3: Tue Jul  3 13:13:24 2018  [INFO]: Atributes count: 6
+4: Tue Jul  3 13:13:24 2018  [DEBUG]: 
 	Attribute: 0
-	name: model
+	name: Model
 	type: 35676
 	length: 5
 	size: 1
-5: Tue Jul  3 02:49:17 2018  [DEBUG]: 
+5: Tue Jul  3 13:13:24 2018  [DEBUG]: 
 	Attribute: 1
+	name: Projection
+	type: 35676
+	length: 10
+	size: 1
+6: Tue Jul  3 13:13:24 2018  [DEBUG]: 
+	Attribute: 2
+	name: View
+	type: 35676
+	length: 4
+	size: 1
+7: Tue Jul  3 13:13:24 2018  [DEBUG]: 
+	Attribute: 3
 	name: color
 	type: 35666
 	length: 5
 	size: 1
-6: Tue Jul  3 02:49:17 2018  [DEBUG]: 
-	Attribute: 2
-	name: mytex
+8: Tue Jul  3 13:13:24 2018  [DEBUG]: 
+	Attribute: 4
+	name: my_texture
 	type: 35678
-	length: 5
+	length: 10
 	size: 1
-7: Tue Jul  3 02:49:17 2018  [DEBUG]: 
-	Attribute: 3
+9: Tue Jul  3 13:13:24 2018  [DEBUG]: 
+	Attribute: 5
 	name: mode
 	type: 5124
 	length: 4
 	size: 1
-8: Tue Jul  3 02:49:18 2018  [DEBUG]: 
-	Attribute: 4
-	name: gl_ProjectionMatrix
-	type: 35676
-	length: 19
-	size: 1
-9: Tue Jul  3 02:49:18 2018  [DEBUG]: 
-	Attribute: 5
-	name: gl_ModelViewMatrix
-	type: 35676
-	length: 18
-	size: 1
-10: Tue Jul  3 02:49:18 2018  [DEBUG]: 
-	Attribute: 6
-	name: gl_NormalMatrix
-	type: 35675
-	length: 15
-	size: 1
-11: Tue Jul  3 02:49:18 2018  [INFO]: ../resources/models/cow.3DS
-12: Tue Jul  3 02:49:18 2018  [INFO]: Import of scene ../resources/models/cow.3DS succeeded
-13: Tue Jul  3 02:49:18 2018  [INFO]: meshes: 4
-14: Tue Jul  3 02:49:18 2018  [WARNING]: Model has not normal vectors
-15: Tue Jul  3 02:49:18 2018  [INFO]: Image size: 793, 440
-16: Tue Jul  3 02:49:18 2018  [WARNING]: Model has not normal vectors
-17: Tue Jul  3 02:49:18 2018  [ERROR]: Unable to load ../resources/textures/default.png, with exception ios_base::failbit set: iostream stream error
-18: Tue Jul  3 02:49:18 2018  [INFO]: Image size: 0, 0
-19: Tue Jul  3 02:49:18 2018  [WARNING]: Model has not normal vectors
-20: Tue Jul  3 02:49:18 2018  [INFO]: Image size: 220, 220
-21: Tue Jul  3 02:49:18 2018  [WARNING]: Model has not normal vectors
-22: Tue Jul  3 02:49:18 2018  [INFO]: Image size: 168, 168
-23: Tue Jul  3 02:49:18 2018  [INFO]: Atributes count: 7
-24: Tue Jul  3 02:49:18 2018  [DEBUG]: 
+10: Tue Jul  3 13:13:24 2018  [INFO]: ../resources/models/cow.3DS
+11: Tue Jul  3 13:13:24 2018  [INFO]: Import of scene ../resources/models/cow.3DS succeeded
+12: Tue Jul  3 13:13:24 2018  [INFO]: meshes: 4
+13: Tue Jul  3 13:13:24 2018  [WARNING]: Model has not normal vectors
+14: Tue Jul  3 13:13:24 2018  [INFO]: Image size: 793, 440
+15: Tue Jul  3 13:13:24 2018  [WARNING]: Model has not normal vectors
+16: Tue Jul  3 13:13:24 2018  [ERROR]: Unable to load ../resources/textures/default.png, with exception ios_base::failbit set: iostream stream error
+17: Tue Jul  3 13:13:24 2018  [INFO]: Image size: 0, 0
+18: Tue Jul  3 13:13:24 2018  [WARNING]: Model has not normal vectors
+19: Tue Jul  3 13:13:24 2018  [INFO]: Image size: 220, 220
+20: Tue Jul  3 13:13:24 2018  [WARNING]: Model has not normal vectors
+21: Tue Jul  3 13:13:24 2018  [INFO]: Image size: 168, 168
+22: Tue Jul  3 13:13:24 2018  [INFO]: Atributes count: 6
+23: Tue Jul  3 13:13:24 2018  [DEBUG]: 
 	Attribute: 0
-	name: model
+	name: Model
 	type: 35676
 	length: 5
 	size: 1
-25: Tue Jul  3 02:49:18 2018  [DEBUG]: 
+24: Tue Jul  3 13:13:24 2018  [DEBUG]: 
 	Attribute: 1
+	name: Projection
+	type: 35676
+	length: 10
+	size: 1
+25: Tue Jul  3 13:13:24 2018  [DEBUG]: 
+	Attribute: 2
+	name: View
+	type: 35676
+	length: 4
+	size: 1
+26: Tue Jul  3 13:13:24 2018  [DEBUG]: 
+	Attribute: 3
 	name: color
 	type: 35666
 	length: 5
 	size: 1
-26: Tue Jul  3 02:49:18 2018  [DEBUG]: 
-	Attribute: 2
-	name: mytex
+27: Tue Jul  3 13:13:24 2018  [DEBUG]: 
+	Attribute: 4
+	name: my_texture
 	type: 35678
-	length: 5
+	length: 10
 	size: 1
-27: Tue Jul  3 02:49:18 2018  [DEBUG]: 
-	Attribute: 3
+28: Tue Jul  3 13:13:24 2018  [DEBUG]: 
+	Attribute: 5
 	name: mode
 	type: 5124
 	length: 4
 	size: 1
-28: Tue Jul  3 02:49:18 2018  [DEBUG]: 
-	Attribute: 4
-	name: gl_ProjectionMatrix
-	type: 35676
-	length: 19
-	size: 1
-29: Tue Jul  3 02:49:18 2018  [DEBUG]: 
-	Attribute: 5
-	name: gl_ModelViewMatrix
-	type: 35676
-	length: 18
-	size: 1
-30: Tue Jul  3 02:49:18 2018  [DEBUG]: 
-	Attribute: 6
-	name: gl_NormalMatrix
-	type: 35675
-	length: 15
-	size: 1
-31: Tue Jul  3 02:49:18 2018  [ERROR]: lua throws exception: 
+29: Tue Jul  3 13:13:24 2018  [ERROR]: lua throws exception: 
 error message: ../resources/lua_scripts/cow.lua:10: '}' expected (to close '{' at line 4) near 'collision' 

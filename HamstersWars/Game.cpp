@@ -26,6 +26,7 @@
 
 glm::vec3 pos(0.f, 1.f, 4.f);
 glm::vec3 dir (0.f, 0.f, -1.f);
+glm::vec3 up(0.f, 1.f, 0.f);
 glm::vec2 mousePosition;
 
 const float speed = 0.05f;
@@ -82,25 +83,11 @@ namespace game
 void game::Game::on_draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_MODELVIEW);
+	shader_->use();
+	shader_->get_parameter("Projection").set_value(camera_->get_projection());
+	shader_->get_parameter("View").set_value(camera_->get_view());
 
-	glm::mat4 model_view_matrix = camera_->get_view();
-	//glLoadMatrixf(&model_view_matrix[0][0]);
-	glLoadMatrixf(glm::value_ptr(model_view_matrix));
 	shader_->get_parameter("mode").set_value(1);
-
-	 /*auto mesh = modela->get_mesh(0);
-	 mesh->set_scale(glm::vec3(0.005f));
-	 mesh->set_rotation(0, 0, 0);
-	 shader_->get_parameter("model")->set_value(mesh->get_transform());
-	 mesh->draw();
- 
-	 mesh->set_rotation(45.f, 0, 0);
-	 shader_->get_parameter("model")->set_value(mesh->get_transform());
-	 mesh->draw();
- 
-	 mesh->set_rotation(0, 0, 0);
-	 mesh->set_scale(glm::vec3(0.f));*/
 
 	modela->set_rotation(0, 0, 0);
 	for (size_t i = 0; i < modela->count(); ++i)
@@ -108,7 +95,7 @@ void game::Game::on_draw()
 		auto mesh = modela->get_mesh(i);
 		auto transform = modela->get_transform() * mesh->get_transform();
 
-		shader_->get_parameter("model").set_value(transform);
+		shader_->get_parameter("Model").set_value(transform);
 		mesh->draw();
 	}
 
@@ -117,8 +104,8 @@ void game::Game::on_draw()
 	{
 		auto mesh = modela->get_mesh(i);
 		auto transform = modela->get_transform() * mesh->get_transform();
-		
-		shader_->get_parameter("model").set_value(transform);
+
+		shader_->get_parameter("Model").set_value(transform);
 		mesh->draw();
 	}
 
@@ -133,14 +120,11 @@ void game::Game::on_reshape(int width, int height)
 {
 
 	glViewport(0, 0, width, height);
-	glMatrixMode(GL_PROJECTION);
 	camera_->set_width(width);
 	camera_->set_height(height);
 
-	auto projection = camera_->get_projection();
-
-	glLoadMatrixf(&projection[0][0]);
-
+	shader_->use();
+	shader_->get_parameter("Projection").set_value(camera_->get_projection());
 }
 
 void game::Game::on_timer(int id)
@@ -157,6 +141,52 @@ void game::Game::on_timer(int id)
 		velocity_horizontal = 1;
 	if (Keyboard::is_down('d'))
 		velocity_horizontal = -1;
+	if (Keyboard::is_down('r'))
+	{
+		delete shader_;
+		shader_ = nullptr;
+
+		Log::level() = Log::log_info;
+		Log::print("Loading vertex shader");
+		gl::Shader vertex(gl::shader_type::Vertex);
+		vertex.load_source_form_file(SHADERS_PATH "texture.vert");
+		vertex.compile();
+
+		Log::level() = Log::log_info;
+		Log::print("Loading fragment shader");
+		gl::Shader fragment(gl::shader_type::Fragment);
+		fragment.load_source_form_file(SHADERS_PATH"texture.frag");
+		fragment.compile();
+
+		auto shader = get_instance()->shader_ = new gl::Program(vertex, fragment);
+
+		glActiveTexture(GL_TEXTURE0);
+
+
+		shader->link();
+		shader->use();
+
+		shader->set_uniform(shader->get_uniform("my_texture"), GL_TEXTURE0);
+		shader->set_uniform(shader->get_uniform("mode"), 1);
+		shader_->get_parameter("Projection").set_value(camera_->get_projection());
+	}
+
+
+	if (Keyboard::is_down('t'))
+		if (captureMouse)
+		{
+			captureMouse = false;
+			Mouse::set_event_on_mouse_move(nullptr);
+
+
+		}
+		else
+		{
+			captureMouse = true;
+			Mouse::set_event_on_mouse_move([](const int& x, const int& y) { captureMouse = true; mousePosition.x = x; mousePosition.y = y; });
+
+		}
+
 
 	if (captureMouse)
 	{
@@ -170,6 +200,10 @@ void game::Game::on_timer(int id)
 		dir.y = sin(phi);
 		dir.z = sin(theta) * cos(phi);
 
+		dir = glm::normalize(dir);
+		auto right = glm::normalize(glm::cross(dir, glm::vec3(0, 1, 0)));
+		up = glm::normalize(glm::cross(right, dir));
+
 		glutWarpPointer(window_width / 2, window_height / 2);
 	}
 
@@ -177,6 +211,7 @@ void game::Game::on_timer(int id)
 
 	camera_->set_position(pos);
 	camera_->set_target(pos + dir);
+	camera_->set_up(up);
 
 	SceneManager::update();
 }
@@ -200,7 +235,7 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 
 	glewExperimental = GL_TRUE;
 	GLenum glew_init_result;
@@ -242,16 +277,10 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 	modela = model::ModelLoader::load(MODELS_PATH"cow.3DS");
 	modela->set_scale(glm::vec3(0.005f));
 
-
-	shader->set_attribute("inPosition", VERTEX_INDEX);
-	shader->set_attribute("inColor", COLOR_INDEX);
-	shader->set_attribute("inTexcoord", TEXCOORD_INDEX);
-	shader->set_attribute("inNormal", NORMAL_INDEX);
-
 	shader->link();
 	shader->use();
 
-	shader->set_uniform(shader->get_uniform("mytex"), GL_TEXTURE0);
+	shader->set_uniform(shader->get_uniform("my_texture"), GL_TEXTURE0);
 	shader->set_uniform(shader->get_uniform("mode"), 1);
 
 	SceneManager::initialize(*shader, [](gl::Program& shader, const game::Drawable*)

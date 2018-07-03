@@ -50,11 +50,35 @@ namespace gl
 			y += vector.y;
 		}
 
+		void add(const sf::Vector2f& vector)
+		{
+			x += vector.x;
+			y += vector.y;
+		}
+
+		void add(const glm::vec2& vector)
+		{
+			x += vector.x;
+			y += vector.y;
+		}
+
 		template<class T>
 		void subtract(const T& number)
 		{
 			x -= number;
 			y -= number;
+		}
+
+		void subtract(const sf::Vector2f& vector)
+		{
+			x -= vector.x;
+			y -= vector.y;
+		}
+
+		void subtract(const glm::vec2& vector)
+		{
+			x -= vector.x;
+			y -= vector.y;
 		}
 
 		void subtract(const Vector2D& vector)
@@ -85,6 +109,57 @@ namespace gl
 		operator glm::vec2() const
 		{
 			return glm::vec2(x, y);
+		}
+
+
+		Vector2D& operator+=(const sf::Vector2f& vector)
+		{
+			add(vector);
+			return *this;
+		}
+
+		Vector2D& operator+=(const glm::vec2& vector)
+		{
+			add(vector);
+			return *this;
+		}
+
+		Vector2D& operator+=(const Vector2D& vector)
+		{
+			add(vector);
+			return *this;
+		}
+
+		template<class T>
+		Vector2D& operator+=(const T& value)
+		{
+			add(value);
+			return *this;
+		}
+
+		Vector2D& operator-=(const sf::Vector2f& vector)
+		{
+			subtract(vector);
+			return *this;
+		}
+
+		Vector2D& operator-=(const glm::vec2& vector)
+		{
+			subtract(vector);
+			return *this;
+		}
+
+		Vector2D& operator-=(const Vector2D& vector)
+		{
+			subtract(vector);
+			return *this;
+		}
+
+		template<class T>
+		Vector2D& operator-=(const T& value)
+		{
+			subtract(value);
+			return *this;
 		}
 
 		Vector2D& operator=(const sf::Vector2f& vector)

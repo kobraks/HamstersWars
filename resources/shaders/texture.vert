@@ -1,28 +1,28 @@
 //vertex shader
-#version 120
+#version 330
 
 uniform int mode;
-uniform mat4 model;
+uniform mat4 Model;
+uniform mat4 Projection;
+uniform mat4 View;
 
-attribute vec3 inPosition;
-attribute vec4 inColor;
-attribute vec2 inTexcoord;
-attribute vec3 inNormal;
+layout(location = 0) in vec3 inPosition;
+layout(location = 1) in vec4 inColor;
+layout(location = 2) in vec2 inTexcoord;
+layout(location = 3) in vec3 inNormal;
 
 
-varying vec2 texCoord; 
-varying vec4 outColor;
-varying vec3 normal;
-varying vec4 position;
+out vec2 texCoord; 
+out vec4 outColor;
+out vec3 normal;
 
 void main()
 {
 	texCoord = inTexcoord;
 	outColor = inColor;
+	
+	normal = inNormal;
+	normal = normalize(mat3x3(Model) * inNormal);
 
-	position = model * vec4(inPosition.xyz, 1);
-
-	gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * position;
-	//gl_Position = ftransform();
-	normal = normalize(gl_NormalMatrix * inNormal);
+	gl_Position = Projection * View * Model * vec4(inPosition, 1);
 }

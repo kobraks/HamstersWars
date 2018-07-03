@@ -46,6 +46,20 @@ namespace gl
 			z += number;
 		}
 
+		void add(const glm::vec3& vector)
+		{
+			x += vector.x;
+			y += vector.y;
+			z += vector.z;
+		}
+
+		void add(const sf::Vector3f& vector)
+		{
+			x += vector.x;
+			y += vector.y;
+			z += vector.z;
+		}
+
 		void add(const Vector3D& vector)
 		{
 			x += vector.x;
@@ -59,6 +73,20 @@ namespace gl
 			x -= number;
 			y -= number;
 			z -= number;
+		}
+
+		void subtract(const glm::vec3& vector)
+		{
+			x -= vector.x;
+			y -= vector.y;
+			z -= vector.z;
+		}
+
+		void subtract(const sf::Vector3f& vector)
+		{
+			x -= vector.x;
+			y -= vector.y;
+			z -= vector.z;
 		}
 
 		void subtract(const Vector3D& vector)
@@ -92,6 +120,56 @@ namespace gl
 		operator glm::vec3() const
 		{
 			return glm::vec3(x, y, z);
+		}
+
+		Vector3D& operator+=(const glm::vec3& vector)
+		{
+			add(vector);
+			return *this;
+		}
+
+		Vector3D& operator+=(const sf::Vector3f& vector)
+		{
+			add(vector);
+			return *this;
+		}
+
+		Vector3D& operator+=(const Vector3D& vector)
+		{
+			add(vector);
+			return *this;
+		}
+
+		template<class T>
+		Vector3D& operator+=(const T& value)
+		{
+			add(value);
+			return *this;
+		}
+
+		Vector3D& operator-=(const glm::vec3& vector)
+		{
+			subtract(vector);
+			return *this;
+		}
+
+		Vector3D& operator-=(const sf::Vector3f& vector)
+		{
+			subtract(vector);
+			return *this;
+		}
+
+		Vector3D& operator-=(const Vector3D& vector)
+		{
+			subtract(vector);
+			return *this;
+		}
+
+		template<class T>
+		Vector3D& operator-=(const T& value)
+		{
+			subtract(value);
+			return *this;
 		}
 
 		Vector3D& operator+(const Vector3D& vector)
