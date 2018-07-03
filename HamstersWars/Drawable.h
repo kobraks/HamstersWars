@@ -14,8 +14,9 @@ namespace game
 	class Drawable
 	{
 	public:
-		Drawable();
+		Drawable() = default;
 
 		virtual void draw(game::Transform& transofrm) = 0;
+		virtual ~Drawable() = default;
 	};
 }

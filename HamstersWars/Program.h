@@ -3,13 +3,13 @@
 #include <string>
 #include <memory>
 #include <glm/glm.hpp>
-#include <map>
+#include <unordered_map>
 
 #include "ProgramParameter.h"
-
-namespace model {
-	class Texture2d;
-}
+#include "Light.h"
+#include "Vector3D.h"
+#include "Vector3D.h"
+#include "Texture.h"
 
 namespace gl
 {
@@ -44,24 +44,26 @@ namespace gl
 		void set_uniform(const Uniform& uniform, const glm::mat4& value);
 		void set_uniform(const Uniform& uniform, const float& value);
 		void set_uniform(const Uniform& uniform, const int& value);
-		void set_uniform(const Uniform& uniform, const glm::vec2& value);
-		void set_uniform(const Uniform& uniform, const glm::vec3& value);
+		void set_uniform(const Uniform& uniform, const Vector2D& value);
+		void set_uniform(const Uniform& uniform, const Vector3D& value);
 		void set_uniform(const Uniform& uniform, const glm::vec4& value);
-		void set_uniform(const Uniform& uniform, const GLuint& texture_id_, model::Texture2d& texture);
+		void set_uniform(const Uniform& uniform, const GLuint& texture_id_, Texture& texture);
+		void set_uniform(const Uniform& uniform, const Light& light);
 
 		void set_uniform(const std::string& name, const glm::mat4& value);
 		void set_uniform(const std::string& name, const float& value);
-		void set_uniform(const std::string& name, const glm::vec2& value);
-		void set_uniform(const std::string& name, const glm::vec3& value);
+		void set_uniform(const std::string& name, const Vector2D& value);
+		void set_uniform(const std::string& name, const Vector3D& value);
 		void set_uniform(const std::string& name, const glm::vec4& value);
-		void set_uniform(const std::string& name, const GLuint& texture_id, model::Texture2d& texture);
+		void set_uniform(const std::string& name, const GLuint& texture_id, Texture& texture);
+		void set_uniform(const std::string& name, const Light& light);
 
-		std::shared_ptr<ProgramParameter> operator[] (const std::string& name);
-		std::shared_ptr<ProgramParameter> get_parameter(const std::string& name);
+		ProgramParameter operator[] (const std::string& name) const;
+		ProgramParameter get_parameter(const std::string& name) const;
 	private:
 		std::shared_ptr<GLuint> obj_;
 
-		std::map<std::string, std::shared_ptr<ProgramParameter>> parameters_;
+		std::unordered_map<std::string, std::shared_ptr<ProgramParameter>> parameters_;
 
 		void populate_parameters();
 	};

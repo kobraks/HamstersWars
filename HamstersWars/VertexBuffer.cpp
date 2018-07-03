@@ -40,6 +40,12 @@ void gl::VertexBuffer::bind() const
 	glBindBuffer(GL_ARRAY_BUFFER, *obj_);
 }
 
+void gl::VertexBuffer::copy_sub_data(VertexBuffer& destination, intptr_t source_offset, intptr_t dest_offset,
+	uintptr_t size)
+{
+	glCopyBufferSubData(*this, destination, source_offset, dest_offset, size);
+}
+
 gl::VertexBuffer::operator unsigned() const
 {
 	return *obj_;

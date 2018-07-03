@@ -5,7 +5,31 @@
 #include "Defines.h"
 #include <iostream>
 
-model::BoundingBox::BoundingBox() : buffer_(nullptr)
+inline void set_less_value(glm::vec3& value, const glm::vec3& right)
+{
+	if (value.x > right.x)
+		value.x = right.x;
+
+	if (value.y > right.y)
+		value.y = right.y;
+
+	if (value.z > right.z)
+		value.z = right.z;
+}
+
+inline void set_greater_value(glm::vec3& value, const glm::vec3& right)
+{
+	if (value.x < right.x)
+		value.x = right.x;
+
+	if (value.y < right.y)
+		value.y = right.y;
+
+	if (value.z < right.z)
+		value.z = right.z;
+}
+
+game::model::BoundingBox::BoundingBox() : buffer_(nullptr)
 {
 	GLuint indices[][2] = {
 		{ 0, 1 },
@@ -51,12 +75,12 @@ model::BoundingBox::BoundingBox() : buffer_(nullptr)
 	glBindVertexArray(0);
 }
 
-model::BoundingBox::BoundingBox(const std::vector<glm::vec3>& verticles, const glm::mat4& model_matrix) : BoundingBox()
+game::model::BoundingBox::BoundingBox(const std::vector<glm::vec3>& verticles, const Transform& transform) : BoundingBox()
 {
-	calculate(verticles, model_matrix);
+	calculate(verticles, transform);
 }
 
-model::BoundingBox::BoundingBox(const BoundingBox& box) : BoundingBox()
+game::model::BoundingBox::BoundingBox(const BoundingBox& box) : BoundingBox()
 {
 	for (size_t i = 0; i < 8; i++)
 		vertex_[i] = box.vertex_[i];
@@ -68,7 +92,7 @@ model::BoundingBox::BoundingBox(const BoundingBox& box) : BoundingBox()
 	glBindVertexArray(0);
 }
 
-model::BoundingBox& model::BoundingBox::operator=(const BoundingBox& box)
+game::model::BoundingBox& game::model::BoundingBox::operator=(const BoundingBox& box)
 {
 	for (size_t i = 0; i < 8; i++)
 		vertex_[i] = box.vertex_[i];
@@ -83,35 +107,16 @@ model::BoundingBox& model::BoundingBox::operator=(const BoundingBox& box)
 }
 
 
-void model::BoundingBox::calculate(const std::vector<glm::vec3>& verticles, const glm::mat4& model_matrix)
+void game::model::BoundingBox::calculate(const std::vector<glm::vec3>& verticles, const Transform& transform)
 {
-	auto ver = model_matrix * glm::vec4(verticles[0], 1.f);
-
-	min_ = glm::vec3(ver.x, ver.y, ver.z);
-	max_ = glm::vec3(ver.x, ver.y, ver.z);
+	min_ = max_ = transform.transfrom_point(verticles[0]);
 
 	for (auto vertex : verticles)
 	{
-		glm::vec4 ver = model_matrix * glm::vec4(vertex, 1.f);
+		auto transformed = transform.transfrom_point(vertex);
 
-		if (min_.x > ver.x)
-			min_.x = ver.x;
-
-		if (min_.y > ver.y)
-			min_.y = ver.y;
-
-		if (min_.z > ver.z)
-			min_.z = ver.z;
-
-
-		if (max_.x < ver.x)
-			max_.x = ver.x;
-
-		if (max_.y < ver.y)
-			max_.y = ver.y;
-
-		if (max_.z < ver.z)
-			max_.z = ver.z;
+		set_less_value(min_, transformed);
+		set_greater_value(max_, transformed);
 	}
 
 	auto size = size_ = max_ - min_;
@@ -135,7 +140,7 @@ void model::BoundingBox::calculate(const std::vector<glm::vec3>& verticles, cons
 	glBindVertexArray(0);
 }
 
-bool model::BoundingBox::intersect(const BoundingBox& box) const
+bool game::model::BoundingBox::intersect(const BoundingBox& box) const
 {
 	return max_.x > box.min_.x &&
 		min_.x < box.max_.x &&
@@ -146,7 +151,7 @@ bool model::BoundingBox::intersect(const BoundingBox& box) const
 
 }
 
-bool model::BoundingBox::intersect(const glm::vec3& point) const
+bool game::model::BoundingBox::intersect(const glm::vec3& point) const
 {
 	return point.x > min_.x &&
 		point.x < max_.x &&
@@ -156,7 +161,7 @@ bool model::BoundingBox::intersect(const glm::vec3& point) const
 		point.z < max_.z;
 }
 
-void model::BoundingBox::draw()
+void game::model::BoundingBox::draw()
 {
 	vao_->bind();
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *indexes_);
@@ -169,17 +174,17 @@ void model::BoundingBox::draw()
 	glBindVertexArray(0);
 }
 
-glm::mat4 model::BoundingBox::get_model_matrix() const
+glm::mat4 game::model::BoundingBox::get_model_matrix() const
 {
 	return glm::mat4(1.f);
 }
 
-glm::vec3 model::BoundingBox::size() const
+glm::vec3 game::model::BoundingBox::size() const
 {
 	return size_;
 }
 
-glm::vec3 model::BoundingBox::center() const
+glm::vec3 game::model::BoundingBox::center() const
 {
 	return center_;
 }

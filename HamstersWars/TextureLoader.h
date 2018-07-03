@@ -3,9 +3,9 @@
 #include <unordered_map>
 #include <memory>
 
-#include "Texture2d.h"
+#include "Texture.h"
 
-namespace model
+namespace game::model
 {
 	class TextureLoader
 	{
@@ -15,10 +15,9 @@ namespace model
 
 		TextureLoader& operator = (const TextureLoader&) = delete;
 
-		static std::shared_ptr<Texture2d> load_texture(const std::string& file);
+		static std::shared_ptr<gl::Texture> load_texture(const std::string& file);
 
 	private:
-		static std::unordered_map<std::string, std::shared_ptr<Texture2d>> textures_;
+		static std::unordered_map<std::string, std::shared_ptr<gl::Texture>> textures_;
 	};
-
 }

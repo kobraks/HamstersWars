@@ -12,6 +12,8 @@ namespace game
 		Transform();
 		explicit Transform(const glm::mat4& matrix);
 
+		operator glm::mat4() const;
+
 		Transform& combine(const Transform& transform);
 		
 		Transform& rotate(const float& x, const float& y, const float& z);

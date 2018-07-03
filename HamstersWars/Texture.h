@@ -2,6 +2,7 @@
 #include <gl/glew.h>
 #include <memory>
 #include <glm/glm.hpp>
+#include <SFML/System/Vector2.hpp>
 #include "Image.h"
 
 namespace gl
@@ -157,7 +158,7 @@ namespace gl
 		Texture(const Texture&) = default;
 		Texture(const GLubyte* pixels, unsigned int width, unsigned int height,
 		        internal_format::internal_format_t internal_format = internal_format::RGBA);
-		explicit Texture(const util::Image& image, internal_format::internal_format_t internal_format = internal_format::RGBA);
+		explicit Texture(const util::Image& image);
 
 		operator GLuint() const;
 		Texture& operator=(const Texture&) = default;
@@ -174,9 +175,35 @@ namespace gl
 
 		void generate_mip_maps();
 
+		static unsigned int get_maximum_size();
+
+		void create(const unsigned& width, const unsigned& height);
+		void create(const util::Image& image);
+
+		sf::Vector2u size() const;
+		unsigned int width() const;
+		unsigned int height() const;
+
+		util::Image to_image() const;
+		void update(const glm::vec4* pixels);
+		void update(const glm::vec4* pixels, const unsigned int& width, const unsigned int& height, const unsigned int& x, const unsigned int& y);
+
+		void update(const Texture& texture);
+		void update(const Texture& texture, const unsigned int& x, const unsigned int& y);
+
+		void update(const util::Image& image);
+		void update(const util::Image& image, const unsigned int& x, const unsigned int& y);
+
+		void swap(Texture& right) noexcept;
+
+
+
 	private:
 		std::shared_ptr<GLuint> obj_;
 
+		static unsigned int get_valid_size(const unsigned int& size);
+		sf::Vector2u size_ = { 0, 0 };
+		sf::Vector2u actual_size_ = {0, 0};
 	};
 }
 

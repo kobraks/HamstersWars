@@ -20,17 +20,16 @@ namespace game::component
 	{
 	public:
 		explicit ScriptHandler(std::shared_ptr<Entity> owner, const std::string& code);
-		ScriptHandler(std::shared_ptr<Entity> owner, const std::shared_ptr<LuaIntf::LuaContext>& context, const LuaIntf::LuaRef& function);
-		~ScriptHandler();
+		explicit ScriptHandler(std::shared_ptr<Entity> owner);
 
 		Component* copy() const override;
 
 		void update();
 	private:
-		std::shared_ptr<LuaIntf::LuaContext> context_;
 		LuaIntf::LuaRef function_;
 
-		void register_functions();
+		static void register_functions(LuaIntf::LuaContext& context);
+		static bool registered_;
 	};
 
 }

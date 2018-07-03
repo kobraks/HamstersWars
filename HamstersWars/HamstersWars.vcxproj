@@ -78,10 +78,11 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lua53.lib;assimp-vc140-mt.lib;glew32.lib;FreeImage.lib;sfml-audio-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetype.lib;lua53.lib;assimp-vc140-mt.lib;glew32.lib;FreeImage.lib;sfml-audio-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -102,12 +103,13 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lua53.lib;assimp-vc140-mt.lib;glew32.lib;FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetype.lib;lua53.lib;assimp-vc140-mt.lib;glew32.lib;FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -133,8 +135,11 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityLoader.cpp" />
     <ClCompile Include="EntityScriptHandler.cpp" />
+    <ClCompile Include="Font.cpp" />
+    <ClCompile Include="Framebuffer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameException.cpp" />
+    <ClCompile Include="Glyph.cpp" />
     <ClCompile Include="GraphicComponent.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Keyboard.cpp" />
@@ -148,14 +153,17 @@
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Script.cpp" />
     <ClCompile Include="ScriptHandler.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ProgramParameter.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="Texture2d.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Transform2d.cpp" />
     <ClCompile Include="Transformable.cpp" />
+    <ClCompile Include="Transformable2d.cpp" />
     <ClCompile Include="VertexArray.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
   </ItemGroup>
@@ -165,16 +173,21 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ColliderComponent.h" />
     <ClInclude Include="CollisionHandler.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="CompileException.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="Context.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityLoader.h" />
     <ClInclude Include="EntityScriptHandler.h" />
+    <ClInclude Include="Font.h" />
+    <ClInclude Include="Framebuffer.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameException.h" />
     <ClInclude Include="GlewException.h" />
+    <ClInclude Include="Glyph.h" />
     <ClInclude Include="GraphicComponent.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Keyboard.h" />
@@ -188,17 +201,23 @@
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="OpenFileException.h" />
     <ClInclude Include="Program.h" />
+    <ClInclude Include="Rectangle.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Script.h" />
     <ClInclude Include="ScriptHandler.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ProgramParameter.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />
-    <ClInclude Include="Texture2d.h" />
     <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="Transform2d.h" />
     <ClInclude Include="Transformable.h" />
+    <ClInclude Include="Transformable2d.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="UnknownFormatException.h" />
+    <ClInclude Include="Vector2D.h" />
+    <ClInclude Include="Vector3D.h" />
     <ClInclude Include="VertexArray.h" />
     <ClInclude Include="VertexBuffer.h" />
   </ItemGroup>

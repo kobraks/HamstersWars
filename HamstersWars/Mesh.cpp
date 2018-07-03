@@ -10,21 +10,77 @@
 float color = 0;
 #define COLOR_INC 0.1f
 
+#pragma region utils
+inline void set_less_value(glm::vec3& value, const glm::vec3& right)
+{
+	if (value.x > right.x)
+		value.x = right.x;
 
-model::Mesh::Mesh(const aiMesh& mesh) : model_matrix_(glm::mat4(1.f))
+	if (value.y > right.y)
+		value.y = right.y;
+
+	if (value.z > right.z)
+		value.z = right.z;
+}
+
+inline void set_greater_value(glm::vec3& value, const glm::vec3& right)
+{
+	if (value.x < right.x)
+		value.x = right.x;
+
+	if (value.y < right.y)
+		value.y = right.y;
+
+	if (value.z < right.z)
+		value.z = right.z;
+}
+
+/**
+ * \brief converts assimp vector to glm vector
+ * \param vector a 2D assimp vector
+ * \return glm::vec2 which is converted vector from assimp
+ */
+inline glm::vec2 convert(const aiVector2D& vector)
+{
+	return glm::vec2(vector.x, vector.y);
+}
+
+/**
+ * \brief converts assimp vector to glm vector
+ * \param vector a 3D assimp vector
+ * \return glm::vec3 which is converted vector from assimp
+ */
+inline glm::vec3 convert(const aiVector3D& vector)
+{
+	return glm::vec3(vector.x, vector.y, vector.z);
+}
+
+/**
+ * \brief converts assimp color to glm
+ * \param color color from assimp
+ * \return glm::vec4 which is converted color from assimp
+ */
+inline glm::vec4 convert(const aiColor4D& color)
+{
+	return glm::vec4(color.r, color.g, color.b, color.a);
+}
+#pragma endregion
+
+game::model::Mesh::Mesh(const aiMesh& mesh)
 {
 	element_count_ = mesh.mNumFaces * 3;
 
 	vertices_ = std::make_shared<std::vector<glm::vec3>>();
 
 	vertices_->reserve(mesh.mNumVertices);
-	auto colors = new glm::vec4[mesh.mNumVertices];
+	auto colors = new gl::Color[mesh.mNumVertices];
 	auto texcoords = new glm::vec2[mesh.mNumVertices];
 	auto normals = new glm::vec3[mesh.mNumVertices];
 	auto indices = new GLuint[mesh.mNumFaces * 3];
 
 	glm::vec3 min, max;
-	min = max = glm::vec3(mesh.mVertices[0].x, mesh.mVertices[0].y, mesh.mVertices[0].z);
+
+	min = max = convert(mesh.mVertices[0]);
 
 	if (mesh.HasNormals())
 	{
@@ -34,38 +90,25 @@ model::Mesh::Mesh(const aiMesh& mesh) : model_matrix_(glm::mat4(1.f))
 
 	for (size_t i = 0; i <  mesh.mNumVertices; ++i)
 	{
-		vertices_->push_back(glm::vec3(mesh.mVertices[i].x, mesh.mVertices[i].y, mesh.mVertices[i].z));
+		auto vertex = convert(mesh.mVertices[i]);
 
-		if (min.x > mesh.mVertices[i].x)
-			min.x = mesh.mVertices[i].x;
+		set_less_value(min, vertex);
+		set_greater_value(max, vertex);
 
-		if (max.x < mesh.mVertices[i].x)
-			max.x = mesh.mVertices[i].x;
-
-		if (min.y > mesh.mVertices[i].y)
-			min.y = mesh.mVertices[i].y;
-
-		if (max.y < mesh.mVertices[i].y)
-			max.y = mesh.mVertices[i].y;
-
-		if (min.z > mesh.mVertices[i].z)
-			min.z = mesh.mVertices[i].z;
-
-		if (max.z < mesh.mVertices[i].z)
-			max.z = mesh.mVertices[i].z;
+		vertices_->push_back(vertex);
 
 		if (mesh.HasVertexColors(0))
-			colors[i] = glm::vec4(mesh.mColors[0][i].r, mesh.mColors[0][1].g, mesh.mColors[0][1].b, mesh.mColors[0][1].a);
+			colors[i] = convert(mesh.mColors[0][i]);
 		else
-			colors[i] = glm::vec4(1, 1, 1, 1);
+			colors[i] = glm::vec4(1.f);
 
 		if (mesh.HasTextureCoords(0))
 			texcoords[i] = glm::vec2(mesh.mTextureCoords[0][i].x, mesh.mTextureCoords[0][i].y);
 
 		if (mesh.HasNormals())
-			normals[i] = glm::vec3(mesh.mNormals[0].x, mesh.mNormals[0].y, mesh.mNormals[0].z);
+			normals[i] = convert(mesh.mNormals[i]);
 		else
-			normals[i] = glm::vec3(0, 1, 0);
+			normals[i] = glm::vec3(0.f, 1.f, 0.f);
 	}
 
 	if (mesh.HasFaces())
@@ -82,7 +125,7 @@ model::Mesh::Mesh(const aiMesh& mesh) : model_matrix_(glm::mat4(1.f))
 	vao_->bind();
 
 	vertex_buffer_ = new gl::VertexBuffer(vertices_->data(), sizeof(glm::vec3) * vertices_->size(), gl::buffer_usage::StaticDraw);
-	color_buffer_ = new gl::VertexBuffer(colors, sizeof(glm::vec4) * mesh.mNumVertices, gl::buffer_usage::StaticDraw);
+	color_buffer_ = new gl::VertexBuffer(colors, sizeof(gl::Color) * mesh.mNumVertices, gl::buffer_usage::StaticDraw);
 	texcoords_buffer_ = new gl::VertexBuffer(texcoords, sizeof(glm::vec2) * mesh.mNumVertices, gl::buffer_usage::StaticDraw);
 	normals_buffer_ = new gl::VertexBuffer(normals, sizeof(glm::vec3) * mesh.mNumVertices, gl::buffer_usage::StaticDraw);
 	
@@ -100,17 +143,17 @@ model::Mesh::Mesh(const aiMesh& mesh) : model_matrix_(glm::mat4(1.f))
 
 	glBindVertexArray(0);
 
-	box_ = new BoundingBox(*vertices_, model_matrix_);
-
 	delete[] colors;
 	delete[] texcoords;
 	delete[] normals;
 	delete[] indices;
 
-	center_ = glm::vec3((max.x + min.x) / 2, (max.y + min.y) / 2, (max.z + min.z) / 2);
+	// glm::vec3 center = glm::vec3((min_x + max_x) / 2, (min_y + max_y) / 2, (min_z + max_z) / 2);
+	set_origin(glm::vec3((min.x + max.x) / 2, (min.y + max.y) / 2, (min.z + max.z) / 2));
+	size_ = max - min;
 }
 
-model::Mesh::Mesh(const Mesh& mesh)
+game::model::Mesh::Mesh(const Mesh& mesh)
 {
 	vao_ = new gl::VertexArray(*mesh.vao_);
 
@@ -121,15 +164,13 @@ model::Mesh::Mesh(const Mesh& mesh)
 	index_buffer_ = new gl::VertexBuffer(*mesh.index_buffer_);
 
 	element_count_ = mesh.element_count_;
-	model_matrix_ = mesh.model_matrix_;
 
 	vertices_ = mesh.vertices_;
-	box_ = new BoundingBox(*mesh.box_);
 
 	material_ = mesh.material_;
 }
 
-model::Mesh::~Mesh()
+game::model::Mesh::~Mesh()
 {
 	vao_->bind();
 	delete vertex_buffer_;
@@ -142,7 +183,7 @@ model::Mesh::~Mesh()
 	delete vao_;
 }
 
-model::Mesh& model::Mesh::operator=(const Mesh& mesh)
+game::model::Mesh& game::model::Mesh::operator=(const Mesh& mesh)
 {
 	vao_ = new gl::VertexArray(*mesh.vao_);
 
@@ -153,32 +194,29 @@ model::Mesh& model::Mesh::operator=(const Mesh& mesh)
 	index_buffer_ = new gl::VertexBuffer(*mesh.index_buffer_);
 
 	element_count_ = mesh.element_count_;
-	model_matrix_ = mesh.model_matrix_;
 
 	vertices_ = mesh.vertices_;
-	box_ = new BoundingBox(*mesh.box_);
 
 	material_ = mesh.material_;
 
 	return *this;
 }
 
-void model::Mesh::set_material(const Material& material)
+void game::model::Mesh::set_material(const Material& material)
 {
 	material_ = material;
 }
 
-model::Material& model::Mesh::get_material()
+game::model::Material& game::model::Mesh::get_material()
 {
 	return material_;
 }
 
-void model::Mesh::draw() const
+void game::model::Mesh::draw() const
 {
 	vao_->bind();
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *index_buffer_);
-	if (material_.texture)
-		material_.texture->bind();
+	glBindTexture(GL_TEXTURE_2D, *material_.texture);
 
 	glDrawElements(GL_TRIANGLES, element_count_, GL_UNSIGNED_INT, NULL);
 
@@ -186,87 +224,23 @@ void model::Mesh::draw() const
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void model::Mesh::translate(const glm::vec3& axis)
+const game::model::BoundingBox& game::model::Mesh::get_bounding_box() const
 {
-	model_matrix_ *= glm::translate(glm::mat4(1.f), axis);
+	if (old_transfrom_ != get_transform())
+	{
+		box_ = BoundingBox(*vertices_, get_transform());
+		old_transfrom_= get_transform();
+	}
 
-	box_->calculate(*vertices_, model_matrix_);
-}
-
-void model::Mesh::translate(const float& x, const float& y, const float& z)
-{
-	translate(glm::vec3(x, y, z));
-}
-
-void model::Mesh::rotate(const float& angle, glm::vec3 axis)
-{
-	model_matrix_ *= glm::rotate(glm::mat4(1.f), glm::radians(angle), axis);
-
-	box_->calculate(*vertices_, model_matrix_);
-}
-
-void model::Mesh::rotate(const float& angle, const float& x, const float& y, const float& z)
-{
-	rotate(angle, glm::vec3(x, y, z));
-}
-
-void model::Mesh::scale(const glm::vec3& scale)
-{
-	model_matrix_ *= glm::scale(glm::mat4(1.f), scale);
-
-	box_->calculate(*vertices_, model_matrix_);
-}
-
-void model::Mesh::scale(const float& x, const float& y, const float& z)
-{
-	scale(glm::vec3(x, y, z));
-}
-
-void model::Mesh::translate(const glm::mat4& matrix, const glm::vec3& axis)
-{
-	model_matrix_ = glm::translate(matrix, axis);
-}
-
-void model::Mesh::rotate(const glm::mat4& matrix, const float& angle, glm::vec3 axis)
-{
-	model_matrix_ = glm::rotate(matrix, glm::radians(angle), axis);
-}
-
-void model::Mesh::scale(const glm::mat4& matrix, const glm::vec3& scale)
-{
-	model_matrix_ = glm::scale(matrix, scale);
-}
-
-void model::Mesh::set_model_matrix(const glm::mat4& matrix)
-{
-	model_matrix_ = matrix;
-
-	box_->calculate(*vertices_, model_matrix_);
-}
-
-glm::mat4 model::Mesh::get_model_matrix() const
-{
-	return model_matrix_;
-}
-
-model::BoundingBox* model::Mesh::bounding_box() const
-{
 	return box_;
 }
 
-glm::vec3 model::Mesh::get_center() const
+const std::vector<glm::vec3>& game::model::Mesh::get_verticles() const
 {
-	return center_;
+	return *vertices_;
 }
 
-glm::mat4x4 model::Mesh::convert(const aiMatrix4x4& matrix)
+glm::vec3 game::model::Mesh::size() const
 {
-	glm::mat4x4 result(1.f);
-
-	result[0] = glm::vec4(matrix.a1, matrix.b1, matrix.c1, matrix.d1);
-	result[1] = glm::vec4(matrix.a2, matrix.b2, matrix.c2, matrix.d2);
-	result[2] = glm::vec4(matrix.a3, matrix.b3, matrix.c3, matrix.d3);
-	result[3] = glm::vec4(matrix.a4, matrix.b4, matrix.c4, matrix.d4);
-
-	return result;
+	return size_;
 }

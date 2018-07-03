@@ -2,7 +2,6 @@
 #include "LinkException.h"
 #include "Shader.h"
 #include <glm/gtc/type_ptr.hpp>
-#include "Texture2d.h"
 #include "Log.h"
 
 gl::Program::Program()
@@ -105,14 +104,14 @@ void gl::Program::set_uniform(const Uniform& uniform, const int& value)
 	glUniform1i(uniform, value);
 }
 
-void gl::Program::set_uniform(const Uniform& uniform, const glm::vec2& value)
+void gl::Program::set_uniform(const Uniform& uniform, const Vector2D& value)
 {
-	glUniform2fv(uniform, 1, glm::value_ptr(value));
+	glUniform2fv(uniform, 1, glm::value_ptr(glm::vec2(value)));
 }
 
-void gl::Program::set_uniform(const Uniform& uniform, const glm::vec3& value)
+void gl::Program::set_uniform(const Uniform& uniform, const Vector3D& value)
 {
-	glUniform3fv(uniform, 1, glm::value_ptr(value));
+	glUniform3fv(uniform, 1, glm::value_ptr(glm::vec3(value)));
 }
 
 void gl::Program::set_uniform(const Uniform& uniform, const glm::vec4& value)
@@ -120,7 +119,7 @@ void gl::Program::set_uniform(const Uniform& uniform, const glm::vec4& value)
 	glUniform4fv(uniform, 1, glm::value_ptr(value));
 }
 
-void gl::Program::set_uniform(const Uniform& uniform, const GLuint& texture_id_, model::Texture2d& texture)
+void gl::Program::set_uniform(const Uniform& uniform, const GLuint& texture_id_, Texture& texture)
 {
 	glActiveTexture(GL_TEXTURE0 + texture_id_);
 	glBindTexture(GL_TEXTURE_2D, texture);
@@ -130,47 +129,47 @@ void gl::Program::set_uniform(const Uniform& uniform, const GLuint& texture_id_,
 
 void gl::Program::set_uniform(const std::string& name, const glm::mat4& value)
 {
-	get_parameter(name)->set_value(value);
+	get_parameter(name).set_value(value);
 }
 
 void gl::Program::set_uniform(const std::string& name, const float& value)
 {
-	get_parameter(name)->set_value(value);
+	get_parameter(name).set_value(value);
 }
 
-void gl::Program::set_uniform(const std::string& name, const glm::vec2& value)
+void gl::Program::set_uniform(const std::string& name, const Vector2D& value)
 {
-	get_parameter(name)->set_value(value);
+	get_parameter(name).set_value(value);
 }
 
-void gl::Program::set_uniform(const std::string& name, const glm::vec3& value)
+void gl::Program::set_uniform(const std::string& name, const Vector3D& value)
 {
-	get_parameter(name)->set_value(value);
+	get_parameter(name).set_value(value);
 }
 
 void gl::Program::set_uniform(const std::string& name, const glm::vec4& value)
 {
-	get_parameter(name)->set_value(value);
+	get_parameter(name).set_value(value);
 }
 
-void gl::Program::set_uniform(const std::string& name, const GLuint& texture_id, model::Texture2d& texture)
+void gl::Program::set_uniform(const std::string& name, const GLuint& texture_id, Texture& texture)
 {
-	get_parameter(name)->set_value(texture);
+	get_parameter(name).set_value(texture);
 }
 
-std::shared_ptr<gl::ProgramParameter> gl::Program::operator[](const std::string& name)
+gl::ProgramParameter gl::Program::operator[](const std::string& name) const
 {
 	return get_parameter(name);
 }
 
-std::shared_ptr<gl::ProgramParameter> gl::Program::get_parameter(const std::string& name)
+gl::ProgramParameter gl::Program::get_parameter(const std::string& name) const
 {
 	auto iter = parameters_.find(name);
 
 	if (iter != parameters_.end())
-		return iter->second;
+		return *iter->second;
 	else
-		return nullptr;
+		throw std::exception();
 }
 
 void gl::Program::populate_parameters()

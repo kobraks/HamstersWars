@@ -26,3 +26,5 @@
 #define NORMAL_INDEX 3
 
 #pragma endregion
+
+#define DEFAULT_TEXTURE TEXTURES_PATH"default.png"

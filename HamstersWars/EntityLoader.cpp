@@ -1,9 +1,9 @@
 #include "EntityLoader.h"
 
-#include <Lua/lua.hpp>
-#include <Lua/LuaIntf.h>
 #include "Log.h"
 #include "Defines.h"
+#include "Script.h"
+
 
 #pragma region components
 #include "ScriptHandler.h"
@@ -20,28 +20,64 @@
  */
 std::vector<std::shared_ptr<game::Entity>> game::EntityLoader::load(const std::string& file)
 {
-	std::shared_ptr<LuaIntf::LuaContext> L(new LuaIntf::LuaContext());
-
 	try
 	{
-		L->doFile(file.c_str());
+		Script::do_file(file);
 	}
 	catch(LuaIntf::LuaException& lua)
 	{
 		Log::write_error("lua throws exception: ", lua.what());
 		return std::vector<std::shared_ptr<game::Entity>>();
 	}
-	return get_entities(LuaIntf::LuaRef(*L, "entities"), L);
+
+	return get_entities(LuaIntf::LuaRef(Script::lua(), "entities"));
+}
+
+/**
+* \brief loads components of entity and populate that entity form file
+* \param entity pointer to entity that should be populated
+* \param entity_name entity name
+* \param file path to file of entity components
+*/
+void game::EntityLoader::load_components_from_file(std::shared_ptr<Entity> entity, const std::string& entity_name,
+	const std::string& file)
+{
+	try
+	{
+		Script::do_file(std::string(LUA_SCRIPTS_PATH + file).c_str());
+	}
+	catch (LuaIntf::LuaException& lua)
+	{
+		Log::write_error("lua throws exception: ", lua.what());
+
+		return;
+	}
+
+	LuaIntf::LuaRef components;
+
+	try
+	{
+		components = LuaIntf::LuaRef(Script::lua(), entity_name.c_str());
+
+		if (!components.isValid() || !components.isTable())
+			return;
+	}
+	catch (LuaIntf::LuaException& ex)
+	{
+		Log::write_error("unable to read entity table lua throws exception: ", ex.what());
+		return;
+	}
+
+	for (auto component : components)
+		get_component(entity, component.key<std::string>(), component.value());
 }
 
 /**
  * \brief loads entities form table
  * \param table table of entities
- * \param context lua context
  * \return table of entities with its components
  */
-std::vector<std::shared_ptr<game::Entity>> game::EntityLoader::get_entities(
-	const LuaIntf::LuaRef& table, const std::shared_ptr<LuaIntf::LuaContext>& context)
+std::vector<std::shared_ptr<game::Entity>> game::EntityLoader::get_entities(const LuaIntf::LuaRef& table)
 {
 	std::vector<std::shared_ptr<Entity>> result;
 	if (!table.isValid() || !table.isTable())
@@ -51,7 +87,7 @@ std::vector<std::shared_ptr<game::Entity>> game::EntityLoader::get_entities(
 	{
 		try
 		{
-			auto entity = load_entity(entity_table.key<std::string>(), entity_table.value(), context);
+			auto entity = load_entity(entity_table.key<std::string>(), entity_table.value());
 
 			if (entity)
 				result.push_back(entity);
@@ -82,11 +118,9 @@ std::vector<std::shared_ptr<game::Entity>> game::EntityLoader::get_entities(
  * \brief loads and populate the entity
  * \param type name of entity
  * \param table entity table if is empty then is treaten as path to entity file same if has path variable
- * \param context lua context
  * \return returns entity with its components or nullptr when was an error of entity is empty
  */
-std::shared_ptr<game::Entity> game::EntityLoader::load_entity(const std::string& type, const LuaIntf::LuaRef& table,
-                                                              const std::shared_ptr<LuaIntf::LuaContext>& context)
+std::shared_ptr<game::Entity> game::EntityLoader::load_entity(const std::string& type, const LuaIntf::LuaRef& table)
 {
 	std::shared_ptr<Entity> entity(new Entity);
 
@@ -103,7 +137,7 @@ std::shared_ptr<game::Entity> game::EntityLoader::load_entity(const std::string&
 		//entity is in entities file and is table then load the components
 		else if (table.isTable())
 			for (auto component : table)
-				get_component(entity, component.key<std::string>(), component.value(), context);
+				get_component(entity, component.key<std::string>(), component.value());
 		else
 			return nullptr;
 	}
@@ -118,64 +152,20 @@ std::shared_ptr<game::Entity> game::EntityLoader::load_entity(const std::string&
 }
 
 /**
- * \brief loads components of entity and populate that entity form file
- * \param entity pointer to entity that should be populated
- * \param entity_name entity name
- * \param file path to file of entity components
- */
-void game::EntityLoader::load_components_from_file(std::shared_ptr<Entity> entity, const std::string& entity_name,
-                                                   const std::string& file)
-{
-	std::shared_ptr<LuaIntf::LuaContext> L(new LuaIntf::LuaContext);
-	
-	try
-	{
-		L->doFile(std::string(LUA_SCRIPTS_PATH + file).c_str());
-	}
-	catch (LuaIntf::LuaException& lua)
-	{
-		Log::write_error("lua throws exception: ", lua.what());
-
-		return;
-	}
-
-	LuaIntf::LuaRef components;
-
-	try
-	{
-		components = LuaIntf::LuaRef(*L, entity_name.c_str());
-
-		if (!components.isValid() || !components.isTable())
-			return;
-
-
-	}
-	catch (LuaIntf::LuaException& ex)
-	{
-		Log::write_error("unable to read entity table lua throws exception: ", ex.what());
-		return;
-	}
-
-	for (auto component : components)
-		get_component(entity, component.key<std::string>(), component.value(), L);
-}
-
-/**
  * \brief loads a single component to entity
  * \param entity pointer to entity that should be populated
  * \param component name of component
  * \param ref table of definitions of component
- * \param context lua context
  */
 void game::EntityLoader::get_component(std::shared_ptr<Entity> entity, const std::string& component,
-	const LuaIntf::LuaRef& ref, const std::shared_ptr<LuaIntf::LuaContext>& context)
+	const LuaIntf::LuaRef& ref)
 {
 	if (!ref.isValid() || !ref.isTable() || !entity)
 		return;
 
 	if (component == "Script")
 	{
-		auto component = new component::ScriptHandler(entity, context, ref["update"]);
+		auto component = new component::ScriptHandler(entity);
 		entity->add_component<component::ScriptHandler>(component);
 	}
 	else if (component == "Collider")

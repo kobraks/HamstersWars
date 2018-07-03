@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <gl/glew.h>
+#include "Transform.h"
 
 namespace gl
 {
@@ -11,18 +12,16 @@ namespace gl
 	class VertexArray;
 }
 
-namespace model
+namespace game::model
 {
 	class BoundingBox
 	{
 	public:
 		BoundingBox();
-		BoundingBox(const std::vector<glm::vec3>& verticles, const glm::mat4& model_matrix);
+		BoundingBox(const std::vector<glm::vec3>& verticles, const Transform& transform);
 		BoundingBox(const BoundingBox& box);
 
 		BoundingBox& operator=(const BoundingBox& box);
-
-		void calculate(const std::vector<glm::vec3>& verticles, const glm::mat4& model_matrix);
 
 		bool intersect(const BoundingBox& box) const;
 		bool intersect(const glm::vec3& point) const;
@@ -46,5 +45,6 @@ namespace model
 		std::shared_ptr<gl::VertexBuffer> buffer_;
 		std::shared_ptr<gl::VertexArray> vao_;
 		std::shared_ptr<gl::VertexBuffer> indexes_;
+		void calculate(const std::vector<glm::vec3>& verticles, const Transform& transform);
 	};
 }

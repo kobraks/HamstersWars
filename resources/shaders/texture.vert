@@ -22,7 +22,7 @@ void main()
 
 	position = model * vec4(inPosition.xyz, 1);
 
-	//gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * position;
-	gl_Position = ftransform();
+	gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * position;
+	//gl_Position = ftransform();
 	normal = normalize(gl_NormalMatrix * inNormal);
 }

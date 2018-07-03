@@ -12,8 +12,19 @@
 #include "Log.h"
 #include "Mesh.h"
 #include "Defines.h"
+#include <iostream>
 
-model::Model* model::ModelLoader::load(const std::string& file)
+inline glm::vec3 convert(aiColor3D color)
+{
+	return glm::vec3(color.r, color.g, color.b);
+}
+
+inline glm::vec4 convert(aiColor4D color)
+{
+	return glm::vec4(color.r, color.g, color.b, color.a);
+}
+
+std::shared_ptr<game::model::Model> game::model::ModelLoader::load(const std::string& file)
 {
 	auto importer = new Assimp::Importer();
 	const aiScene* scene = importer->ReadFile(
@@ -33,38 +44,55 @@ model::Model* model::ModelLoader::load(const std::string& file)
 	Log::print("Import of scene %s succeeded", file.c_str());
 
 	const auto meshes = scene->mNumMeshes;
-
 	Log::print("meshes: %u", meshes);
+	std::vector<std::shared_ptr<Mesh>> model_meshes(meshes);
 
-	std::vector<Mesh*> model_meshes;
 
-	for (unsigned i = 0; i < scene->mNumMeshes; ++i)
-	{
-		auto mesh = new Mesh(*scene->mMeshes[i]);
-		//mesh->set_local_world(glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, 0.f)));
-
-		const auto& material = *scene->mMaterials[scene->mMeshes[i]->mMaterialIndex];
-
-		std::shared_ptr<Texture2d> texture = nullptr;
-		aiColor4D albedo;
-		float specular_intensity;
-		float specular_power;
-
-		material.Get(AI_MATKEY_COLOR_DIFFUSE, albedo);
-		material.Get(AI_MATKEY_SHININESS_STRENGTH, specular_intensity);
-		material.Get(AI_MATKEY_SHININESS, specular_power);
-
-		auto texture_file = new aiString();
-		if (material.GetTexture(aiTextureType_DIFFUSE, 0, texture_file) == AI_SUCCESS)
-			texture = TextureLoader::load_texture(TEXTURES_PATH + std::string(texture_file->C_Str()));
-		delete texture_file;
-
-		mesh->set_material(Material(albedo, specular_intensity, specular_power, texture));
-
-		model_meshes.push_back(mesh);
-	}
+	for (size_t i = 0; i < scene->mNumMeshes; ++i)
+		model_meshes[i] = process_mesh(scene, i);
 
 	delete importer;
 
-	return new Model(model_meshes);
+	return std::make_shared<Model>(model_meshes);
+}
+
+std::shared_ptr<game::model::Mesh> game::model::ModelLoader::process_mesh(const void* scene, const size_t& index)
+{
+	aiMesh* mesh = static_cast<const aiScene*>(scene)->mMeshes[index];
+	auto result = std::make_shared<Mesh>(*mesh);
+
+	result->set_material(process_material(mesh, scene));
+
+	return result;
+}
+
+game::model::Material game::model::ModelLoader::process_material(void* mesh, const void* scene)
+{
+	Material result;
+	const aiScene* s = static_cast<const aiScene*>(scene);
+	auto m = static_cast<aiMesh*>(mesh);
+
+	const auto& material = *s->mMaterials[m->mMaterialIndex];
+	aiColor4D ambient_color;
+	aiColor4D diffuse_color;
+	aiColor4D specular_color;
+	float shininess;
+
+	material.Get(AI_MATKEY_COLOR_AMBIENT, ambient_color);
+	material.Get(AI_MATKEY_COLOR_DIFFUSE, diffuse_color);
+	material.Get(AI_MATKEY_COLOR_SPECULAR, specular_color);
+	material.Get(AI_MATKEY_SHININESS, shininess);
+
+	result.ambient = convert(ambient_color);
+	result.diffuse = convert(diffuse_color);
+	result.specular = convert(specular_color);
+	result.shininess = shininess;
+
+	aiString texture_file;
+	if (material.GetTexture(aiTextureType_DIFFUSE, 0, &texture_file) == AI_SUCCESS)
+		result.texture = TextureLoader::load_texture(TEXTURES_PATH + std::string(texture_file.C_Str()));
+	else
+		result.texture = TextureLoader::load_texture(DEFAULT_TEXTURE);
+
+	return result;
 }

@@ -19,12 +19,6 @@
     <Filter Include="Source Files\exception">
       <UniqueIdentifier>{b8e1eeda-cdc2-4b11-bfa9-2ad7287390d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Model">
-      <UniqueIdentifier>{d1720073-2a7b-47c0-ba4e-0f7bc6a2461f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\model">
-      <UniqueIdentifier>{08ac4e8d-1fdc-4bd4-8df8-f7b381f0106e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\gl">
       <UniqueIdentifier>{f0030627-384f-4229-aa84-f5ea622700ea}</UniqueIdentifier>
     </Filter>
@@ -52,6 +46,12 @@
     <Filter Include="Source Files\game\component">
       <UniqueIdentifier>{2c06818d-fd6a-41a2-8f05-4d525680a22e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\game\Model">
+      <UniqueIdentifier>{d1720073-2a7b-47c0-ba4e-0f7bc6a2461f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game\model">
+      <UniqueIdentifier>{08ac4e8d-1fdc-4bd4-8df8-f7b381f0106e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -70,25 +70,22 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TextureLoader.cpp">
-      <Filter>Source Files\model</Filter>
+      <Filter>Source Files\game\model</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
-      <Filter>Source Files\model</Filter>
+      <Filter>Source Files\game\model</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
-      <Filter>Source Files\model</Filter>
+      <Filter>Source Files\game\model</Filter>
     </ClCompile>
     <ClCompile Include="Model.cpp">
-      <Filter>Source Files\model</Filter>
+      <Filter>Source Files\game\model</Filter>
     </ClCompile>
     <ClCompile Include="ModelLoader.cpp">
-      <Filter>Source Files\model</Filter>
+      <Filter>Source Files\game\model</Filter>
     </ClCompile>
     <ClCompile Include="Mouse.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture2d.cpp">
-      <Filter>Source Files\model</Filter>
+      <Filter>Source Files\game\model</Filter>
     </ClCompile>
     <ClCompile Include="VertexArray.cpp">
       <Filter>Source Files\gl</Filter>
@@ -109,7 +106,7 @@
       <Filter>Source Files\gl</Filter>
     </ClCompile>
     <ClCompile Include="BoundingBox.cpp">
-      <Filter>Source Files\model</Filter>
+      <Filter>Source Files\game\model</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>Source Files\game</Filter>
@@ -153,6 +150,27 @@
     <ClCompile Include="Transformable.cpp">
       <Filter>Source Files\game</Filter>
     </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Glyph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Transformable2d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform2d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Script.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framebuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.h">
@@ -167,9 +185,6 @@
     <ClInclude Include="BadLogStreamException.h">
       <Filter>Header Files\exception</Filter>
     </ClInclude>
-    <ClInclude Include="GlewException.h">
-      <Filter>Header Files\exception</Filter>
-    </ClInclude>
     <ClInclude Include="Mouse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -177,22 +192,19 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
-      <Filter>Header Files\Model</Filter>
+      <Filter>Header Files\game\Model</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
-      <Filter>Header Files\Model</Filter>
+      <Filter>Header Files\game\Model</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
-      <Filter>Header Files\Model</Filter>
+      <Filter>Header Files\game\Model</Filter>
     </ClInclude>
     <ClInclude Include="ModelLoader.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture2d.h">
-      <Filter>Header Files\Model</Filter>
+      <Filter>Header Files\game\Model</Filter>
     </ClInclude>
     <ClInclude Include="TextureLoader.h">
-      <Filter>Header Files\Model</Filter>
+      <Filter>Header Files\game\Model</Filter>
     </ClInclude>
     <ClInclude Include="Types.h">
       <Filter>Header Files</Filter>
@@ -219,7 +231,7 @@
       <Filter>Header Files\gl</Filter>
     </ClInclude>
     <ClInclude Include="BoundingBox.h">
-      <Filter>Header Files\Model</Filter>
+      <Filter>Header Files\game\Model</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Header Files\gl</Filter>
@@ -277,6 +289,45 @@
     </ClInclude>
     <ClInclude Include="GraphicComponent.h">
       <Filter>Header Files\game\component</Filter>
+    </ClInclude>
+    <ClInclude Include="Context.h">
+      <Filter>Header Files\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="GlewException.h">
+      <Filter>Header Files\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Glyph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transformable2d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform2d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rectangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Script.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framebuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3D.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

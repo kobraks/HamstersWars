@@ -3,7 +3,7 @@
 #include "Image.h"
 #include "Log.h"
 
-std::shared_ptr<model::Texture2d> model::TextureLoader::load_texture(const std::string& file)
+std::shared_ptr<gl::Texture> game::model::TextureLoader::load_texture(const std::string& file)
 {
 	auto iter = textures_.find(file);
 	if (iter != textures_.end())
@@ -26,9 +26,9 @@ std::shared_ptr<model::Texture2d> model::TextureLoader::load_texture(const std::
 	Log::level() = Log::log_info;
 	Log::print("Image size: %u, %u", image.width(), image.height());
 
-	return textures_[file] = std::make_shared<model::Texture2d>(image.width(), image.height(), std::make_shared<gl::Texture>(image));
+	return textures_[file] = std::make_shared<gl::Texture>(image);
 }
 
-std::unordered_map<std::string, std::shared_ptr<model::Texture2d>> model::TextureLoader::textures_ = std::unordered_map<
-	std::string, std::shared_ptr<model::Texture2d>>();
+std::unordered_map<std::string, std::shared_ptr<gl::Texture>> game::model::TextureLoader::textures_ = std::unordered_map<
+	std::string, std::shared_ptr<gl::Texture>>();
 

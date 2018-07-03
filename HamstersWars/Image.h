@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <string>
 
 namespace gl::util
@@ -26,17 +27,31 @@ namespace gl::util
 	{
 	public:
 		Image();
-		Image(const unsigned int& width, const unsigned int& height, const glm::vec4& background);
-		Image(const unsigned int& width, const unsigned int& height, unsigned char* pixels);
-		Image(unsigned char* pixels, const unsigned int& size);
+
+		Image(const unsigned int& width, const unsigned int& height, const glm::vec4& background = glm::vec4(1));
+		Image(const sf::Vector2u& size, const glm::vec4& background = glm::vec4(1));
+
+		Image(const unsigned int& width, const unsigned int& height, const unsigned char* pixels);
+		Image(const sf::Vector2u& size, const unsigned char* pixels);
+
+		Image(const unsigned int& width, const unsigned int& height, const glm::vec4* pixels);
+		Image(const sf::Vector2u& size, const glm::vec4* pixels);
+
+		Image(const unsigned char* pixels, const unsigned int& size);
+
 		explicit Image(const std::string& file_name);
-		Image(const Image&) = delete;
+		Image(const Image& image);
+		Image& operator=(const Image& image);
+
+		Image(Image&& image) noexcept;
+		Image& operator=(Image&& image) noexcept;
 
 		~Image();
 
-		Image& operator=(const Image&) = delete;
+		void create(const sf::Vector2u& size, const glm::vec4& background = glm::vec4(1));
+		void create(const unsigned int& width, const unsigned int& height, const glm::vec4& background = glm::vec4(1));
 
-		void load(unsigned char* pixels, const unsigned int& size);
+		void load(const unsigned char* pixels, const unsigned int& size);
 		void load(const std::string& file_name);
 
 		void save(const std::string& file_name, image_type::image_type_t type);
@@ -44,7 +59,13 @@ namespace gl::util
 		unsigned int width() const;
 		unsigned int height() const;
 
+		sf::Vector2u size() const;
+
 		const glm::vec4* get_pixels() const;
+
+		glm::vec4& get_pixel(const sf::Vector2u& position);
+		glm::vec4 get_pixel(const sf::Vector2u& position) const;
+		void set_pixel(const sf::Vector2u& position, const glm::vec4& color);
 
 		glm::vec4& get_pixel(const unsigned int& x, const unsigned int& y);
 		glm::vec4 get_pixel(const unsigned int& x, const unsigned int& y) const;
@@ -56,6 +77,7 @@ namespace gl::util
 		static inline glm::vec4 translate_color(const unsigned char& r, const unsigned char& g, const unsigned char& b,
 		                                        const unsigned char& a);
 		static inline glm::vec4 translate_color(const unsigned char color[4]);
+
 	private:
 		glm::vec4* pixels_;
 		unsigned int width_;

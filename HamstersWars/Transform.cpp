@@ -11,6 +11,11 @@ game::Transform::Transform(const glm::mat4& matrix) : matrix_(matrix)
 {
 }
 
+game::Transform::operator glm::mat4() const
+{
+	return matrix_;
+}
+
 game::Transform& game::Transform::combine(const Transform& transform)
 {
 	matrix_ *= transform.matrix_;

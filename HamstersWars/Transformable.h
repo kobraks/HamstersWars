@@ -7,8 +7,7 @@ namespace game
 	class Transformable
 	{
 	public:
-		Transformable();
-
+		Transformable() = default;
 		virtual ~Transformable() = default;
 
 		void set_position(const float& x, const float& y, const float& z);

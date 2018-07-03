@@ -37,6 +37,7 @@ namespace gl
 
 		void bind() const;
 
+		void copy_sub_data(VertexBuffer& destination, intptr_t source_offset, intptr_t dest_offset, uintptr_t size);
 	private:
 		std::shared_ptr<GLuint> obj_;
 	};

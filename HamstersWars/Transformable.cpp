@@ -1,6 +1,22 @@
 #include "Transformable.h"
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <iostream>
+
+std::ostream& operator << (std::ostream& out, const glm::mat4& mat)
+{
+	for (size_t i = 0; i < 4; ++i)
+	{
+		for (size_t j = 0; j < 4; ++j)
+		{
+			out << mat[j][i] << " | ";
+		}
+
+		out << std::endl;
+	}
+
+	return out;
+}
 
 void game::Transformable::set_position(const float& x, const float& y, const float& z)
 {
@@ -108,21 +124,20 @@ const game::Transform& game::Transformable::get_transform() const
 {
 	if (transform_needs_update_)
 	{
-		auto matrix = glm::mat4(1.f);
-		matrix *= glm::translate(glm::mat4(1.f), -origin_);
+		auto transform_matrix = glm::translate(glm::mat4(1.f), position_);
+		transform_matrix = glm::scale(transform_matrix, scale_);
 
-		matrix *= glm::translate(glm::mat4(1.f), position_);
-		matrix *= glm::rotate(glm::mat4(1.f), glm::radians(rotate_.x), glm::vec3(1, 0, 0));
-		matrix *= glm::rotate(glm::mat4(1.f), glm::radians(rotate_.y), glm::vec3(0, 1, 0));
-		matrix *= glm::rotate(glm::mat4(1.f), glm::radians(rotate_.z), glm::vec3(0, 0, 1));
-		matrix *= glm::scale(glm::mat4(1.f), scale_);
+		auto rotation_matrix = glm::mat4(1.f);
+		rotation_matrix = glm::translate(rotation_matrix, origin_);
+		rotation_matrix = glm::rotate(rotation_matrix, glm::radians(rotate_.x), glm::vec3(1, 0, 0));
+		rotation_matrix = glm::rotate(rotation_matrix, glm::radians(rotate_.y), glm::vec3(0, 1, 0));
+		rotation_matrix = glm::rotate(rotation_matrix, glm::radians(rotate_.z), glm::vec3(0, 0, 1));
+		rotation_matrix = glm::translate(rotation_matrix, -origin_);
 
-		matrix *= glm::translate(glm::mat4(1.f), origin_);
+		transform_matrix *= rotation_matrix;
 
-		transform_ = Transform(matrix);
-
+		transform_ = Transform(transform_matrix);
 		transform_needs_update_ = false;
-
 	}
 
 	return transform_;

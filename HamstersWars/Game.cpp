@@ -1,9 +1,11 @@
+// Darren brown the heist 1,2,3,4
+
 #include "Game.h"
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-
+#include <glm/gtc/type_ptr.hpp>
 
 #include "Defines.h"
 #include "Log.h"
@@ -15,7 +17,6 @@
 
 #include "Model.h"
 #include "ModelLoader.h"
-#include "Texture2d.h"
 #include "TextureLoader.h"
 #include "Mesh.h"
 #include "Shader.h"
@@ -35,7 +36,7 @@ float velocity_vertical;
 float velocity_horizontal;
 
 float window_height, window_width;
-model::Model* modela;
+std::shared_ptr<game::model::Model> modela;
 
 void update()
 {
@@ -84,108 +85,42 @@ void game::Game::on_draw()
 	glMatrixMode(GL_MODELVIEW);
 
 	glm::mat4 model_view_matrix = camera_->get_view();
-	glLoadMatrixf(&model_view_matrix[0][0]);
-	glm::mat4 model_matrix(model_view_matrix);
-	auto center = modela->get_mesh(0)->get_center();
+	//glLoadMatrixf(&model_view_matrix[0][0]);
+	glLoadMatrixf(glm::value_ptr(model_view_matrix));
+	shader_->get_parameter("mode").set_value(1);
 
-	model_matrix *= glm::scale(glm::mat4(1.f), glm::vec3(0.005));
-	shader_->get_parameter("mode")->set_value(1);
+	 /*auto mesh = modela->get_mesh(0);
+	 mesh->set_scale(glm::vec3(0.005f));
+	 mesh->set_rotation(0, 0, 0);
+	 shader_->get_parameter("model")->set_value(mesh->get_transform());
+	 mesh->draw();
+ 
+	 mesh->set_rotation(45.f, 0, 0);
+	 shader_->get_parameter("model")->set_value(mesh->get_transform());
+	 mesh->draw();
+ 
+	 mesh->set_rotation(0, 0, 0);
+	 mesh->set_scale(glm::vec3(0.f));*/
 
-	glPushMatrix();
-	{
-		glLoadMatrixf(&model_matrix[0][0]);
-		glPushMatrix();
-		{
-			//auto model_matrix2 = glm::mat4(1.f);
-			auto model_matrix2 = glm::rotate(model_matrix, glm::radians(45.f), glm::vec3(1, 0, 0));
-			glLoadMatrixf(&model_matrix2[0][0]);
-
-			modela->get_mesh(0)->draw();
-		}
-		glPopMatrix();
-		glPushMatrix();
-		{
-
-			//auto model_matrix2 = glm::mat4(1.f);
-			auto model_matrix2 = glm::rotate(model_matrix, glm::radians(-45.f), glm::vec3(1, 0, 0));
-			glLoadMatrixf(&model_matrix2[0][0]);
-
-			modela->get_mesh(0)->draw();
-		}
-		glPopMatrix();
-		glPushMatrix();
-		{
-
-			//auto model_matrix2 = glm::mat4(1.f);
-			auto model_matrix2 = glm::rotate(model_matrix, glm::radians(90.f), glm::vec3(1, 0, 0));
-			glLoadMatrixf(&model_matrix2[0][0]);
-
-			modela->get_mesh(0)->draw();
-		}
-		glPopMatrix();
-		glPushMatrix();
-		{
-
-			//auto model_matrix2 = glm::mat4(1.f);
-			auto model_matrix2 = glm::rotate(model_matrix, glm::radians(-90.f), glm::vec3(1, 0, 0));
-			glLoadMatrixf(&model_matrix2[0][0]);
-
-			modela->get_mesh(0)->draw();
-		}
-		glPopMatrix();
-		glPushMatrix();
-		{
-
-			//auto model_matrix2 = glm::mat4(1.f);
-			auto model_matrix2 = glm::rotate(model_matrix, glm::radians(135.f), glm::vec3(1, 0, 0));
-			glLoadMatrixf(&model_matrix2[0][0]);
-
-			modela->get_mesh(0)->draw();
-		}
-		glPopMatrix();
-		glPushMatrix();
-		{
-
-			//auto model_matrix2 = glm::mat4(1.f);
-			auto model_matrix2 = glm::rotate(model_matrix, glm::radians(-135.f), glm::vec3(1, 0, 0));
-			glLoadMatrixf(&model_matrix2[0][0]);
-
-			modela->get_mesh(0)->draw();
-		}
-		glPopMatrix();
-		glPushMatrix();
-		{
-
-			//auto model_matrix2 = glm::mat4(1.f);
-			auto model_matrix2 = glm::rotate(model_matrix, glm::radians(0.f), glm::vec3(1, 0, 0));
-			glLoadMatrixf(&model_matrix2[0][0]);
-
-			modela->get_mesh(0)->draw();
-		}
-		glPopMatrix();
-		glPushMatrix();
-		{
-
-			//auto model_matrix2 = glm::mat4(1.f);
-			auto model_matrix2 = glm::rotate(model_matrix, glm::radians(180.f), glm::vec3(1, 0, 0));
-			glLoadMatrixf(&model_matrix2[0][0]);
-
-			modela->get_mesh(0)->draw();
-		}
-		glPopMatrix();
-	}
-	glPopMatrix();
-
-	/*for (size_t i = 0; i < modela->count(); ++i)
+	modela->set_rotation(0, 0, 0);
+	for (size_t i = 0; i < modela->count(); ++i)
 	{
 		auto mesh = modela->get_mesh(i);
-		shader_->get_parameter("model")->set_value(mesh->get_model_matrix());
-		mesh->draw();
+		auto transform = modela->get_transform() * mesh->get_transform();
 
-		shader_->get_parameter("mode")->set_value(-1);
-		shader_->get_parameter("model")->set_value(mesh->bounding_box()->get_model_matrix());
-		mesh->bounding_box()->draw();
-	}*/
+		shader_->get_parameter("model").set_value(transform);
+		mesh->draw();
+	}
+
+	modela->set_rotation(45.f, 0, 0);
+	for (size_t i = 0; i < modela->count(); ++i)
+	{
+		auto mesh = modela->get_mesh(i);
+		auto transform = modela->get_transform() * mesh->get_transform();
+		
+		shader_->get_parameter("model").set_value(transform);
+		mesh->draw();
+	}
 
 	SceneManager::draw();
 
@@ -196,6 +131,7 @@ void game::Game::on_draw()
 
 void game::Game::on_reshape(int width, int height)
 {
+
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
 	camera_->set_width(width);
@@ -269,7 +205,7 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 	glewExperimental = GL_TRUE;
 	GLenum glew_init_result;
 	if (GLEW_OK != (glew_init_result = glewInit()))
-		throw exception::GlewException(glew_init_result);
+		throw gl::exception::GlewException(glew_init_result);
 
 	glutDisplayFunc(game::on_draw_callback);
 	glutReshapeFunc(game::on_reshape);
@@ -304,9 +240,10 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 	glActiveTexture(GL_TEXTURE0);
 
 	modela = model::ModelLoader::load(MODELS_PATH"cow.3DS");
-	modela->set_matrix(glm::mat4(1.f) * glm::translate(glm::mat4(1.f), glm::vec3(0, 0, 2)) * glm::scale(glm::mat4(1.f), glm::vec3(0.005)));
+	modela->set_scale(glm::vec3(0.005f));
 
-	//shader->set_attribute("inPosition", VERTEX_INDEX);
+
+	shader->set_attribute("inPosition", VERTEX_INDEX);
 	shader->set_attribute("inColor", COLOR_INDEX);
 	shader->set_attribute("inTexcoord", TEXCOORD_INDEX);
 	shader->set_attribute("inNormal", NORMAL_INDEX);
@@ -316,22 +253,6 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 
 	shader->set_uniform(shader->get_uniform("mytex"), GL_TEXTURE0);
 	shader->set_uniform(shader->get_uniform("mode"), 1);
-
-	/*get_instance()->manager_ = new game::SceneManager(*shader, [](gl::Program& shader, const model::Model*)
-	{
-		shader.get_parameter("mode")->set_value(1);
-
-		for (size_t i = 0; i < modela->count(); ++i)
-		{
-			auto mesh = modela->get_mesh(i);
-			shader.get_parameter("model")->set_value(mesh->get_model_matrix());
-			mesh->draw();
-
-			shader.get_parameter("mode")->set_value(-1);
-			shader.get_parameter("model")->set_value(mesh->bounding_box()->get_model_matrix());
-			mesh->bounding_box()->draw();
-		}
-	});*/
 
 	SceneManager::initialize(*shader, [](gl::Program& shader, const game::Drawable*)
 	{
@@ -350,6 +271,7 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 	});
 
 	SceneManager::load_from_file(LUA_SCRIPTS_PATH"entities.lua");
+
 }
 
 void game::Game::run()

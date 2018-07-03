@@ -5,7 +5,6 @@
 
 #include "Component.h"
 #include "Model.h"
-#include "Texture2d.h"
 #include "Transformable.h"
 #include "Drawable.h"
 
@@ -35,7 +34,6 @@ namespace game::component
 		Component* copy() const override;
 	private:
 		std::shared_ptr<model::Model> model_;
-		std::shared_ptr<model::Texture2d> texture_;
 		bool drawable_;
 
 		void draw_forced_texture();

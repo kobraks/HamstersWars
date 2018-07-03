@@ -34,14 +34,14 @@ void gl::ProgramParameter::set_value(const int& value)
 	glUniform1i(param_id_, value);
 }
 
-void gl::ProgramParameter::set_value(const glm::vec2& value)
+void gl::ProgramParameter::set_value(const Vector2D& value)
 {
-	glUniform2fv(param_id_, 1, glm::value_ptr(value));
+	glUniform2fv(param_id_, 1, glm::value_ptr(glm::vec2(value)));
 }
 
-void gl::ProgramParameter::set_value(const glm::vec3& value)
+void gl::ProgramParameter::set_value(const Vector3D& value)
 {
-	glUniform3fv(param_id_, 1, glm::value_ptr(value));
+	glUniform3fv(param_id_, 1, glm::value_ptr(glm::vec3(value)));
 }
 
 void gl::ProgramParameter::set_value(const glm::vec4& value)
@@ -49,13 +49,15 @@ void gl::ProgramParameter::set_value(const glm::vec4& value)
 	glUniform4fv(param_id_, 1, glm::value_ptr(value));
 }
 
-void gl::ProgramParameter::set_value(const model::Texture2d& texture)
+
+void gl::ProgramParameter::set_value(const gl::Texture& texture)
 {
 	glActiveTexture(GL_TEXTURE0 + texture_id_);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
 	glUniform1i(param_id_, texture_id_);
 }
+
 
 gl::ProgramParameter& gl::ProgramParameter::operator=(const glm::mat4& value)
 {
@@ -75,13 +77,13 @@ gl::ProgramParameter& gl::ProgramParameter::operator=(const int& value)
 	return *this;
 }
 
-gl::ProgramParameter& gl::ProgramParameter::operator=(const glm::vec2& value)
+gl::ProgramParameter& gl::ProgramParameter::operator=(const Vector2D& value)
 {
 	set_value(value);
 	return *this;
 }
 
-gl::ProgramParameter& gl::ProgramParameter::operator=(const glm::vec3& value)
+gl::ProgramParameter& gl::ProgramParameter::operator=(const Vector3D& value)
 {
 	set_value(value);
 	return *this;
@@ -93,7 +95,7 @@ gl::ProgramParameter& gl::ProgramParameter::operator=(const glm::vec4& value)
 	return *this;
 }
 
-gl::ProgramParameter& gl::ProgramParameter::operator=(const model::Texture2d& texture)
+gl::ProgramParameter& gl::ProgramParameter::operator=(const gl::Texture& texture)
 {
 	set_value(texture);
 	return *this;

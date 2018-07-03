@@ -1,21 +1,22 @@
 #include "ScriptHandler.h"
 #include "EntityScriptHandler.h"
+#include "Script.h"
 
 #define ADD_FUNCTION(x) addFunction(#x, &EntityScriptHandler::x)
 #define ADD_FUNCTION_PARAMS(x,params) addFunction(#x, &EntityScriptHandler::x, params)
 
-game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> owner, const std::shared_ptr<LuaIntf::LuaContext>& context, const LuaIntf::LuaRef& function) : context_(context), function_(function), Component(owner)
+bool game::component::ScriptHandler::registered_ = false;
+
+game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> owner) : Component(owner)
 {
+	function_ = LuaIntf::LuaRef(Script::lua(), "update");
+
 	if (!function_.isFunction())
 		throw std::exception();
 
-	register_functions();
+	register_functions(Script::lua());
 }
 
-
-game::component::ScriptHandler::~ScriptHandler()
-{
-}
 
 game::component::Component* game::component::ScriptHandler::copy() const
 {
@@ -27,10 +28,13 @@ void game::component::ScriptHandler::update()
 	function_(script::EntityScriptHandler(get_owner()));
 }
 
-void game::component::ScriptHandler::register_functions()
+void game::component::ScriptHandler::register_functions(LuaIntf::LuaContext& context)
 { 
+	if (registered_)
+		registered_ = false;
+
 	using namespace script;
-	LuaIntf::LuaBinding(*context_).beginClass<glm::vec3>("vec3")
+	LuaIntf::LuaBinding(context).beginClass<glm::vec3>("vec3")
 		.addConstructor(LUA_ARGS(float, float, float))
 		.addVariable("x", &glm::vec3::x, true)
 		.addVariable("y", &glm::vec3::y, true)
@@ -48,11 +52,12 @@ void game::component::ScriptHandler::register_functions()
 
 game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> owner, const std::string& code) : Component(owner)
 {
-	context_->doString(code.c_str());
-	function_ = LuaIntf::LuaRef(*context_, "update");
+	Script::lua().doString(code.c_str());
+
+	function_ = LuaIntf::LuaRef(Script::lua(), "update");
 
 	if (!function_.isFunction())
 		throw std::exception();
 
-	register_functions();
+	register_functions(Script::lua());
 }

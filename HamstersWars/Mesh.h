@@ -10,9 +10,8 @@
 #include <memory>
 
 #include "Material.h"
-#include "Texture2d.h"
-
 #include "BoundingBox.h"
+#include "Transformable.h"
 
 namespace gl
 {
@@ -20,11 +19,9 @@ namespace gl
 	class VertexArray;
 }
 
-namespace model
+namespace game::model
 {
-	class BoundingBox;
-
-	class Mesh
+	class Mesh : public Transformable
 	{
 	public:
 		explicit Mesh(const aiMesh& mesh);
@@ -38,24 +35,10 @@ namespace model
 
 		void draw() const;
 
-		void translate(const glm::vec3& axis);
-		void translate(const float& x, const float& y, const float& z);
-		void rotate(const float& angle, glm::vec3 axis);
-		void rotate(const float& angle, const float& x, const float& y, const float& z);
-		void scale(const glm::vec3& scale);
-		void scale(const float& x, const float& y, const float& z);
+		const BoundingBox& get_bounding_box() const;
+		const std::vector<glm::vec3>& get_verticles() const;
 
-		void translate(const glm::mat4& matrix, const glm::vec3& axis);
-		void rotate(const glm::mat4& matrix, const float& angle, glm::vec3 axis);
-		void scale(const glm::mat4& matrix, const glm::vec3& scale);
-
-
-		void set_model_matrix(const glm::mat4& matrix);
-		glm::mat4 get_model_matrix() const;
-
-		BoundingBox* bounding_box() const;
-
-		glm::vec3 get_center() const;
+		glm::vec3 size() const;
 	private:
 		gl::VertexBuffer* vertex_buffer_;
 		gl::VertexBuffer* color_buffer_;
@@ -64,16 +47,14 @@ namespace model
 		gl::VertexBuffer* index_buffer_;
 
 		gl::VertexArray* vao_;
-
-		BoundingBox* box_;
-
 		Material material_;
 		std::shared_ptr<std::vector<glm::vec3>> vertices_;
 		size_t element_count_;
-		glm::mat4 model_matrix_;
-		glm::vec3 center_;
 
-		static glm::mat4x4 convert(const aiMatrix4x4& matrix);
+		mutable Transform old_transfrom_;
+		mutable BoundingBox box_;
+
+		glm::vec3 size_;
 	};
 
 }
