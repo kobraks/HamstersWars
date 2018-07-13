@@ -177,6 +177,7 @@ void game::Game::on_timer(int id)
 		{
 			captureMouse = false;
 			Mouse::set_event_on_mouse_move(nullptr);
+			Mouse::set_cursor(GLUT_CURSOR_INHERIT);
 
 
 		}
@@ -184,6 +185,7 @@ void game::Game::on_timer(int id)
 		{
 			captureMouse = true;
 			Mouse::set_event_on_mouse_move([](const int& x, const int& y) { captureMouse = true; mousePosition.x = x; mousePosition.y = y; });
+			Mouse::set_cursor(GLUT_CURSOR_NONE);
 
 		}
 

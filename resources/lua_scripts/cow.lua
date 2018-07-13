@@ -6,15 +6,15 @@ cow =
 		{
 			type = box;
 			size = { 10, 10, 10 };
-		}
+		},
+
 		collision = function(e, e1)
 
 		end
 	},
 	Script = 
 	{
-		update =
-		function (e)
+		update = function (e)
 		end
 	},
 

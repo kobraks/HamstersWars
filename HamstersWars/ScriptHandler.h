@@ -19,8 +19,9 @@ namespace game::component
 	class ScriptHandler : public Component
 	{
 	public:
-		explicit ScriptHandler(std::shared_ptr<Entity> owner, const std::string& code);
+		ScriptHandler(std::shared_ptr<Entity> owner, const std::string& code);
 		explicit ScriptHandler(std::shared_ptr<Entity> owner);
+		ScriptHandler(std::shared_ptr<Entity> entity, const LuaIntf::LuaRef& component_table);
 
 		Component* copy() const override;
 

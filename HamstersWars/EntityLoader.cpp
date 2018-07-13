@@ -1,5 +1,7 @@
 #include "EntityLoader.h"
 
+#include <algorithm>
+
 #include "Log.h"
 #include "Defines.h"
 #include "Script.h"
@@ -22,6 +24,8 @@ std::vector<std::shared_ptr<game::Entity>> game::EntityLoader::load(const std::s
 {
 	try
 	{
+		Log::level() = Log::log_info;
+		Log::print("Loading file %s", file.c_str());
 		Script::do_file(file);
 	}
 	catch(LuaIntf::LuaException& lua)
@@ -44,6 +48,9 @@ void game::EntityLoader::load_components_from_file(std::shared_ptr<Entity> entit
 {
 	try
 	{
+		Log::level() = Log::log_info;
+		Log::print("Opening file: %s", std::string(LUA_SCRIPTS_PATH + file).c_str());
+
 		Script::do_file(std::string(LUA_SCRIPTS_PATH + file).c_str());
 	}
 	catch (LuaIntf::LuaException& lua)
@@ -60,7 +67,11 @@ void game::EntityLoader::load_components_from_file(std::shared_ptr<Entity> entit
 		components = LuaIntf::LuaRef(Script::lua(), entity_name.c_str());
 
 		if (!components.isValid() || !components.isTable())
+		{
+			Log::level() = Log::log_warning;
+			Log::print("insite doeas not exist any of component table");
 			return;
+		}
 	}
 	catch (LuaIntf::LuaException& ex)
 	{
@@ -68,6 +79,8 @@ void game::EntityLoader::load_components_from_file(std::shared_ptr<Entity> entit
 		return;
 	}
 
+	Log::level() = Log::log_info;
+	Log::print("Loading components");
 	for (auto component : components)
 		get_component(entity, component.key<std::string>(), component.value());
 }
@@ -123,21 +136,35 @@ std::vector<std::shared_ptr<game::Entity>> game::EntityLoader::get_entities(cons
 std::shared_ptr<game::Entity> game::EntityLoader::load_entity(const std::string& type, const LuaIntf::LuaRef& table)
 {
 	std::shared_ptr<Entity> entity(new Entity);
+	entity->set_type(type);
 
 	try
 	{
-
+		Log::level() = Log::log_info;
+		Log::print("Loading entity: %s", type.c_str());
 		//if table is table and has path then it should be loaded from path file
 		if (table.isTable() && table.has("path"))
+		{
+			Log::level() = Log::log_info;
+			Log::print("entity has a file path so its will be loaded from it");
 			load_components_from_file(entity, type, table["path"].value<std::string>());
+		}
 
 		//if table is not table and is value then treat that value as path to entity file
 		else if (!table.isTable() && !table.toValue<std::string>().empty())
+		{
+			Log::level() = Log::log_info;
+			Log::print("entity is a file path");
 			load_components_from_file(entity, type, table.toValue<std::string>());
+		}
 		//entity is in entities file and is table then load the components
 		else if (table.isTable())
+		{
+			Log::level() = Log::log_info;
+			Log::print("entity is a table");
 			for (auto component : table)
 				get_component(entity, component.key<std::string>(), component.value());
+		}
 		else
 			return nullptr;
 	}
@@ -163,18 +190,30 @@ void game::EntityLoader::get_component(std::shared_ptr<Entity> entity, const std
 	if (!ref.isValid() || !ref.isTable() || !entity)
 		return;
 
-	if (component == "Script")
+	auto component_name = component;
+	std::transform(component_name.begin(), component_name.end(), component_name.begin(), ::toupper);
+
+	if (component_name == "SCRIPT")
 	{
-		auto component = new component::ScriptHandler(entity);
+		Log::level() = Log::log_info;
+		Log::print("Loading script component");
+
+		auto component = new component::ScriptHandler(entity, ref);
 		entity->add_component<component::ScriptHandler>(component);
 	}
-	else if (component == "Collider")
+	else if (component_name == "COLLIDER")
 	{
+		Log::level() = Log::log_info;
+		Log::print("Loading collider component");
+
 		auto component = new component::ColliderComponent(entity);
 		entity->add_component<component::ColliderComponent>(component);
 	}
-	else if (component == "Graphic")
+	else if (component_name == "GRAPHIC")
 	{
+		Log::level() = Log::log_info;
+		Log::print("Loading graphic component");
+
 		auto component = new component::GraphicComponent(entity, ref);
 		entity->add_component<component::GraphicComponent>(component);
 	}
