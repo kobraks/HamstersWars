@@ -197,30 +197,11 @@ void game::EntityLoader::get_component(std::shared_ptr<Entity> entity, const std
 	if (component_name == "SCRIPT")
 		add_component<component::ScriptHandler>(entity, ref, component);
 	else if (component_name == "COLLIDER")
-	{
-		Log::level() = Log::log_info;
-		Log::print("Loading collider component");
-
-		auto component = new component::ColliderComponent(entity);
-		entity->add_component<component::ColliderComponent>(component);
-	}
+		add_component<component::ColliderComponent>(entity, ref, component);
 	else if (component_name == "GRAPHIC")
-	{
-		Log::level() = Log::log_info;
-		Log::print("Loading graphic component");
-
-		auto component = new component::GraphicComponent(entity, ref);
-		entity->add_component<component::GraphicComponent>(component);
-	}
+		add_component<component::GraphicComponent>(entity, ref, component);
 	else if (component_name == "TRANSFORM")
-	{
-
-		Log::level() = Log::log_info;
-		Log::print("Loading transform component");
-
-		auto component = new component::TransformComponent(entity, ref);
-		entity->add_component<component::TransformComponent>(component);
-	}
+		add_component<component::TransformComponent>(entity, ref, component);
 	else
 	{
 		Log::level() = Log::log_warning;

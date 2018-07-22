@@ -6,8 +6,13 @@ game::component::ColliderComponent::~ColliderComponent()
 {
 }
 
-game::component::ColliderComponent::ColliderComponent(std::shared_ptr<Entity> owner) : Component(owner)
+void game::component::ColliderComponent::parse_table(const LuaIntf::LuaRef& table)
 {
+}
+
+game::component::ColliderComponent::ColliderComponent(std::shared_ptr<Entity> owner, const LuaIntf::LuaRef& table) : Component(owner)
+{
+	parse_table(table);
 }
 
 game::component::Component* game::component::ColliderComponent::copy() const

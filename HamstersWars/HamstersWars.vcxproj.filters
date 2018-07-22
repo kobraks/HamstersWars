@@ -52,6 +52,12 @@
     <Filter Include="Source Files\game\model">
       <UniqueIdentifier>{08ac4e8d-1fdc-4bd4-8df8-f7b381f0106e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\game\Lua">
+      <UniqueIdentifier>{2fb79295-1d63-420c-aa15-4d6f4a9019c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game\lua">
+      <UniqueIdentifier>{5d4006b3-f429-497e-9048-4311b441e61e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -165,14 +171,14 @@
     <ClCompile Include="Transform2d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Script.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Framebuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TransformComponent.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Script.cpp">
+      <Filter>Source Files\game\lua</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -320,9 +326,6 @@
     <ClInclude Include="Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Script.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Framebuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -334,6 +337,12 @@
     </ClInclude>
     <ClInclude Include="TransformComponent.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Register.h">
+      <Filter>Header Files\game\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Script.h">
+      <Filter>Header Files\game\Lua</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

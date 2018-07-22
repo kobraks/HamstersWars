@@ -6,8 +6,10 @@
 #include <Lua/Lua.hpp>
 #include <Lua/LuaIntf.h>
 
-namespace game
+namespace game::lua
 {
+	class Register;
+
 	class Script
 	{
 	public:
@@ -22,6 +24,7 @@ namespace game
 		static LuaIntf::LuaBinding binding();
 
 		static LuaIntf::LuaRef* lua_ref(const std::string& name);
+		static void register_class(const Register* register_);
 	private:
 		static LuaIntf::LuaContext lua_;
 		static std::unordered_map<std::string, LuaIntf::LuaRef*> refs_;

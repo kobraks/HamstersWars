@@ -1,10 +1,10 @@
 #include "Script.h"
+#include "Register.h"
 
+LuaIntf::LuaContext game::lua::Script::lua_;
+std::unordered_map<std::string, LuaIntf::LuaRef*> game::lua::Script::refs_;
 
-LuaIntf::LuaContext game::Script::lua_;
-std::unordered_map<std::string, LuaIntf::LuaRef*> game::Script::refs_;
-
-game::Script::~Script()
+game::lua::Script::~Script()
 {
 	for (auto iter : refs_)
 	{
@@ -12,7 +12,7 @@ game::Script::~Script()
 	}
 }
 
-LuaIntf::LuaRef* game::Script::lua_ref(const std::string& name)
+LuaIntf::LuaRef* game::lua::Script::lua_ref(const std::string& name)
 {
 	if (refs_.find(name) != refs_.end())
 	{
@@ -25,32 +25,37 @@ LuaIntf::LuaRef* game::Script::lua_ref(const std::string& name)
 
 }
 
-game::Script::operator LuaIntf::LuaContext&() const
+void game::lua::Script::register_class(const Register* register_)
+{
+	register_->reg();
+}
+
+game::lua::Script::operator LuaIntf::LuaContext&() const
 {
 	return lua_;
 }
 
-LuaIntf::LuaContext& game::Script::lua()
+LuaIntf::LuaContext& game::lua::Script::lua()
 {
 	return lua_;
 }
 
-// game::Script::operator LuaIntf::LuaBinding() const
+// game::lua::Script::operator LuaIntf::LuaBinding() const
 // {
 // 	return LuaIntf::LuaBinding(lua_);
 // }
 
-void game::Script::do_file(const std::string& file)
+void game::lua::Script::do_file(const std::string& file)
 {
 	lua_.doFile(file.c_str());
 }
 
-void game::Script::do_string(const std::string& code)
+void game::lua::Script::do_string(const std::string& code)
 {
 	lua_.doString(code.c_str());
 }
 
-LuaIntf::LuaBinding game::Script::binding()
+LuaIntf::LuaBinding game::lua::Script::binding()
 {
 	return LuaIntf::LuaBinding(lua_);
 }

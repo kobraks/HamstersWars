@@ -1,95 +1,98 @@
 Start logging
-1: Sun Jul 22 02:30:29 2018  [INFO]: Loading vertex shader
-2: Sun Jul 22 02:30:29 2018  [INFO]: Loading fragment shader
-3: Sun Jul 22 02:30:29 2018  [INFO]: Atributes count: 6
-4: Sun Jul 22 02:30:29 2018  [DEBUG]: 
+1: Sun Jul 22 02:52:15 2018  [INFO]: Loading vertex shader
+2: Sun Jul 22 02:52:15 2018  [INFO]: Loading fragment shader
+3: Sun Jul 22 02:52:15 2018  [INFO]: Atributes count: 6
+4: Sun Jul 22 02:52:15 2018  [DEBUG]: 
 	Attribute: 0
 	name: Model
 	type: 35676
 	length: 5
 	size: 1
-5: Sun Jul 22 02:30:29 2018  [DEBUG]: 
+5: Sun Jul 22 02:52:15 2018  [DEBUG]: 
 	Attribute: 1
 	name: Projection
 	type: 35676
 	length: 10
 	size: 1
-6: Sun Jul 22 02:30:29 2018  [DEBUG]: 
+6: Sun Jul 22 02:52:15 2018  [DEBUG]: 
 	Attribute: 2
 	name: View
 	type: 35676
 	length: 4
 	size: 1
-7: Sun Jul 22 02:30:29 2018  [DEBUG]: 
+7: Sun Jul 22 02:52:15 2018  [DEBUG]: 
 	Attribute: 3
 	name: color
 	type: 35666
 	length: 5
 	size: 1
-8: Sun Jul 22 02:30:29 2018  [DEBUG]: 
+8: Sun Jul 22 02:52:15 2018  [DEBUG]: 
 	Attribute: 4
 	name: my_texture
 	type: 35678
 	length: 10
 	size: 1
-9: Sun Jul 22 02:30:29 2018  [DEBUG]: 
+9: Sun Jul 22 02:52:15 2018  [DEBUG]: 
 	Attribute: 5
 	name: mode
 	type: 5124
 	length: 4
 	size: 1
-10: Sun Jul 22 02:30:29 2018  [INFO]: ../resources/models/cow.3DS
-11: Sun Jul 22 02:30:29 2018  [INFO]: Import of scene ../resources/models/cow.3DS succeeded
-12: Sun Jul 22 02:30:29 2018  [INFO]: meshes: 4
-13: Sun Jul 22 02:30:29 2018  [WARNING]: Model has not normal vectors
-14: Sun Jul 22 02:30:29 2018  [INFO]: Image size: 793, 440
-15: Sun Jul 22 02:30:29 2018  [WARNING]: Model has not normal vectors
-16: Sun Jul 22 02:30:29 2018  [ERROR]: Unable to load ../resources/textures/default.png, with exception ios_base::failbit set: iostream stream error
-17: Sun Jul 22 02:30:29 2018  [INFO]: Image size: 0, 0
-18: Sun Jul 22 02:30:29 2018  [WARNING]: Model has not normal vectors
-19: Sun Jul 22 02:30:29 2018  [INFO]: Image size: 220, 220
-20: Sun Jul 22 02:30:29 2018  [WARNING]: Model has not normal vectors
-21: Sun Jul 22 02:30:29 2018  [INFO]: Image size: 168, 168
-22: Sun Jul 22 02:30:29 2018  [INFO]: Atributes count: 6
-23: Sun Jul 22 02:30:29 2018  [DEBUG]: 
+10: Sun Jul 22 02:52:15 2018  [INFO]: ../resources/models/cow.3DS
+11: Sun Jul 22 02:52:15 2018  [INFO]: Import of scene ../resources/models/cow.3DS succeeded
+12: Sun Jul 22 02:52:15 2018  [INFO]: meshes: 4
+13: Sun Jul 22 02:52:15 2018  [WARNING]: Model has not normal vectors
+14: Sun Jul 22 02:52:16 2018  [INFO]: Image size: 793, 440
+15: Sun Jul 22 02:52:16 2018  [WARNING]: Model has not normal vectors
+16: Sun Jul 22 02:52:16 2018  [ERROR]: Unable to load ../resources/textures/default.png, with exception ios_base::failbit set: iostream stream error
+17: Sun Jul 22 02:52:16 2018  [INFO]: Image size: 0, 0
+18: Sun Jul 22 02:52:16 2018  [WARNING]: Model has not normal vectors
+19: Sun Jul 22 02:52:16 2018  [INFO]: Image size: 220, 220
+20: Sun Jul 22 02:52:16 2018  [WARNING]: Model has not normal vectors
+21: Sun Jul 22 02:52:16 2018  [INFO]: Image size: 168, 168
+22: Sun Jul 22 02:52:16 2018  [INFO]: Atributes count: 6
+23: Sun Jul 22 02:52:16 2018  [DEBUG]: 
 	Attribute: 0
 	name: Model
 	type: 35676
 	length: 5
 	size: 1
-24: Sun Jul 22 02:30:29 2018  [DEBUG]: 
+24: Sun Jul 22 02:52:16 2018  [DEBUG]: 
 	Attribute: 1
 	name: Projection
 	type: 35676
 	length: 10
 	size: 1
-25: Sun Jul 22 02:30:29 2018  [DEBUG]: 
+25: Sun Jul 22 02:52:16 2018  [DEBUG]: 
 	Attribute: 2
 	name: View
 	type: 35676
 	length: 4
 	size: 1
-26: Sun Jul 22 02:30:29 2018  [DEBUG]: 
+26: Sun Jul 22 02:52:16 2018  [DEBUG]: 
 	Attribute: 3
 	name: color
 	type: 35666
 	length: 5
 	size: 1
-27: Sun Jul 22 02:30:29 2018  [DEBUG]: 
+27: Sun Jul 22 02:52:16 2018  [DEBUG]: 
 	Attribute: 4
 	name: my_texture
 	type: 35678
 	length: 10
 	size: 1
-28: Sun Jul 22 02:30:29 2018  [DEBUG]: 
+28: Sun Jul 22 02:52:16 2018  [DEBUG]: 
 	Attribute: 5
 	name: mode
 	type: 5124
 	length: 4
 	size: 1
-29: Sun Jul 22 02:30:29 2018  [INFO]: Loading file ../resources/lua_scripts/entities.lua
-30: Sun Jul 22 02:30:29 2018  [INFO]: Loading entity: cow
-31: Sun Jul 22 02:30:29 2018  [INFO]: entity is a file path
-32: Sun Jul 22 02:30:29 2018  [INFO]: Opening file: ../resources/lua_scripts/cow.lua
-33: Sun Jul 22 02:30:29 2018  [ERROR]: lua throws exception: 
-error message: ../resources/lua_scripts/cow.lua:46: '}' expected (to close '{' at line 2) near 'Graphic' 
+29: Sun Jul 22 02:52:16 2018  [INFO]: Loading file ../resources/lua_scripts/entities.lua
+30: Sun Jul 22 02:52:16 2018  [INFO]: Loading entity: cow
+31: Sun Jul 22 02:52:16 2018  [INFO]: entity is a file path
+32: Sun Jul 22 02:52:16 2018  [INFO]: Opening file: ../resources/lua_scripts/cow.lua
+33: Sun Jul 22 02:52:16 2018  [INFO]: Loading components
+34: Sun Jul 22 02:52:16 2018  [INFO]: Loading Collider component
+35: Sun Jul 22 02:52:16 2018  [INFO]: Loading Graphic component
+36: Sun Jul 22 02:52:16 2018  [INFO]: Loading Script component
+37: Sun Jul 22 02:52:16 2018  [INFO]: Loading Transform component
