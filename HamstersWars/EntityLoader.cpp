@@ -27,7 +27,7 @@ std::vector<std::shared_ptr<game::Entity>> game::EntityLoader::load(const std::s
 	{
 		Log::level() = Log::log_info;
 		Log::print("Loading file %s", file.c_str());
-		Script::do_file(file);
+		lua::Script::do_file(file);
 	}
 	catch(LuaIntf::LuaException& lua)
 	{
@@ -35,7 +35,7 @@ std::vector<std::shared_ptr<game::Entity>> game::EntityLoader::load(const std::s
 		return std::vector<std::shared_ptr<game::Entity>>();
 	}
 
-	return get_entities(LuaIntf::LuaRef(Script::lua(), "entities"));
+	return get_entities(LuaIntf::LuaRef(lua::Script::lua(), "entities"));
 }
 
 /**
@@ -52,7 +52,7 @@ void game::EntityLoader::load_components_from_file(std::shared_ptr<Entity> entit
 		Log::level() = Log::log_info;
 		Log::print("Opening file: %s", std::string(LUA_SCRIPTS_PATH + file).c_str());
 
-		Script::do_file(std::string(LUA_SCRIPTS_PATH + file).c_str());
+		lua::Script::do_file(std::string(LUA_SCRIPTS_PATH + file).c_str());
 	}
 	catch (LuaIntf::LuaException& lua)
 	{
@@ -65,7 +65,7 @@ void game::EntityLoader::load_components_from_file(std::shared_ptr<Entity> entit
 
 	try
 	{
-		components = LuaIntf::LuaRef(Script::lua(), entity_name.c_str());
+		components = LuaIntf::LuaRef(lua::Script::lua(), entity_name.c_str());
 
 		if (!components.isValid() || !components.isTable())
 		{

@@ -10,12 +10,12 @@ bool game::component::ScriptHandler::registered_ = false;
 
 game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> owner) : Component(owner)
 {
-	function_ = LuaIntf::LuaRef(Script::lua(), "update");
+	function_ = LuaIntf::LuaRef(lua::Script::lua(), "update");
 
 	if (!function_.isFunction())
 		throw std::exception();
 
-	register_functions(Script::lua());
+	register_functions(lua::Script::lua());
 }
 
 game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> entity, const LuaIntf::LuaRef& component_table) : Component(entity)
@@ -24,7 +24,7 @@ game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> entity, co
 	if (!function_.isFunction())
 		throw std::exception();
 
-	register_functions(Script::lua());
+	register_functions(lua::Script::lua());
 }
 
 
@@ -81,12 +81,12 @@ void game::component::ScriptHandler::register_functions(LuaIntf::LuaContext& con
 
 game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> owner, const std::string& code) : Component(owner)
 {
-	Script::lua().doString(code.c_str());
+	lua::Script::lua().doString(code.c_str());
 
-	function_ = LuaIntf::LuaRef(Script::lua(), "update");
+	function_ = LuaIntf::LuaRef(lua::Script::lua(), "update");
 
 	if (!function_.isFunction())
 		throw std::exception();
 
-	register_functions(Script::lua());
+	register_functions(lua::Script::lua());
 }
