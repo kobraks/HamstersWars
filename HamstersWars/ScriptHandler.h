@@ -7,6 +7,7 @@
 #include <Lua/lua.hpp>
 #include <Lua/LuaIntf.h>
 #include "Component.h"
+#include "Register.h"
 
 namespace LuaIntf
 {
@@ -16,7 +17,7 @@ namespace LuaIntf
 
 namespace game::component
 {
-	class ScriptHandler : public Component
+	class ScriptHandler : public Component, protected lua::Register
 	{
 	public:
 		ScriptHandler(std::shared_ptr<Entity> owner, const std::string& code);
@@ -26,11 +27,12 @@ namespace game::component
 		Component* copy() const override;
 
 		void update();
+
+	protected:
+		void register_clas(LuaIntf::LuaContext& context) const override;
+
 	private:
 		LuaIntf::LuaRef function_;
-
-		static void register_functions(LuaIntf::LuaContext& context);
-		static bool registered_;
 	};
 
 }

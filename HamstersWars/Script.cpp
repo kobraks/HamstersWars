@@ -1,8 +1,9 @@
 #include "Script.h"
-#include "Register.h"
+#include <algorithm>
 
 LuaIntf::LuaContext game::lua::Script::lua_;
 std::unordered_map<std::string, LuaIntf::LuaRef*> game::lua::Script::refs_;
+std::vector<std::type_index> game::lua::Script::registered_classes_;
 
 game::lua::Script::~Script()
 {
@@ -23,11 +24,6 @@ LuaIntf::LuaRef* game::lua::Script::lua_ref(const std::string& name)
 	else
 		return refs_[name];
 
-}
-
-void game::lua::Script::register_class(const Register* register_)
-{
-	register_->reg();
 }
 
 game::lua::Script::operator LuaIntf::LuaContext&() const

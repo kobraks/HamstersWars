@@ -6,8 +6,6 @@
 #define ADD_FUNCTION(x) addFunction(#x, &EntityScriptHandler::x)
 #define ADD_FUNCTION_PARAMS(x,params) addFunction(#x, &EntityScriptHandler::x, params)
 
-bool game::component::ScriptHandler::registered_ = false;
-
 game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> owner) : Component(owner)
 {
 	function_ = LuaIntf::LuaRef(lua::Script::lua(), "update");
@@ -15,7 +13,7 @@ game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> owner) : C
 	if (!function_.isFunction())
 		throw std::exception();
 
-	register_functions(lua::Script::lua());
+	lua::Script::register_class<ScriptHandler>(this);
 }
 
 game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> entity, const LuaIntf::LuaRef& component_table) : Component(entity)
@@ -24,7 +22,8 @@ game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> entity, co
 	if (!function_.isFunction())
 		throw std::exception();
 
-	register_functions(lua::Script::lua());
+	lua::Script::register_class<ScriptHandler>(this);
+
 }
 
 
@@ -50,15 +49,11 @@ void game::component::ScriptHandler::update()
 	}
 }
 
-void game::component::ScriptHandler::register_functions(LuaIntf::LuaContext& context)
-{ 
-	if (!registered_)
-		registered_ = true;
-	else return;
-
+void game::component::ScriptHandler::register_clas(LuaIntf::LuaContext& context) const
+{
 	using namespace script;
 	auto binds = LuaIntf::LuaBinding(context);
-	
+
 	binds
 		.beginClass<glm::vec3>("vec3")
 			.addConstructor(LUA_ARGS(float, float, float))
@@ -88,5 +83,5 @@ game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> owner, con
 	if (!function_.isFunction())
 		throw std::exception();
 
-	register_functions(lua::Script::lua());
+	lua::Script::register_class<ScriptHandler>(this);
 }

@@ -17,7 +17,7 @@ namespace game
 	public:
 		Drawable() = default;
 
-		virtual void draw(gl::Program& program, game::Transform& transofrm) = 0;
+		virtual void draw(gl::Program& program, game::Transform& transform) = 0;
 		virtual ~Drawable() = default;
 	};
 }

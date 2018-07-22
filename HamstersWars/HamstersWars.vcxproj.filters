@@ -338,10 +338,10 @@
     <ClInclude Include="TransformComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Register.h">
+    <ClInclude Include="Script.h">
       <Filter>Header Files\game\Lua</Filter>
     </ClInclude>
-    <ClInclude Include="Script.h">
+    <ClInclude Include="Register.h">
       <Filter>Header Files\game\Lua</Filter>
     </ClInclude>
   </ItemGroup>
