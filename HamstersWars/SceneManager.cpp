@@ -36,8 +36,8 @@ void game::SceneManager::draw()
 	for (auto entity : instance->entities_)
 	{
 		auto component = entity->get_component<component::GraphicComponent>();
-		if (component)
-			component->draw();
+		//if (component)
+			//component->draw();
 	}
 
 	/*shader_.use();

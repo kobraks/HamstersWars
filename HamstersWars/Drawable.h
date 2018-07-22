@@ -7,6 +7,7 @@
 #include "Types.h"
 #include "Material.h"
 #include "Transform.h"
+#include "Program.h"
 
 
 namespace game
@@ -16,7 +17,7 @@ namespace game
 	public:
 		Drawable() = default;
 
-		virtual void draw(game::Transform& transofrm) = 0;
+		virtual void draw(gl::Program& program, game::Transform& transofrm) = 0;
 		virtual ~Drawable() = default;
 	};
 }

@@ -59,6 +59,7 @@ namespace gl
 		void set_uniform(const std::string& name, const Light& light);
 
 		ProgramParameter operator[] (const std::string& name) const;
+		ProgramParameter operator[] (const char* name) const;
 		ProgramParameter get_parameter(const std::string& name) const;
 	private:
 		std::shared_ptr<GLuint> obj_;

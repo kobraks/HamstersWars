@@ -70,7 +70,10 @@ void game::component::ScriptHandler::register_functions(LuaIntf::LuaContext& con
 			.ADD_FUNCTION(get_elapsed_time)
 			.ADD_FUNCTION_PARAMS(scale, LUA_ARGS(glm::vec3))
 			.ADD_FUNCTION_PARAMS(translate, LUA_ARGS(glm::vec3))
-			.ADD_FUNCTION_PARAMS(rotate, LUA_ARGS(float, glm::vec3))
+			.ADD_FUNCTION_PARAMS(rotate, LUA_ARGS(glm::vec3))
+			.ADD_FUNCTION_PARAMS(set_position, LUA_ARGS(glm::vec3))
+			.ADD_FUNCTION_PARAMS(move, LUA_ARGS(glm::vec3))
+			.ADD_FUNCTION(get_position)
 			.ADD_FUNCTION(is_colliding)
 			.ADD_FUNCTION(destroy)
 		.endClass();

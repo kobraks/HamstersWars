@@ -2,6 +2,7 @@
 #include <memory>
 #include <glm/glm.hpp>
 #include <Lua/LuaIntf.h>
+#include <unordered_map>
 
 #include "Component.h"
 #include "Model.h"
@@ -10,33 +11,32 @@
 
 namespace game::component
 {
-	class GraphicComponent : public Component
+	class GraphicComponent : public Component, public game::Transformable, public Drawable
 	{
 	public:
 		GraphicComponent(std::shared_ptr<Entity> owner, const LuaIntf::LuaRef& table);
+		//GraphicComponent(const GraphicComponent& component) = default;
 		~GraphicComponent();
 
 		bool drawable() const;
-		void set_drawable(const bool& enable);
+		void set_drawable(const bool& enable = true);
 
 		std::shared_ptr<model::Model> get_model() const;
+		void draw(gl::Program& program, game::Transform& transofrm) override;
 
 		void load(const std::string& file);
-		void draw() const;
-
-		void scale(const glm::vec3& axis);
-		void rotate(const float& angle, const glm::vec3& axis);
-		void translate(const glm::vec3& axis);
 
 		void force_texture(const std::string& file_name);
-		void set_shader_behavior();
-
 		Component* copy() const override;
 	private:
 		std::shared_ptr<model::Model> model_;
 		bool drawable_;
 
 		void draw_forced_texture();
+
+		static std::unordered_map<std::string, std::shared_ptr<model::Model>> models_;
+
+		void parse_table(const LuaIntf::LuaRef& table);
 	};
 }
 

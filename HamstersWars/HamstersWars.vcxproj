@@ -164,6 +164,7 @@
     <ClCompile Include="Transform2d.cpp" />
     <ClCompile Include="Transformable.cpp" />
     <ClCompile Include="Transformable2d.cpp" />
+    <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="VertexArray.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
   </ItemGroup>
@@ -214,6 +215,7 @@
     <ClInclude Include="Transform2d.h" />
     <ClInclude Include="Transformable.h" />
     <ClInclude Include="Transformable2d.h" />
+    <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="UnknownFormatException.h" />
     <ClInclude Include="Vector2D.h" />

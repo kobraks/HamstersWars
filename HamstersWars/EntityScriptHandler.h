@@ -16,8 +16,14 @@ namespace game::script
 
 		float get_elapsed_time();
 
-		void rotate(float angle, const glm::vec3& axis);
+		void rotate(const glm::vec3& axis);
 		void translate(const glm::vec3& axis);
+		
+		void set_position(const glm::vec3& pos);
+		void move(const glm::vec3& vector);
+
+		glm::vec3 get_position();
+
 		void scale(const glm::vec3& axis);
 
 		void destroy();

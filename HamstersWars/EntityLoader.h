@@ -25,6 +25,18 @@ namespace game
 		static std::vector<std::shared_ptr<Entity>> get_entities(const LuaIntf::LuaRef& table);
 		static void get_component(std::shared_ptr<Entity> entity, const std::string& component, const LuaIntf::LuaRef& table);
 
+		template<class T>
+		static void add_component(std::shared_ptr<Entity> entity, const LuaIntf::LuaRef& table, const std::string& component_name = "COMPONENT_NAME");
+
 		EntityLoader() = default;
 	};
+
+	template <class T>
+	void EntityLoader::add_component(std::shared_ptr<Entity> entity, const LuaIntf::LuaRef& table, const std::string& component_name)
+	{
+		Log::level() = Log::log_info;
+		Log::print("Loading %s component", component_name.c_str());
+
+		entity->add_component<T>(new T(entity, table));
+	}
 }

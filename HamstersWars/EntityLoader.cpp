@@ -11,6 +11,7 @@
 #include "ScriptHandler.h"
 #include "ColliderComponent.h"
 #include "GraphicComponent.h"
+#include "TransformComponent.h"
 #pragma endregion
 
 #define TO_STRING(x) #x
@@ -194,13 +195,7 @@ void game::EntityLoader::get_component(std::shared_ptr<Entity> entity, const std
 	std::transform(component_name.begin(), component_name.end(), component_name.begin(), ::toupper);
 
 	if (component_name == "SCRIPT")
-	{
-		Log::level() = Log::log_info;
-		Log::print("Loading script component");
-
-		auto component = new component::ScriptHandler(entity, ref);
-		entity->add_component<component::ScriptHandler>(component);
-	}
+		add_component<component::ScriptHandler>(entity, ref, component);
 	else if (component_name == "COLLIDER")
 	{
 		Log::level() = Log::log_info;
@@ -216,6 +211,15 @@ void game::EntityLoader::get_component(std::shared_ptr<Entity> entity, const std
 
 		auto component = new component::GraphicComponent(entity, ref);
 		entity->add_component<component::GraphicComponent>(component);
+	}
+	else if (component_name == "TRANSFORM")
+	{
+
+		Log::level() = Log::log_info;
+		Log::print("Loading transform component");
+
+		auto component = new component::TransformComponent(entity, ref);
+		entity->add_component<component::TransformComponent>(component);
 	}
 	else
 	{

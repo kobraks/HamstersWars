@@ -13,7 +13,9 @@ namespace game
 		class Component : public sf::NonCopyable
 		{
 		public:
-			explicit Component(std::shared_ptr<Entity> owner);
+			explicit Component(std::shared_ptr<Entity> owner = nullptr);
+			Component(const Component&) = default;
+
 			virtual ~Component() = default;
 
 			virtual Component* copy() const = 0;

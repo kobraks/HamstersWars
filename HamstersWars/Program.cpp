@@ -162,6 +162,11 @@ gl::ProgramParameter gl::Program::operator[](const std::string& name) const
 	return get_parameter(name);
 }
 
+gl::ProgramParameter gl::Program::operator[](const char* name) const
+{
+	return get_parameter(name);
+}
+
 gl::ProgramParameter gl::Program::get_parameter(const std::string& name) const
 {
 	auto iter = parameters_.find(name);
