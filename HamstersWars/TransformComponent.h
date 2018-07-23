@@ -11,7 +11,13 @@ namespace game::component
 	{
 	public:
 		TransformComponent(std::shared_ptr<Entity> entity, const LuaIntf::LuaRef& table);
-		~TransformComponent();
+		TransformComponent(const TransformComponent&) = default;
+		TransformComponent(TransformComponent&&) = default;
+
+		TransformComponent& operator=(const TransformComponent&) = default;
+		TransformComponent& operator=(TransformComponent&&) = default;
+
+		virtual ~TransformComponent();
 
 		Component* copy() const override;
 

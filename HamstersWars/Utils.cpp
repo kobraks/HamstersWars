@@ -117,3 +117,17 @@ gl::Color game::utils::get_color(const LuaIntf::LuaRef& vector)
 	}
 	return result;
 }
+
+bool game::utils::table_contains(const LuaIntf::LuaRef& table, const std::string& key)
+{
+	assert(table.isTable());
+	std::string upper_key = to_upper_copy(key);
+
+	for (auto element : table)
+	{
+		if (to_upper_copy(element.key<std::string>()) == upper_key)
+			return true;
+	}
+
+	return false;
+}

@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
+#include "Vector3D.h"
 
 namespace game
 {
@@ -11,22 +12,28 @@ namespace game
 	public:
 		Transform();
 		explicit Transform(const glm::mat4& matrix);
+		
+		Transform(const Transform&) = default;
+		Transform(Transform&&) = default;
+
+		Transform& operator=(const Transform&) = default;
+		Transform& operator=(Transform&&) = default;
 
 		operator glm::mat4() const;
 
 		Transform& combine(const Transform& transform);
 		
 		Transform& rotate(const float& x, const float& y, const float& z);
-		Transform& rotate(const glm::vec3& rotate);
+		Transform& rotate(const gl::Vector3D& rotate);
 
 		Transform& scale(const float& x, const float& y, const float& z);
-		Transform& scale(const glm::vec3& scale);
+		Transform& scale(const gl::Vector3D& scale);
 
 		Transform& translate(const float& x, const float& y, const float& z);
-		Transform& translate(const glm::vec3& position);
+		Transform& translate(const gl::Vector3D& position);
 
 		glm::vec3 transfrom_point(const float& x, const float& y, const float& z) const;
-		glm::vec3 transfrom_point(const glm::vec3& point) const;
+		glm::vec3 transfrom_point(const gl::Vector3D& point) const;
 
 		Transform get_inverse() const;
 
@@ -34,7 +41,7 @@ namespace game
 	
 		friend Transform operator*(const Transform& left, const Transform& right);
 		friend Transform& operator*= (Transform& left, const Transform& right);
-		friend glm::vec3 operator*(const Transform& left, const glm::vec3& right);
+		friend glm::vec3 operator*(const Transform& left, const gl::Vector3D& right);
 
 		friend bool operator==(const Transform& left, const Transform& right);
 		friend bool operator!=(const Transform& left, const Transform& right);

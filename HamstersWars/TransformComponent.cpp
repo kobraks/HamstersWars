@@ -1,6 +1,5 @@
 #include "TransformComponent.h"
 
-#include "LuaUtils.h"
 #include "UnknownTableElementException.h"
 #include "Utils.h"
 
@@ -15,7 +14,7 @@ game::component::TransformComponent::~TransformComponent()
 
 game::component::Component* game::component::TransformComponent::copy() const
 {
-	return nullptr;
+	return new TransformComponent(*this);
 }
 
 void game::component::TransformComponent::parse_table(const LuaIntf::LuaRef& table)

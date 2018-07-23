@@ -99,7 +99,7 @@ glm::vec3 game::model::Model::size() const
 {
 	if (size_needs_update_)
 	{
-		glm::mat4 scale_matrix = glm::scale(glm::mat4(1.f), get_scale());
+		glm::mat4 scale_matrix = glm::scale(glm::mat4(1.f), static_cast<glm::vec3>(get_scale()));
 		glm::vec4 size = glm::vec4(size_, 1.f);
 
 		size = scale_matrix * size;

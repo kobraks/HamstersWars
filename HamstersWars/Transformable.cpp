@@ -26,7 +26,7 @@ void game::Transformable::set_position(const float& x, const float& y, const flo
 	inverted_transform_needs_update_ = true;
 }
 
-void game::Transformable::set_position(const glm::vec3& position)
+void game::Transformable::set_position(const gl::Vector3D& position)
 {
 	set_position(position.x, position.y, position.z);
 }
@@ -39,7 +39,7 @@ void game::Transformable::set_rotation(const float& x, const float& y, const flo
 	inverted_transform_needs_update_ = true;
 }
 
-void game::Transformable::set_rotation(const glm::vec3& rotation)
+void game::Transformable::set_rotation(const gl::Vector3D& rotation)
 {
 	set_rotation(rotation.x, rotation.y, rotation.z);
 }
@@ -52,7 +52,7 @@ void game::Transformable::set_scale(const float& factor_x, const float& factor_y
 	inverted_transform_needs_update_ = true;
 }
 
-void game::Transformable::set_scale(const glm::vec3& factor)
+void game::Transformable::set_scale(const gl::Vector3D& factor)
 {
 	set_scale(factor.x, factor.y, factor.z);
 }
@@ -65,27 +65,27 @@ void game::Transformable::set_origin(const float& x, const float& y, const float
 	inverted_transform_needs_update_ = true;
 }
 
-void game::Transformable::set_origin(const glm::vec3& origin)
+void game::Transformable::set_origin(const gl::Vector3D& origin)
 {
 	set_origin(origin.x, origin.y, origin.z);
 }
 
-glm::vec3 game::Transformable::get_position() const
+gl::Vector3D game::Transformable::get_position() const
 {
 	return position_;
 }
 
-glm::vec3 game::Transformable::get_rotation() const
+gl::Vector3D game::Transformable::get_rotation() const
 {
 	return rotate_;
 }
 
-glm::vec3 game::Transformable::get_scale() const
+gl::Vector3D game::Transformable::get_scale() const
 {
 	return scale_;
 }
 
-glm::vec3 game::Transformable::get_origin() const
+gl::Vector3D game::Transformable::get_origin() const
 {
 	return origin_;
 }
@@ -95,7 +95,7 @@ void game::Transformable::move(const float& offset_x, const float& offset_y, con
 	set_position(position_.x + offset_x, position_.y + offset_y, position_.z + offset_z);
 }
 
-void game::Transformable::move(const glm::vec3& offset)
+void game::Transformable::move(const gl::Vector3D& offset)
 {
 	set_position(position_.x + offset.x, position_.y + offset.y, position_.z + offset.z);
 }
@@ -105,12 +105,12 @@ void game::Transformable::rotate(const float& x, const float& y, const float& z)
 	set_rotation(rotate_.x + x, rotate_.y + y, rotate_.z + z);
 }
 
-void game::Transformable::rotate(const glm::vec3& rotation)
+void game::Transformable::rotate(const gl::Vector3D& rotation)
 {
 	set_rotation(rotate_.x + rotation.x, rotate_.y + rotation.y, rotate_.z + rotation.z);
 }
 
-void game::Transformable::scale(const glm::vec3& factor)
+void game::Transformable::scale(const gl::Vector3D& factor)
 {
 	set_scale(scale_.x * factor.x, scale_.y * factor.y, scale_.z * factor.z);
 }
@@ -124,15 +124,15 @@ const game::Transform& game::Transformable::get_transform() const
 {
 	if (transform_needs_update_)
 	{
-		auto transform_matrix = glm::translate(glm::mat4(1.f), position_);
-		transform_matrix = glm::scale(transform_matrix, scale_);
+		auto transform_matrix = glm::translate(glm::mat4(1.f), static_cast<glm::vec3>(position_));
+		transform_matrix = glm::scale(transform_matrix, glm::vec3(scale_));
 
 		auto rotation_matrix = glm::mat4(1.f);
-		rotation_matrix = glm::translate(rotation_matrix, origin_);
+		rotation_matrix = glm::translate(rotation_matrix, static_cast<glm::vec3>(origin_));
 		rotation_matrix = glm::rotate(rotation_matrix, glm::radians(rotate_.x), glm::vec3(1, 0, 0));
 		rotation_matrix = glm::rotate(rotation_matrix, glm::radians(rotate_.y), glm::vec3(0, 1, 0));
 		rotation_matrix = glm::rotate(rotation_matrix, glm::radians(rotate_.z), glm::vec3(0, 0, 1));
-		rotation_matrix = glm::translate(rotation_matrix, -origin_);
+		rotation_matrix = glm::translate(rotation_matrix, -static_cast<glm::vec3>(origin_));
 
 		transform_matrix *= rotation_matrix;
 

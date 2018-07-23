@@ -13,9 +13,15 @@ namespace gl
 		};
 
 		Vector3D() : Vector3D(0.f, 0.f, 0.f) {}
+		Vector3D(const float& i) : x(i), y(i), z(i) {}
 		Vector3D(const float& x, const float& y, const float& z) : x(x), y(y), z(z) {}
 		Vector3D(const sf::Vector3f& vector) : Vector3D(vector.x, vector.y, vector.z) {}
 		Vector3D(const glm::vec3& vector) : Vector3D(vector.x, vector.y, vector.z) {}
+		
+		Vector3D(const Vector3D&) = default;
+		Vector3D(Vector3D&&) = default;
+		Vector3D& operator=(const Vector3D&) = default;
+		Vector3D& operator=(Vector3D&&) = default;
 
 		static size_t count()
 		{

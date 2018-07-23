@@ -17,5 +17,7 @@ namespace game::utils
 	gl::Vector3D get_vector3d(const LuaIntf::LuaRef& vector);
 	gl::Vector2D get_vector2d(const LuaIntf::LuaRef& vector);
 	gl::Color get_color(const LuaIntf::LuaRef& vector);
+
+	bool table_contains(const LuaIntf::LuaRef& table, const std::string& key);
 }
 
