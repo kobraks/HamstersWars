@@ -353,6 +353,9 @@
     <ClInclude Include="UnknownTableElementException.h">
       <Filter>Header Files\exception</Filter>
     </ClInclude>
+    <ClInclude Include="UnableToFindSpecifedTableKeyException.h">
+      <Filter>Header Files\exception</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\shaders\texture.frag">

@@ -1,5 +1,6 @@
 #include "Utils.h"
 #include <algorithm>
+#include <regex>
 #include "UnknownTableElementException.h"
 
 std::string game::utils::to_upper_copy(const std::string& str)
@@ -153,4 +154,25 @@ bool game::utils::equals(const std::string& str1, const std::string& str2)
 	auto s2 = to_upper_copy(str2);
 
 	return s1 == s2;
+}
+
+std::string game::utils::get_path(const LuaIntf::LuaRef& path)
+{
+	if (path.isTable())
+	{
+		for (auto element : path)
+			if (equals(element.key<std::string>(), "path"))
+				return element.value<std::string>();
+	}
+	else
+		return path.toValue<std::string>();
+
+	return "";
+}
+
+bool game::utils::is_local_path(const std::string& path)
+{
+	std::regex regex("^.x:\\|/");
+
+	return !std::regex_search(path, regex);
 }

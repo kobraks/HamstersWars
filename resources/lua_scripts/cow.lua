@@ -51,10 +51,12 @@ cow =
 		visible = true;
 
 
-		--mesh = 
 		--{
-			--id = 1;
-			--texture = "" --loads texture
+			--mesh = 
+			--{
+				--id = 1;
+				--texture = "" --loads texture
+			--}
 		--}
 	}
 }

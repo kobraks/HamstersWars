@@ -3,6 +3,8 @@
 #include "ModelLoader.h"
 #include "Utils.h"
 #include "UnknownTableElementException.h"
+#include "UnableToFindSpecifedTableKeyException.h"
+#include "Log.h"
 
 std::unordered_map<std::string, std::shared_ptr<game::model::Model>> game::component::GraphicComponent::models_;
 
@@ -44,15 +46,35 @@ void game::component::GraphicComponent::draw(gl::Program& program, game::Transfo
 
 void game::component::GraphicComponent::load(const std::string& file)
 {
-	auto model = models_.find(file);
+	Log::level() = Log::log_info;
+	Log::print("Attempting to load file: %s", file.c_str());
+
+	auto path = file;
+	if (utils::is_local_path(file))
+	{
+		path.insert(0, MODELS_PATH);
+
+		Log::print("Detected as local path so model will be loaded from: %s", path.c_str());
+
+	}
+
+	auto model = models_.find(path);
 
 
 	if (model != models_.end())
+	{
 		model_ = model->second;
+
+		Log::print("Model was loaded before");
+	}
 	else
 	{
-		auto model = model::ModelLoader::load(file);
-		models_.insert(std::pair<std::string, std::shared_ptr<model::Model>>(file, model));
+		auto model = model::ModelLoader::load(path);
+		
+		if (!model)
+			return;
+
+		models_.insert(std::pair<std::string, std::shared_ptr<model::Model>>(path, model));
 		model_ = model;
 	}
 
@@ -66,9 +88,18 @@ void game::component::GraphicComponent::force_texture(const std::string& file_na
 {
 }
 
+void game::component::GraphicComponent::force_texture(const int& id, const std::string& file_name)
+{
+}
+
 game::component::Component* game::component::GraphicComponent::copy() const
 {
 	return new GraphicComponent(*this);
+}
+
+void game::component::GraphicComponent::clear_loaded_models()
+{
+	models_.clear();
 }
 
 void game::component::GraphicComponent::draw_forced_texture()
@@ -87,20 +118,66 @@ void game::component::GraphicComponent::parse_table(const LuaIntf::LuaRef& table
 
 		if (key == "MODEL")
 		{
-			if (value.isTable())
-			{
-				for (auto element : value)
-				{
-					if (utils::equals(element.key<std::string>(), "path"))
-						load(element.value<std::string>());
-				}
-			}
+			Log::level() = Log::log_info;
+			Log::print("Attempting to load model path");
+			load(utils::get_path(value));
+
 		}
-		else if (key == "drawable")
-			drawable_ = element.value<bool>();
-		else if (key == "MESH")
+		else if (key == "VISIBLE")
 		{
-			
+			Log::level() = Log::log_info;
+			Log::print("Attempting to load drawable value");
+			drawable_ = element.value<bool>();
+			Log::print("Visible value: %s", drawable_ ? "true" : "false");
+		}
+		else if (value.isTable())
+			try
+			{
+				Log::level() = Log::log_info;
+				Log::print("Attempting to load mesh values");
+				parse_mesh(value);
+			}
+			catch(exception::GameException& ex)
+			{
+				Log::level() = Log::log_error;
+				Log::print(ex.what());
+			}
+		else
+		{
+			Log::level() = Log::log_warning;
+			Log::print("Unable to recognize gived table key: %s", element.key<std::string>());
 		}
 	}
+}
+
+void game::component::GraphicComponent::parse_mesh(const LuaIntf::LuaRef& table)
+{
+	assert(table.isTable());
+
+	size_t id = 0;
+	std::string path;
+
+	bool id_found = false;
+	bool path_found = false;
+
+	for (auto element : table)
+	{
+		if (utils::equals(element.key<std::string>(), "id"))
+			id = element.value<size_t>();
+		else if (utils::equals(element.key<std::string>(), "texture"))
+			path = utils::get_path(element.value());
+		else
+		{
+			Log::level() = Log::log_warning;
+			Log::print("Unable to recognize gived table key: %s", element.key<std::string>().c_str());
+		}
+
+	}
+
+	if (!id_found)
+		throw exception::UnableToFindSpecifedTableKeyException("id");
+	if (!path_found)
+		throw exception::UnableToFindSpecifedTableKeyException("texture");
+
+	force_texture(id, path);
 }

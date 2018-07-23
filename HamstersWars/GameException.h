@@ -10,6 +10,8 @@ namespace game::exception
 		GameException(const char* format, ...);
 		explicit GameException(std::string message);
 
+		virtual ~GameException() = default;
+
 		char const* what() const override;
 
 	private:

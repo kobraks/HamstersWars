@@ -4,6 +4,7 @@
 
 #define BAD_LOG_STREAM_EXCEPTION ""
 #define UNKNOWN_TABLE_ELEMENT_EXCEPTION "Unknown table element"
+#define UNABLE_TO_FIND_SPECIFED_TABLE_KEY_EXCEPTION "Unable to find %s key"
 
 #pragma endregion 
 

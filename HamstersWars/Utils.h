@@ -24,5 +24,8 @@ namespace game::utils
 	bool get_table_if_contains(LuaIntf::LuaRef& element, const LuaTable& table, std::string& key);
 
 	bool equals(const std::string& str1, const std::string& str2);
+
+	std::string get_path(const LuaIntf::LuaRef& path);
+	bool is_local_path(const std::string& path);
 }
 

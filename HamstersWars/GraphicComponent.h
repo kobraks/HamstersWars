@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <glm/glm.hpp>
+#include <Lua/lua.hpp>
 #include <Lua/LuaIntf.h>
 #include <unordered_map>
 
@@ -33,7 +34,10 @@ namespace game::component
 		void load(const std::string& file);
 
 		void force_texture(const std::string& file_name);
+		void force_texture(const int& id, const std::string& file_name);
 		Component* copy() const override;
+
+		void clear_loaded_models();
 	private:
 		std::shared_ptr<model::Model> model_;
 		bool drawable_;
@@ -43,6 +47,7 @@ namespace game::component
 		static std::unordered_map<std::string, std::shared_ptr<model::Model>> models_;
 
 		void parse_table(const LuaIntf::LuaRef& table);
+		void parse_mesh(const LuaIntf::LuaRef& table);
 	};
 }
 

@@ -219,6 +219,7 @@
     <ClInclude Include="Transformable2d.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Types.h" />
+    <ClInclude Include="UnableToFindSpecifedTableKeyException.h" />
     <ClInclude Include="UnknownFormatException.h" />
     <ClInclude Include="UnknownTableElementException.h" />
     <ClInclude Include="Utils.h" />

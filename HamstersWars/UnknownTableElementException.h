@@ -1,18 +1,13 @@
 #pragma once
-#include <exception>
 #include "Defines.h"
+#include "GameException.h"
 
 namespace game::exception
 {
-	class UnknownTableElementException : public std::exception
+	class UnknownTableElementException : public GameException
 	{
 	public:
-		UnknownTableElementException()
+		UnknownTableElementException() : GameException(UNKNOWN_TABLE_ELEMENT_EXCEPTION)
 		{}
-
-		char const* what() const override
-		{
-			return UNKNOWN_TABLE_ELEMENT_EXCEPTION;
-		}
 	};
 }
