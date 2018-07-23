@@ -28,3 +28,12 @@
 #pragma endregion
 
 #define DEFAULT_TEXTURE TEXTURES_PATH"default.png"
+
+#pragma region components
+
+#define COLLIDER_COMPONENT "COLLIDER"
+#define GRAPHIC_COMPONENT "GRAPHIC"
+#define SCRIPT_COMPONENT "SCRIPT"
+#define TRANSFORM_COMPONENT "TRANSFORM"
+
+#pragma endregion

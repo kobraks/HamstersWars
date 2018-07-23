@@ -23,9 +23,9 @@ cow =
 	{
 		position = 
 		{
-			x = 0;
-			y = 0;
-			z = 0;
+			1,
+			2,
+			3
 		};
 
 		scale = 

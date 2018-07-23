@@ -17,6 +17,23 @@ namespace gl
 		explicit Vector2D(const sf::Vector2f& vector) : Vector2D(vector.x, vector.y) {}
 		explicit Vector2D(const glm::vec2& vector) : Vector2D(vector.x, vector.y) {}
 
+		static size_t count()
+		{
+			return 2;
+		}
+
+		float& operator[](const size_t& i)
+		{
+			assert(i >= 0 && i < count());
+			return (&x)[i];
+		}
+
+		float operator[](const size_t& i) const
+		{
+			assert(i >= 0 && i < count());
+			return (&x)[i];
+		}
+
 		static float cross(const Vector2D& left, const Vector2D& right)
 		{
 			return (left.x * right.y) - (left.y * right.x);

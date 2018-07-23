@@ -30,6 +30,25 @@ namespace gl
 		Color(const unsigned char& red, const unsigned char& green, const unsigned char& blue) : Color(red / 255.f, green / 255.f, blue / 255.f) {}
 		Color(const unsigned char& red, const unsigned char& green, const unsigned char& blue, const unsigned char& alpha) : Color(red / 255.f, green / 255.f, blue / 255.f, alpha / 255.f) {}
 
+		static size_t count()
+		{
+			return 4;
+		}
+
+		float& operator[](const size_t& i)
+		{
+			assert(i >= 0 && i < count());
+
+			return (&r)[i];
+		}
+
+		float operator[](const size_t& i) const
+		{
+			assert(i >= 0 && i < count());
+
+			return (&r)[i];
+		}
+
 		void set_color(const glm::vec4& color)
 		{
 			set_color(color.r, color.g, color.b, color.a);

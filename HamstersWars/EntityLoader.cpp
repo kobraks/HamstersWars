@@ -5,7 +5,7 @@
 #include "Log.h"
 #include "Defines.h"
 #include "Script.h"
-
+#include "Defines.h"
 
 #pragma region components
 #include "ScriptHandler.h"
@@ -194,13 +194,13 @@ void game::EntityLoader::get_component(std::shared_ptr<Entity> entity, const std
 	auto component_name = component;
 	std::transform(component_name.begin(), component_name.end(), component_name.begin(), ::toupper);
 
-	if (component_name == "SCRIPT")
+	if (component_name == SCRIPT_COMPONENT)
 		add_component<component::ScriptHandler>(entity, ref, component);
-	else if (component_name == "COLLIDER")
+	else if (component_name == COLLIDER_COMPONENT)
 		add_component<component::ColliderComponent>(entity, ref, component);
-	else if (component_name == "GRAPHIC")
+	else if (component_name == GRAPHIC_COMPONENT)
 		add_component<component::GraphicComponent>(entity, ref, component);
-	else if (component_name == "TRANSFORM")
+	else if (component_name == TRANSFORM_COMPONENT)
 		add_component<component::TransformComponent>(entity, ref, component);
 	else
 	{

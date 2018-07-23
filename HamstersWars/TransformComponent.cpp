@@ -1,6 +1,6 @@
 #include "TransformComponent.h"
 
-
+#include "LuaUtils.h"
 
 game::component::TransformComponent::TransformComponent(std::shared_ptr<Entity> entity, const LuaIntf::LuaRef& table) : Component(entity)
 {
@@ -18,4 +18,5 @@ game::component::Component* game::component::TransformComponent::copy() const
 
 void game::component::TransformComponent::parse_table(const LuaIntf::LuaRef& table)
 {
+	set_position(lua::utils::get_vector(table["position"].value()));
 }

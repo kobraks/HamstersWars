@@ -17,6 +17,22 @@ namespace gl
 		Vector3D(const sf::Vector3f& vector) : Vector3D(vector.x, vector.y, vector.z) {}
 		Vector3D(const glm::vec3& vector) : Vector3D(vector.x, vector.y, vector.z) {}
 
+		static size_t count()
+		{
+			return 3;
+		}
+		
+		float& operator[](const size_t& i)
+		{
+			assert(i >= 0 && i < count());
+			return (&x)[i];
+		}
+
+		float operator[](const size_t& i) const
+		{
+			assert(i >= 0 && i < count());
+			return (&x)[i];
+		}
 
 		static float cross(const Vector3D& left, const Vector3D& right)
 		{
