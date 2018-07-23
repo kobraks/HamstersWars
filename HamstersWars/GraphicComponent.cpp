@@ -1,12 +1,15 @@
 #include "GraphicComponent.h"
 #include "Entity.h"
 #include "ModelLoader.h"
+#include "Utils.h"
+#include "UnknownTableElementException.h"
 
 std::unordered_map<std::string, std::shared_ptr<game::model::Model>> game::component::GraphicComponent::models_;
 
 
 game::component::GraphicComponent::GraphicComponent(std::shared_ptr<Entity> owner, const LuaIntf::LuaRef& table) : Component(owner)
 {
+	drawable_ = true;
 	model_ = nullptr;
 	parse_table(table);
 }
@@ -65,8 +68,7 @@ void game::component::GraphicComponent::force_texture(const std::string& file_na
 
 game::component::Component* game::component::GraphicComponent::copy() const
 {
-	//auto gr = new GraphicComponent(*this);
-	return nullptr;
+	return new GraphicComponent(*this);
 }
 
 void game::component::GraphicComponent::draw_forced_texture()
@@ -76,5 +78,29 @@ void game::component::GraphicComponent::draw_forced_texture()
 
 void game::component::GraphicComponent::parse_table(const LuaIntf::LuaRef& table)
 {
+	assert(table.isTable());
 
+	for (auto element : table)
+	{
+		auto value = element.value();
+		auto key = utils::to_upper_copy(element.key<std::string>());
+
+		if (key == "MODEL")
+		{
+			if (value.isTable())
+			{
+				for (auto element : value)
+				{
+					if (utils::equals(element.key<std::string>(), "path"))
+						load(element.value<std::string>());
+				}
+			}
+		}
+		else if (key == "drawable")
+			drawable_ = element.value<bool>();
+		else if (key == "MESH")
+		{
+			
+		}
+	}
 }

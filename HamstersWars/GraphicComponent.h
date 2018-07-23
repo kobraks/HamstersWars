@@ -15,7 +15,13 @@ namespace game::component
 	{
 	public:
 		GraphicComponent(std::shared_ptr<Entity> owner, const LuaIntf::LuaRef& table);
-		//GraphicComponent(const GraphicComponent& component) = default;
+	
+		GraphicComponent(const GraphicComponent&) = default;
+		GraphicComponent(GraphicComponent&&) = default;
+
+		GraphicComponent& operator=(const GraphicComponent&) = default;
+		GraphicComponent& operator=(GraphicComponent&&) = default;
+
 		~GraphicComponent();
 
 		bool drawable() const;

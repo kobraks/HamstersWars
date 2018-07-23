@@ -32,7 +32,7 @@ std::string& game::utils::to_lower(std::string& str)
 	return str;
 }
 
-gl::Vector3D game::utils::get_vector3d(const LuaIntf::LuaRef& vector)
+gl::Vector3D game::utils::get_vector3d(const LuaTable& vector)
 {
 	assert(vector.isTable());
 
@@ -65,7 +65,7 @@ gl::Vector3D game::utils::get_vector3d(const LuaIntf::LuaRef& vector)
 	return result;
 }
 
-gl::Vector2D game::utils::get_vector2d(const LuaIntf::LuaRef& vector)
+gl::Vector2D game::utils::get_vector2d(const LuaTable& vector)
 {
 	assert(vector.isTable());
 
@@ -94,7 +94,7 @@ gl::Vector2D game::utils::get_vector2d(const LuaIntf::LuaRef& vector)
 	return result;
 }
 
-gl::Color game::utils::get_color(const LuaIntf::LuaRef& vector)
+gl::Color game::utils::get_color(const LuaTable& vector)
 {
 	assert(vector.isTable());
 
@@ -118,7 +118,7 @@ gl::Color game::utils::get_color(const LuaIntf::LuaRef& vector)
 	return result;
 }
 
-bool game::utils::table_contains(const LuaIntf::LuaRef& table, const std::string& key)
+bool game::utils::table_contains(const LuaTable& table, const std::string& key)
 {
 	assert(table.isTable());
 	std::string upper_key = to_upper_copy(key);
@@ -130,4 +130,27 @@ bool game::utils::table_contains(const LuaIntf::LuaRef& table, const std::string
 	}
 
 	return false;
+}
+
+bool game::utils::get_table_if_contains(LuaIntf::LuaRef& element, const LuaTable& table, std::string& key)
+{
+	assert(table.isTable());
+	std::string upper_key = to_upper_copy(key);
+
+	for (auto el : table)
+		if (to_upper_copy(el.key<std::string>()) == upper_key)
+		{
+			element = el.value<LuaIntf::LuaRef>();
+			return true;
+		}
+
+	return false;
+}
+
+bool game::utils::equals(const std::string& str1, const std::string& str2)
+{
+	auto s1 = to_upper_copy(str1);
+	auto s2 = to_upper_copy(str2);
+
+	return s1 == s2;
 }

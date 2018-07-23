@@ -144,9 +144,6 @@
     <ClCompile Include="ColliderComponent.cpp">
       <Filter>Source Files\game\component</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Light.cpp">
       <Filter>Source Files\gl</Filter>
     </ClCompile>
@@ -182,6 +179,9 @@
     </ClCompile>
     <ClCompile Include="Utils.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicComponent.cpp">
+      <Filter>Source Files\game\component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

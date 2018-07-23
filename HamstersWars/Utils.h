@@ -8,16 +8,21 @@
 
 namespace game::utils
 {
+	typedef LuaIntf::LuaRef LuaTable;
+
 	std::string to_upper_copy(const std::string& str);
 	std::string& to_upper(std::string& str);
 
 	std::string to_lower_copy(const std::string& str);
 	std::string& to_lower(std::string& str);
 
-	gl::Vector3D get_vector3d(const LuaIntf::LuaRef& vector);
-	gl::Vector2D get_vector2d(const LuaIntf::LuaRef& vector);
-	gl::Color get_color(const LuaIntf::LuaRef& vector);
+	gl::Vector3D get_vector3d(const LuaTable& vector);
+	gl::Vector2D get_vector2d(const LuaTable& vector);
+	gl::Color get_color(const LuaTable& vector);
 
-	bool table_contains(const LuaIntf::LuaRef& table, const std::string& key);
+	bool table_contains(const LuaTable& table, const std::string& key);
+	bool get_table_if_contains(LuaIntf::LuaRef& element, const LuaTable& table, std::string& key);
+
+	bool equals(const std::string& str1, const std::string& str2);
 }
 
