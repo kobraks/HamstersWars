@@ -145,7 +145,6 @@
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Log.cpp" />
-    <ClCompile Include="LuaUtils.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -166,6 +165,7 @@
     <ClCompile Include="Transformable.cpp" />
     <ClCompile Include="Transformable2d.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
+    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="VertexArray.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
   </ItemGroup>
@@ -196,7 +196,6 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="LinkException.h" />
     <ClInclude Include="Log.h" />
-    <ClInclude Include="LuaUtils.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
@@ -221,6 +220,8 @@
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="UnknownFormatException.h" />
+    <ClInclude Include="UnknownTableElementException.h" />
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="Vector3D.h" />
     <ClInclude Include="VertexArray.h" />

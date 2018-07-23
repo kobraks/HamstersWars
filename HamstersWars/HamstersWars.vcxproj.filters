@@ -58,12 +58,6 @@
     <Filter Include="Source Files\game\lua">
       <UniqueIdentifier>{5d4006b3-f429-497e-9048-4311b441e61e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\game\Lua\utils">
-      <UniqueIdentifier>{c421f2ac-522c-465f-8817-95d03c700ead}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\game\lua\utils">
-      <UniqueIdentifier>{3074ccc6-bb88-4e56-9c83-e4778dc976ad}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -186,8 +180,8 @@
     <ClCompile Include="Script.cpp">
       <Filter>Source Files\game\lua</Filter>
     </ClCompile>
-    <ClCompile Include="LuaUtils.cpp">
-      <Filter>Source Files\game\lua\utils</Filter>
+    <ClCompile Include="Utils.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -344,9 +338,6 @@
     <ClInclude Include="Register.h">
       <Filter>Header Files\game\Lua</Filter>
     </ClInclude>
-    <ClInclude Include="LuaUtils.h">
-      <Filter>Header Files\game\Lua\utils</Filter>
-    </ClInclude>
     <ClInclude Include="Vector3D.h">
       <Filter>Header Files\gl</Filter>
     </ClInclude>
@@ -355,6 +346,12 @@
     </ClInclude>
     <ClInclude Include="Color.h">
       <Filter>Header Files\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UnknownTableElementException.h">
+      <Filter>Header Files\exception</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

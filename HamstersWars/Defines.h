@@ -3,6 +3,7 @@
 #pragma region exceptions
 
 #define BAD_LOG_STREAM_EXCEPTION ""
+#define UNKNOWN_TABLE_ELEMENT_EXCEPTION "Unknown table element"
 
 #pragma endregion 
 
