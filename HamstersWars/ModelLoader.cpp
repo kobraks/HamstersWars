@@ -39,7 +39,6 @@ std::shared_ptr<game::model::Model> game::model::ModelLoader::load(const std::st
 	}
 
 	Log::level() = Log::log_info;
-	printf("%s", file.c_str());
 	Log::print("%s", file.c_str());
 	Log::print("Import of scene %s succeeded", file.c_str());
 

@@ -49,7 +49,7 @@ cow =
 		--model = { path = "c://"; }
 
 		visible = true;
-
+		ala = 1;
 
 		--{
 			--mesh = 
