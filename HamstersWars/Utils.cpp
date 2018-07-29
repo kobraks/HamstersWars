@@ -176,3 +176,61 @@ bool game::utils::is_local_path(const std::string& path)
 
 	return !std::regex_search(path, regex);
 }
+
+gl::Vector3D game::utils::get_greater_values(const gl::Vector3D& left, const gl::Vector3D& right)
+{
+	gl::Vector3D result = left;
+
+	if (result.x < right.x)
+		result.x = right.x;
+
+	if (result.y < right.y)
+		result.y = right.y;
+
+	if (result.z < right.z)
+		result.z = right.z;
+
+	return result;
+}
+
+gl::Vector3D game::utils::get_lesser_values(const gl::Vector3D& left, const gl::Vector3D& right)
+{
+	gl::Vector3D result = left;
+
+	if (result.x > right.x)
+		result.x = right.x;
+
+	if (result.y > right.y)
+		result.y = right.y;
+
+	if (result.z > right.z)
+		result.z = right.z;
+
+	return result;
+}
+
+gl::Vector2D game::utils::get_greater_values(const gl::Vector2D& left, const gl::Vector2D& right)
+{
+	gl::Vector2D result = left;
+
+	if (result.x < right.x)
+		result.x = right.x;
+
+	if (result.y < right.y)
+		result.y = right.y;
+
+	return result;
+}
+
+gl::Vector2D game::utils::get_lesser_values(const gl::Vector2D& left, const gl::Vector2D& right)
+{
+	gl::Vector2D result = left;
+
+	if (result.x > right.x)
+		result.x = right.x;
+
+	if (result.y > right.y)
+		result.y = right.y;
+
+	return result;
+}

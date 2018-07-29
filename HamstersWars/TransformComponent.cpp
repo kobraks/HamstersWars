@@ -72,7 +72,7 @@ void game::component::TransformComponent::parse_table(const LuaIntf::LuaRef& tab
 		else
 		{
 			Log::level() = Log::log_warning;
-			Log::print("Unable to recognize gived table key: %s", element.key<std::string>().c_str());
+			Log::print("Unable to recognize gived table_type key: %s", element.key<std::string>().c_str());
 		}
 	}
 }

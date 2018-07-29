@@ -1,121 +1,122 @@
 Start logging
-1: Mon Jul 23 19:26:21 2018  [INFO]: Loading vertex shader
-2: Mon Jul 23 19:26:21 2018  [INFO]: Loading fragment shader
-3: Mon Jul 23 19:26:21 2018  [INFO]: Atributes count: 6
-4: Mon Jul 23 19:26:21 2018  [DEBUG]: 
+1: Sun Jul 29 10:10:48 2018  [INFO]: Loading vertex shader
+2: Sun Jul 29 10:10:48 2018  [INFO]: Loading fragment shader
+3: Sun Jul 29 10:10:48 2018  [INFO]: Atributes count: 6
+4: Sun Jul 29 10:10:48 2018  [DEBUG]: 
 	Attribute: 0
 	name: Model
 	type: 35676
 	length: 5
 	size: 1
-5: Mon Jul 23 19:26:21 2018  [DEBUG]: 
+5: Sun Jul 29 10:10:48 2018  [DEBUG]: 
 	Attribute: 1
 	name: Projection
 	type: 35676
 	length: 10
 	size: 1
-6: Mon Jul 23 19:26:21 2018  [DEBUG]: 
+6: Sun Jul 29 10:10:48 2018  [DEBUG]: 
 	Attribute: 2
 	name: View
 	type: 35676
 	length: 4
 	size: 1
-7: Mon Jul 23 19:26:21 2018  [DEBUG]: 
+7: Sun Jul 29 10:10:48 2018  [DEBUG]: 
 	Attribute: 3
 	name: color
 	type: 35666
 	length: 5
 	size: 1
-8: Mon Jul 23 19:26:21 2018  [DEBUG]: 
+8: Sun Jul 29 10:10:48 2018  [DEBUG]: 
 	Attribute: 4
 	name: my_texture
 	type: 35678
 	length: 10
 	size: 1
-9: Mon Jul 23 19:26:21 2018  [DEBUG]: 
+9: Sun Jul 29 10:10:48 2018  [DEBUG]: 
 	Attribute: 5
 	name: mode
 	type: 5124
 	length: 4
 	size: 1
-10: Mon Jul 23 19:26:22 2018  [INFO]: ../resources/models/cow.3DS
-11: Mon Jul 23 19:26:22 2018  [INFO]: Import of scene ../resources/models/cow.3DS succeeded
-12: Mon Jul 23 19:26:22 2018  [INFO]: meshes: 4
-13: Mon Jul 23 19:26:22 2018  [WARNING]: Model has not normal vectors
-14: Mon Jul 23 19:26:22 2018  [INFO]: Image size: 793, 440
-15: Mon Jul 23 19:26:22 2018  [WARNING]: Model has not normal vectors
-16: Mon Jul 23 19:26:22 2018  [ERROR]: Unable to load ../resources/textures/default.png, with exception ios_base::failbit set: iostream stream error
-17: Mon Jul 23 19:26:22 2018  [INFO]: Image size: 0, 0
-18: Mon Jul 23 19:26:22 2018  [WARNING]: Model has not normal vectors
-19: Mon Jul 23 19:26:22 2018  [INFO]: Image size: 220, 220
-20: Mon Jul 23 19:26:22 2018  [WARNING]: Model has not normal vectors
-21: Mon Jul 23 19:26:22 2018  [INFO]: Image size: 168, 168
-22: Mon Jul 23 19:26:22 2018  [INFO]: Atributes count: 6
-23: Mon Jul 23 19:26:22 2018  [DEBUG]: 
+10: Sun Jul 29 10:10:48 2018  [INFO]: ../resources/models/cow.3DS
+11: Sun Jul 29 10:10:48 2018  [INFO]: Import of scene ../resources/models/cow.3DS succeeded
+12: Sun Jul 29 10:10:48 2018  [INFO]: meshes: 4
+13: Sun Jul 29 10:10:48 2018  [WARNING]: Model has not normal vectors
+14: Sun Jul 29 10:10:48 2018  [INFO]: Image size: 793, 440
+15: Sun Jul 29 10:10:48 2018  [WARNING]: Model has not normal vectors
+16: Sun Jul 29 10:10:48 2018  [ERROR]: Unable to load ../resources/textures/default.png, with exception ios_base::failbit set: iostream stream error
+17: Sun Jul 29 10:10:48 2018  [INFO]: Image size: 0, 0
+18: Sun Jul 29 10:10:48 2018  [WARNING]: Model has not normal vectors
+19: Sun Jul 29 10:10:48 2018  [INFO]: Image size: 220, 220
+20: Sun Jul 29 10:10:48 2018  [WARNING]: Model has not normal vectors
+21: Sun Jul 29 10:10:48 2018  [INFO]: Image size: 168, 168
+22: Sun Jul 29 10:10:48 2018  [INFO]: Atributes count: 6
+23: Sun Jul 29 10:10:48 2018  [DEBUG]: 
 	Attribute: 0
 	name: Model
 	type: 35676
 	length: 5
 	size: 1
-24: Mon Jul 23 19:26:22 2018  [DEBUG]: 
+24: Sun Jul 29 10:10:48 2018  [DEBUG]: 
 	Attribute: 1
 	name: Projection
 	type: 35676
 	length: 10
 	size: 1
-25: Mon Jul 23 19:26:22 2018  [DEBUG]: 
+25: Sun Jul 29 10:10:48 2018  [DEBUG]: 
 	Attribute: 2
 	name: View
 	type: 35676
 	length: 4
 	size: 1
-26: Mon Jul 23 19:26:22 2018  [DEBUG]: 
+26: Sun Jul 29 10:10:48 2018  [DEBUG]: 
 	Attribute: 3
 	name: color
 	type: 35666
 	length: 5
 	size: 1
-27: Mon Jul 23 19:26:22 2018  [DEBUG]: 
+27: Sun Jul 29 10:10:48 2018  [DEBUG]: 
 	Attribute: 4
 	name: my_texture
 	type: 35678
 	length: 10
 	size: 1
-28: Mon Jul 23 19:26:22 2018  [DEBUG]: 
+28: Sun Jul 29 10:10:48 2018  [DEBUG]: 
 	Attribute: 5
 	name: mode
 	type: 5124
 	length: 4
 	size: 1
-29: Mon Jul 23 19:26:22 2018  [INFO]: Loading file ../resources/lua_scripts/entities.lua
-30: Mon Jul 23 19:26:22 2018  [INFO]: Loading entity: cow
-31: Mon Jul 23 19:26:22 2018  [INFO]: entity is a file path
-32: Mon Jul 23 19:26:22 2018  [INFO]: Opening file: ../resources/lua_scripts/cow.lua
-33: Mon Jul 23 19:26:22 2018  [INFO]: Loading components
-34: Mon Jul 23 19:26:22 2018  [INFO]: Loading Script component
-35: Mon Jul 23 19:26:22 2018  [INFO]: Loading Graphic component
-36: Mon Jul 23 19:26:22 2018  [INFO]: Attempting to load model path
-37: Mon Jul 23 19:26:22 2018  [INFO]: Attempting to load file: cow.3DS
-38: Mon Jul 23 19:26:22 2018  [INFO]: Detected as local path so model will be loaded from: ../resources/models/cow.3DS
-39: Mon Jul 23 19:26:22 2018  [INFO]: ../resources/models/cow.3DS
-40: Mon Jul 23 19:26:22 2018  [INFO]: Import of scene ../resources/models/cow.3DS succeeded
-41: Mon Jul 23 19:26:22 2018  [INFO]: meshes: 4
-42: Mon Jul 23 19:26:22 2018  [WARNING]: Model has not normal vectors
-43: Mon Jul 23 19:26:22 2018  [INFO]: Texture loaded before file_name = ../resources/textures/COWSKIN.JPG
-44: Mon Jul 23 19:26:22 2018  [WARNING]: Model has not normal vectors
-45: Mon Jul 23 19:26:22 2018  [INFO]: Texture loaded before file_name = ../resources/textures/default.png
-46: Mon Jul 23 19:26:22 2018  [WARNING]: Model has not normal vectors
-47: Mon Jul 23 19:26:22 2018  [INFO]: Texture loaded before file_name = ../resources/textures/COWEYE.JPG
-48: Mon Jul 23 19:26:22 2018  [WARNING]: Model has not normal vectors
-49: Mon Jul 23 19:26:22 2018  [INFO]: Texture loaded before file_name = ../resources/textures/COWCUER.JPG
-50: Mon Jul 23 19:26:22 2018  [WARNING]: Unable to recognize gived table key: ala
-51: Mon Jul 23 19:26:22 2018  [INFO]: Attempting to load drawable value
-52: Mon Jul 23 19:26:22 2018  [INFO]: Visible value: true
-53: Mon Jul 23 19:26:22 2018  [INFO]: Loading Transform component
-54: Mon Jul 23 19:26:22 2018  [INFO]: Reading position
-55: Mon Jul 23 19:26:22 2018  [INFO]: Position: x = 1.000000, y = 2.000000, z = 3.000000
-56: Mon Jul 23 19:26:22 2018  [INFO]: Reading scale
-57: Mon Jul 23 19:26:22 2018  [INFO]: Scale: x = 0.005000, y = 0.005000, z = 0.005000
-58: Mon Jul 23 19:26:22 2018  [INFO]: Reading rotation
-59: Mon Jul 23 19:26:22 2018  [INFO]: Rotate: x = 0.000000, y = 0.000000, z = 0.000000
-60: Mon Jul 23 19:26:22 2018  [INFO]: Loading Collider component
+29: Sun Jul 29 10:10:48 2018  [INFO]: Loading file ../resources/lua_scripts/entities.lua
+30: Sun Jul 29 10:10:48 2018  [INFO]: Loading entity: cow
+31: Sun Jul 29 10:10:48 2018  [INFO]: entity is a file path
+32: Sun Jul 29 10:10:48 2018  [INFO]: Opening file: ../resources/lua_scripts/cow.lua
+33: Sun Jul 29 10:10:48 2018  [INFO]: Loading components
+34: Sun Jul 29 10:10:48 2018  [INFO]: Loading Collider component
+35: Sun Jul 29 10:10:48 2018  [INFO]: Loading Graphic component
+36: Sun Jul 29 10:10:48 2018  [INFO]: Attempting to load drawable value
+37: Sun Jul 29 10:10:48 2018  [INFO]: Visible value: true
+38: Sun Jul 29 10:10:48 2018  [WARNING]: Unable to recognize gived table_type key: ala
+39: Sun Jul 29 10:10:48 2018  [INFO]: Attempting to load model path
+40: Sun Jul 29 10:10:48 2018  [INFO]: Attempting to load file: cow.3DS
+41: Sun Jul 29 10:10:48 2018  [INFO]: Detected as local path so model will be loaded from: ../resources/models/cow.3DS
+42: Sun Jul 29 10:10:48 2018  [INFO]: ../resources/models/cow.3DS
+43: Sun Jul 29 10:10:48 2018  [INFO]: Import of scene ../resources/models/cow.3DS succeeded
+44: Sun Jul 29 10:10:48 2018  [INFO]: meshes: 4
+45: Sun Jul 29 10:10:48 2018  [WARNING]: Model has not normal vectors
+46: Sun Jul 29 10:10:48 2018  [INFO]: Texture loaded before file_name = ../resources/textures/COWSKIN.JPG
+47: Sun Jul 29 10:10:48 2018  [WARNING]: Model has not normal vectors
+48: Sun Jul 29 10:10:48 2018  [INFO]: Texture loaded before file_name = ../resources/textures/default.png
+49: Sun Jul 29 10:10:48 2018  [WARNING]: Model has not normal vectors
+50: Sun Jul 29 10:10:48 2018  [INFO]: Texture loaded before file_name = ../resources/textures/COWEYE.JPG
+51: Sun Jul 29 10:10:48 2018  [WARNING]: Model has not normal vectors
+52: Sun Jul 29 10:10:48 2018  [INFO]: Texture loaded before file_name = ../resources/textures/COWCUER.JPG
+53: Sun Jul 29 10:10:48 2018  [INFO]: Loading Script component
+54: Sun Jul 29 10:10:48 2018  [WARNING]: Unable to recognize gived table_type key: update
+55: Sun Jul 29 10:10:48 2018  [INFO]: Loading Transform component
+56: Sun Jul 29 10:10:48 2018  [INFO]: Reading rotation
+57: Sun Jul 29 10:10:48 2018  [INFO]: Rotate: x = 0.000000, y = 0.000000, z = 0.000000
+58: Sun Jul 29 10:10:48 2018  [INFO]: Reading scale
+59: Sun Jul 29 10:10:48 2018  [INFO]: Scale: x = 0.005000, y = 0.005000, z = 0.005000
+60: Sun Jul 29 10:10:48 2018  [INFO]: Reading position
+61: Sun Jul 29 10:10:48 2018  [INFO]: Position: x = 1.000000, y = 2.000000, z = 3.000000

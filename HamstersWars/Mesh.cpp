@@ -6,35 +6,12 @@
 #include "VertexBuffer.h"
 #include "VertexArray.h"
 #include "Defines.h"
+#include "Utils.h"
 
 float color = 0;
 #define COLOR_INC 0.1f
 
 #pragma region utils
-inline void set_less_value(glm::vec3& value, const glm::vec3& right)
-{
-	if (value.x > right.x)
-		value.x = right.x;
-
-	if (value.y > right.y)
-		value.y = right.y;
-
-	if (value.z > right.z)
-		value.z = right.z;
-}
-
-inline void set_greater_value(glm::vec3& value, const glm::vec3& right)
-{
-	if (value.x < right.x)
-		value.x = right.x;
-
-	if (value.y < right.y)
-		value.y = right.y;
-
-	if (value.z < right.z)
-		value.z = right.z;
-}
-
 /**
  * \brief converts assimp vector to glm vector
  * \param vector a 2D assimp vector
@@ -70,15 +47,15 @@ game::model::Mesh::Mesh(const aiMesh& mesh)
 {
 	element_count_ = mesh.mNumFaces * 3;
 
-	vertices_ = std::make_shared<std::vector<glm::vec3>>();
+	vertices_ = std::make_shared<verticles_table_type>();
 
 	vertices_->reserve(mesh.mNumVertices);
 	auto colors = new gl::Color[mesh.mNumVertices];
-	auto texcoords = new glm::vec2[mesh.mNumVertices];
-	auto normals = new glm::vec3[mesh.mNumVertices];
+	auto texcoords = new texcoords_type[mesh.mNumVertices];
+	auto normals = new normal_type[mesh.mNumVertices];
 	auto indices = new GLuint[mesh.mNumFaces * 3];
 
-	glm::vec3 min, max;
+	gl::Vector3D min, max;
 
 	min = max = convert(mesh.mVertices[0]);
 
@@ -92,8 +69,8 @@ game::model::Mesh::Mesh(const aiMesh& mesh)
 	{
 		auto vertex = convert(mesh.mVertices[i]);
 
-		set_less_value(min, vertex);
-		set_greater_value(max, vertex);
+		min = utils::get_lesser_values(min, vertex);
+		max = utils::get_greater_values(max, vertex);
 
 		vertices_->push_back(vertex);
 
@@ -124,10 +101,10 @@ game::model::Mesh::Mesh(const aiMesh& mesh)
 	vao_ = new gl::VertexArray();
 	vao_->bind();
 
-	vertex_buffer_ = new gl::VertexBuffer(vertices_->data(), sizeof(glm::vec3) * vertices_->size(), gl::buffer_usage::StaticDraw);
+	vertex_buffer_ = new gl::VertexBuffer(vertices_->data(), sizeof(verticle_type) * vertices_->size(), gl::buffer_usage::StaticDraw);
 	color_buffer_ = new gl::VertexBuffer(colors, sizeof(gl::Color) * mesh.mNumVertices, gl::buffer_usage::StaticDraw);
-	texcoords_buffer_ = new gl::VertexBuffer(texcoords, sizeof(glm::vec2) * mesh.mNumVertices, gl::buffer_usage::StaticDraw);
-	normals_buffer_ = new gl::VertexBuffer(normals, sizeof(glm::vec3) * mesh.mNumVertices, gl::buffer_usage::StaticDraw);
+	texcoords_buffer_ = new gl::VertexBuffer(texcoords, sizeof(texcoords_type) * mesh.mNumVertices, gl::buffer_usage::StaticDraw);
+	normals_buffer_ = new gl::VertexBuffer(normals, sizeof(normal_type) * mesh.mNumVertices, gl::buffer_usage::StaticDraw);
 	
 	index_buffer_ = new gl::VertexBuffer();
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *index_buffer_);
@@ -154,6 +131,7 @@ game::model::Mesh::Mesh(const aiMesh& mesh)
 }
 
 game::model::Mesh::Mesh(const Mesh& mesh)
+	: Transformable(mesh)
 {
 	vao_ = new gl::VertexArray(*mesh.vao_);
 
@@ -212,6 +190,11 @@ game::model::Material& game::model::Mesh::get_material()
 	return material_;
 }
 
+game::model::Material game::model::Mesh::get_material() const
+{
+	return material_;
+}
+
 void game::model::Mesh::draw() const
 {
 	vao_->bind();
@@ -235,12 +218,12 @@ const game::model::BoundingBox& game::model::Mesh::get_bounding_box() const
 	return box_;
 }
 
-const std::vector<glm::vec3>& game::model::Mesh::get_verticles() const
+const std::vector<gl::Vector3D>& game::model::Mesh::get_verticles() const
 {
 	return *vertices_;
 }
 
-glm::vec3 game::model::Mesh::size() const
+gl::Vector3D game::model::Mesh::size() const
 {
 	return size_;
 }

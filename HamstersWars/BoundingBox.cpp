@@ -5,7 +5,7 @@
 #include "Defines.h"
 #include <iostream>
 
-inline void set_less_value(glm::vec3& value, const glm::vec3& right)
+inline void set_less_value(gl::Vector3D& value, const gl::Vector3D& right)
 {
 	if (value.x > right.x)
 		value.x = right.x;
@@ -17,7 +17,7 @@ inline void set_less_value(glm::vec3& value, const glm::vec3& right)
 		value.z = right.z;
 }
 
-inline void set_greater_value(glm::vec3& value, const glm::vec3& right)
+inline void set_greater_value(gl::Vector3D& value, const gl::Vector3D& right)
 {
 	if (value.x < right.x)
 		value.x = right.x;
@@ -75,7 +75,7 @@ game::model::BoundingBox::BoundingBox() : buffer_(nullptr)
 	glBindVertexArray(0);
 }
 
-game::model::BoundingBox::BoundingBox(const std::vector<glm::vec3>& verticles, const Transform& transform) : BoundingBox()
+game::model::BoundingBox::BoundingBox(const std::vector<gl::Vector3D>& verticles, const Transform& transform) : BoundingBox()
 {
 	calculate(verticles, transform);
 }
@@ -107,7 +107,7 @@ game::model::BoundingBox& game::model::BoundingBox::operator=(const BoundingBox&
 }
 
 
-void game::model::BoundingBox::calculate(const std::vector<glm::vec3>& verticles, const Transform& transform)
+void game::model::BoundingBox::calculate(const std::vector<gl::Vector3D>& verticles, const Transform& transform)
 {
 	min_ = max_ = transform.transfrom_point(verticles[0]);
 
@@ -121,7 +121,11 @@ void game::model::BoundingBox::calculate(const std::vector<glm::vec3>& verticles
 
 	auto size = size_ = max_ - min_;
 	center_ = glm::vec3((max_.x + min_.x) / 2, (max_.y + min_.y) / 2, (max_.z + min_.z) / 2);
-	size /= 2;
+	
+	size.x /= 2;
+	size.y /= 2;
+	size.z /= 2;
+	//size /= 2;
 
 	vertex_[0] = glm::vec3(center_.x - size.x, center_.y - size.y, center_.z + size.z);
 	vertex_[1] = glm::vec3(center_.x - size.x, center_.y + size.y, center_.z + size.z);
@@ -151,7 +155,7 @@ bool game::model::BoundingBox::intersect(const BoundingBox& box) const
 
 }
 
-bool game::model::BoundingBox::intersect(const glm::vec3& point) const
+bool game::model::BoundingBox::intersect(const gl::Vector3D& point) const
 {
 	return point.x > min_.x &&
 		point.x < max_.x &&
@@ -174,17 +178,17 @@ void game::model::BoundingBox::draw()
 	glBindVertexArray(0);
 }
 
-glm::mat4 game::model::BoundingBox::get_model_matrix() const
+game::Transform game::model::BoundingBox::get_model_matrix() const
 {
-	return glm::mat4(1.f);
+	return Transform::get_indentity();
 }
 
-glm::vec3 game::model::BoundingBox::size() const
+gl::Vector3D game::model::BoundingBox::size() const
 {
 	return size_;
 }
 
-glm::vec3 game::model::BoundingBox::center() const
+gl::Vector3D game::model::BoundingBox::center() const
 {
 	return center_;
 }

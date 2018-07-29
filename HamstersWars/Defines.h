@@ -5,6 +5,7 @@
 #define BAD_LOG_STREAM_EXCEPTION ""
 #define UNKNOWN_TABLE_ELEMENT_EXCEPTION "Unknown table element"
 #define UNABLE_TO_FIND_SPECIFED_TABLE_KEY_EXCEPTION "Unable to find %s key"
+#define NOT_FUNCTION_EXCEPTION "Value of %s is not valid function"
 
 #pragma endregion 
 
@@ -37,5 +38,14 @@
 #define GRAPHIC_COMPONENT "GRAPHIC"
 #define SCRIPT_COMPONENT "SCRIPT"
 #define TRANSFORM_COMPONENT "TRANSFORM"
+
+#pragma endregion
+
+#pragma region script_component_elements
+
+#define UPDATE_FUNCTION "ON_UPDATE"
+#define COPY_FUNCTION "ON_COPY"
+#define CREATE_FUNCTION "ON_CREATE"
+#define DESTROY_FUNCTION "ON_DESTROY"
 
 #pragma endregion

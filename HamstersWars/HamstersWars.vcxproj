@@ -196,11 +196,13 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="LinkException.h" />
     <ClInclude Include="Log.h" />
+    <ClInclude Include="LogDefines.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="NotFunctionException.h" />
     <ClInclude Include="OpenFileException.h" />
     <ClInclude Include="Program.h" />
     <ClInclude Include="Rectangle.h" />

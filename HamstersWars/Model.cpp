@@ -5,7 +5,7 @@
 #include "Mesh.h"
 
 
-inline void set_greater_value(glm::vec3& value, const glm::vec3& right)
+inline void set_greater_value(gl::Vector3D& value, const gl::Vector3D& right)
 {
 	if (value.x < right.x)
 		value.x = right.x;
@@ -23,6 +23,102 @@ game::model::Model::Model(std::vector<std::shared_ptr<Mesh>> meshes) : meshes_(s
 	{
 		set_greater_value(size_, mesh->size());
 	}
+}
+
+game::model::Model::ModelIterator::ModelIterator(table_type::iterator iterator) : current_(iterator)
+{
+}
+
+game::model::Model::ModelIterator::self_type game::model::Model::ModelIterator::operator++()
+{
+	++current_;
+	return *this;
+}
+
+game::model::Model::ModelIterator::self_type game::model::Model::ModelIterator::operator++(int i)
+{
+	current_ += i;
+	return *this;
+}
+
+game::model::Model::ModelIterator::self_type game::model::Model::ModelIterator::operator--()
+{
+	--current_;
+	return *this;
+}
+
+game::model::Model::ModelIterator::self_type game::model::Model::ModelIterator::operator--(int i)
+{
+	current_ -= i;
+	return *this;
+}
+
+game::model::Model::ModelIterator::reference game::model::Model::ModelIterator::operator*() const
+{
+	return *(*current_);
+}
+
+game::model::Model::ModelIterator::pointer game::model::Model::ModelIterator::operator->() const
+{
+	return &*(*current_);
+}
+
+bool game::model::Model::ModelIterator::operator==(const self_type& right) const
+{
+	return current_ == right.current_;
+}
+
+bool game::model::Model::ModelIterator::operator!=(const self_type& right) const
+{
+	return current_ != right.current_;
+}
+
+game::model::Model::ConstModelIterator::ConstModelIterator(table_type::const_iterator iterator) : current_(iterator)
+{
+}
+
+game::model::Model::ConstModelIterator::self_type game::model::Model::ConstModelIterator::operator++()
+{
+	++current_;
+	return *this;
+}
+
+game::model::Model::ConstModelIterator::self_type game::model::Model::ConstModelIterator::operator++(int i)
+{
+	current_ += i;
+	return *this;
+}
+
+game::model::Model::ConstModelIterator::self_type game::model::Model::ConstModelIterator::operator--()
+{
+	--current_;
+	return *this;
+}
+
+game::model::Model::ConstModelIterator::self_type game::model::Model::ConstModelIterator::operator--(int i)
+{
+	current_ -= i;
+	return *this;
+}
+
+game::model::Model::ConstModelIterator::reference game::model::Model::ConstModelIterator::operator*() const
+{
+	return *(*current_);
+}
+
+const game::model::Model::ConstModelIterator::pointer game::model::Model::ConstModelIterator::operator->() const
+{
+	return &*(*current_);
+}
+
+bool game::model::Model::ConstModelIterator::operator==(const self_type& right) const
+{
+	return current_ == right.current_;
+}
+
+bool game::model::Model::ConstModelIterator::operator!=(const self_type& right) const
+{
+	return current_ != right.current_;
 }
 
 game::model::Model::Model() = default;
@@ -53,6 +149,26 @@ game::model::Model& game::model::Model::operator=(const Model& model)
 
 game::model::Model::~Model()
 {
+}
+
+game::model::Model::ModelIterator game::model::Model::begin() noexcept
+{
+	return ModelIterator(meshes_.begin());
+}
+
+game::model::Model::ModelIterator game::model::Model::end() noexcept
+{
+	return ModelIterator(meshes_.end());
+}
+
+game::model::Model::ConstModelIterator game::model::Model::begin() const noexcept
+{
+	return ConstModelIterator(meshes_.begin());
+}
+
+game::model::Model::ConstModelIterator game::model::Model::end() const noexcept
+{
+	return ConstModelIterator(meshes_.end());
 }
 
 void game::model::Model::draw_mesh(unsigned mesh) const
@@ -95,12 +211,12 @@ bool game::model::Model::colide(const Model& model)
 	return false;
 }
 
-glm::vec3 game::model::Model::size() const
+gl::Vector3D game::model::Model::size() const
 {
 	if (size_needs_update_)
 	{
 		glm::mat4 scale_matrix = glm::scale(glm::mat4(1.f), static_cast<glm::vec3>(get_scale()));
-		glm::vec4 size = glm::vec4(size_, 1.f);
+		glm::vec4 size = glm::vec4(static_cast<glm::vec3>(size_), 1.f);
 
 		size = scale_matrix * size;
 

@@ -114,6 +114,8 @@ void game::SceneManager::destroy()
 		auto entity = to_destroy_.top();
 		to_destroy_.pop();
 
+		entity->get_component<component::ScriptHandler>()->on_destroy();
+
 		auto iter = std::find(entities_.begin(), entities_.end(), entity);
 
 		if (iter != entities_.end())

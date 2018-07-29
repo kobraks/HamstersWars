@@ -2,51 +2,128 @@
 #include "EntityScriptHandler.h"
 #include "Script.h"
 #include "Log.h"
+#include "defines.h"
+#include "utils.h"
+#include "NotFunctionException.h"
 
 #define ADD_FUNCTION(x) addFunction(#x, &EntityScriptHandler::x)
 #define ADD_FUNCTION_PARAMS(x,params) addFunction(#x, &EntityScriptHandler::x, params)
 
-game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> owner) : Component(owner)
+game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> owner) : ScriptHandler()
 {
-	function_ = LuaIntf::LuaRef(lua::Script::lua(), "update");
-
-	if (!function_.isFunction())
-		throw std::exception();
-
-	lua::Script::register_class<ScriptHandler>(this);
+	set_owner(owner);
 }
 
-game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> entity, const LuaIntf::LuaRef& component_table) : Component(entity)
+game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> owner, const std::string& update) : ScriptHandler(owner)
 {
-	function_ = component_table["update"];
-	if (!function_.isFunction())
-		throw std::exception();
+	set_on_update(update);
+}
 
-	lua::Script::register_class<ScriptHandler>(this);
+game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> owner, const std::string& update,
+	const std::string& create) : ScriptHandler(owner, update)
+{
+	set_on_create(create);
+}
 
+game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> owner, const std::string& update,
+	const std::string& create, const std::string& destroy) : ScriptHandler(owner, update, create)
+{
+	set_on_destroy(destroy);
+}
+
+game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> owner, const std::string& update,
+	const std::string& create, const std::string& destroy, const std::string& copy) : ScriptHandler(owner, update, create, destroy)
+{
+	set_on_copy(copy);
+}
+
+game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> entity, const LuaIntf::LuaRef& component_table) : ScriptHandler(entity)
+{
+	parse_table(component_table);
+
+}
+
+void game::component::ScriptHandler::set_on_update(const std::string& code)
+{
+	//TODO
+}
+
+void game::component::ScriptHandler::set_on_update(const LuaIntf::LuaRef& function)
+{
+	Log::level() = Log::log_info;
+	Log::print("Adding on update function");
+	if (!is_function(function))
+		throw exception::NotFunctionExcpetion(UPDATE_FUNCTION);
+
+	update_ = function;
+}
+
+void game::component::ScriptHandler::set_on_destroy(const std::string& code)
+{
+	//TODO
+}
+
+void game::component::ScriptHandler::set_on_destroy(const LuaIntf::LuaRef& function)
+{
+	Log::level() = Log::log_info;
+	Log::print("Adding on destroy function");
+	if (!is_function(function))
+		throw exception::NotFunctionExcpetion(DESTROY_FUNCTION);
+
+	destroy_ = function;
+}
+
+void game::component::ScriptHandler::set_on_copy(const std::string& code)
+{
+	//TODO
+}
+
+void game::component::ScriptHandler::set_on_copy(const LuaIntf::LuaRef& function)
+{
+	if (!is_function(function))
+		return;
+
+	copy_ = function;
+}
+
+void game::component::ScriptHandler::set_on_create(const std::string& code)
+{
+	//TODO
+}
+
+
+void game::component::ScriptHandler::set_on_create(const LuaIntf::LuaRef& function)
+{
+	if (!is_function(function))
+		return;
+
+	create_ = function;
 }
 
 
 game::component::Component* game::component::ScriptHandler::copy() const
 {
-	return nullptr;
+	return new ScriptHandler(*this);
 }
 
 void game::component::ScriptHandler::update()
 {
-	//function_(script::EntityScriptHandler(get_owner()));
-	try
-	{
-		auto entity_handler = script::EntityScriptHandler(get_owner());
+	run_function(update_);
+}
 
-		function_.call(entity_handler);
-		//function_.call(1);
-	}
-	catch(LuaIntf::LuaException& ex)
-	{
-		Log::level() = Log::log_error;
-		Log::print("Entity [%s] Component [%s] throws lua exception: %s", get_owner()->get_type().c_str(), "Script", ex.what());
-	}
+void game::component::ScriptHandler::on_destroy()
+{
+	run_function(destroy_);
+}
+
+void game::component::ScriptHandler::on_create()
+{
+	run_function(create_);
+}
+
+void game::component::ScriptHandler::on_copy()
+{
+	run_function(copy_);
 }
 
 void game::component::ScriptHandler::register_clas(LuaIntf::LuaContext& context) const
@@ -74,14 +151,97 @@ void game::component::ScriptHandler::register_clas(LuaIntf::LuaContext& context)
 		.endClass();
 }
 
-game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> owner, const std::string& code) : Component(owner)
+game::component::ScriptHandler::ScriptHandler() : Component(nullptr)
 {
-	lua::Script::lua().doString(code.c_str());
-
-	function_ = LuaIntf::LuaRef(lua::Script::lua(), "update");
-
-	if (!function_.isFunction())
-		throw std::exception();
-
 	lua::Script::register_class<ScriptHandler>(this);
+
+}
+
+void game::component::ScriptHandler::parse_table(const LuaIntf::LuaRef& table)
+{
+	assert(table.isTable());
+
+	for (auto element : table)
+	{
+		auto bigger_key = utils::to_upper_copy(element.key<std::string>());
+		auto value = element.value();
+
+		if (bigger_key == UPDATE_FUNCTION)
+		{
+			try
+			{
+				set_on_update(value);
+			}
+			catch(exception::GameException& ex)
+			{
+				Log::level() = Log::log_error;
+				Log::print(ex.what());
+			}
+		}
+		else if (bigger_key == COPY_FUNCTION)
+		{
+			try
+			{
+				set_on_copy(value);
+			}
+			catch (exception::GameException& ex)
+			{
+				Log::level() = Log::log_error;
+				Log::print(ex.what());
+			}
+		}
+		else if (bigger_key == CREATE_FUNCTION)
+		{
+			try
+			{
+				set_on_create(value);
+			}
+			catch (exception::GameException& ex)
+			{
+				Log::level() = Log::log_error;
+				Log::print(ex.what());
+			}
+		}
+		else if (bigger_key == DESTROY_FUNCTION)
+		{
+			try
+			{
+				set_on_destroy(value);
+			}
+			catch(exception::GameException& ex)
+			{
+				Log::level() = Log::log_error;
+				Log::print(ex.what());
+			}
+		}
+		else
+		{
+			Log::level() = Log::log_warning;
+			Log::print("Unable to recognize gived table_type key: %s", element.key<std::string>().c_str());
+		}
+
+	}
+}
+
+void game::component::ScriptHandler::run_function(LuaIntf::LuaRef& function) const
+{
+	if (function)
+	{
+		try
+		{
+			auto entity_handler = script::EntityScriptHandler(get_owner());
+
+			function.call(entity_handler);
+		}
+		catch (LuaIntf::LuaException& ex)
+		{
+			Log::level() = Log::log_error;
+			Log::print("Entity [%s] Component [%s] throws lua exception: %s", get_owner()->get_type().c_str(), "Script", ex.what());
+		}
+	}
+}
+
+bool game::component::ScriptHandler::is_function(const LuaIntf::LuaRef& function)
+{
+	return function.isValid() && function.isFunction();
 }

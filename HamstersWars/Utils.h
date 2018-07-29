@@ -27,5 +27,11 @@ namespace game::utils
 
 	std::string get_path(const LuaIntf::LuaRef& path);
 	bool is_local_path(const std::string& path);
+
+	gl::Vector3D get_greater_values(const gl::Vector3D& left, const gl::Vector3D& right);
+	gl::Vector3D get_lesser_values(const gl::Vector3D& left, const gl::Vector3D& right);
+
+	gl::Vector2D get_greater_values(const gl::Vector2D& left, const gl::Vector2D& right);
+	gl::Vector2D get_lesser_values(const gl::Vector2D& left, const gl::Vector2D& right);
 }
 

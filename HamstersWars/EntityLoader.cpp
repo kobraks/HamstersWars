@@ -19,7 +19,7 @@
 /**
  * \brief loads entities from slected file
  * \param file path to entities file
- * \return table of loaded entitiess
+ * \return table_type of loaded entitiess
  */
 std::vector<std::shared_ptr<game::Entity>> game::EntityLoader::load(const std::string& file)
 {
@@ -70,13 +70,13 @@ void game::EntityLoader::load_components_from_file(std::shared_ptr<Entity> entit
 		if (!components.isValid() || !components.isTable())
 		{
 			Log::level() = Log::log_warning;
-			Log::print("insite doeas not exist any of component table");
+			Log::print("insite doeas not exist any of component table_type");
 			return;
 		}
 	}
 	catch (LuaIntf::LuaException& ex)
 	{
-		Log::write_error("unable to read entity table lua throws exception: ", ex.what());
+		Log::write_error("unable to read entity table_type lua throws exception: ", ex.what());
 		return;
 	}
 
@@ -87,9 +87,9 @@ void game::EntityLoader::load_components_from_file(std::shared_ptr<Entity> entit
 }
 
 /**
- * \brief loads entities form table
- * \param table table of entities
- * \return table of entities with its components
+ * \brief loads entities form table_type
+ * \param table table_type of entities
+ * \return table_type of entities with its components
  */
 std::vector<std::shared_ptr<game::Entity>> game::EntityLoader::get_entities(const LuaIntf::LuaRef& table)
 {
@@ -131,7 +131,7 @@ std::vector<std::shared_ptr<game::Entity>> game::EntityLoader::get_entities(cons
 /**
  * \brief loads and populate the entity
  * \param type name of entity
- * \param table entity table if is empty then is treaten as path to entity file same if has path variable
+ * \param table entity table_type if is empty then is treaten as path to entity file same if has path variable
  * \return returns entity with its components or nullptr when was an error of entity is empty
  */
 std::shared_ptr<game::Entity> game::EntityLoader::load_entity(const std::string& type, const LuaIntf::LuaRef& table)
@@ -143,7 +143,7 @@ std::shared_ptr<game::Entity> game::EntityLoader::load_entity(const std::string&
 	{
 		Log::level() = Log::log_info;
 		Log::print("Loading entity: %s", type.c_str());
-		//if table is table and has path then it should be loaded from path file
+		//if table_type is table_type and has path then it should be loaded from path file
 		if (table.isTable() && table.has("path"))
 		{
 			Log::level() = Log::log_info;
@@ -151,18 +151,18 @@ std::shared_ptr<game::Entity> game::EntityLoader::load_entity(const std::string&
 			load_components_from_file(entity, type, table["path"].value<std::string>());
 		}
 
-		//if table is not table and is value then treat that value as path to entity file
+		//if table_type is not table_type and is value then treat that value as path to entity file
 		else if (!table.isTable() && !table.toValue<std::string>().empty())
 		{
 			Log::level() = Log::log_info;
 			Log::print("entity is a file path");
 			load_components_from_file(entity, type, table.toValue<std::string>());
 		}
-		//entity is in entities file and is table then load the components
+		//entity is in entities file and is table_type then load the components
 		else if (table.isTable())
 		{
 			Log::level() = Log::log_info;
-			Log::print("entity is a table");
+			Log::print("entity is a table_type");
 			for (auto component : table)
 				get_component(entity, component.key<std::string>(), component.value());
 		}
@@ -183,7 +183,7 @@ std::shared_ptr<game::Entity> game::EntityLoader::load_entity(const std::string&
  * \brief loads a single component to entity
  * \param entity pointer to entity that should be populated
  * \param component name of component
- * \param ref table of definitions of component
+ * \param ref table_type of definitions of component
  */
 void game::EntityLoader::get_component(std::shared_ptr<Entity> entity, const std::string& component,
 	const LuaIntf::LuaRef& ref)
