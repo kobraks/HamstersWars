@@ -72,9 +72,6 @@
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Keyboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TextureLoader.cpp">
       <Filter>Source Files\game\model</Filter>
     </ClCompile>
@@ -88,9 +85,6 @@
       <Filter>Source Files\game\model</Filter>
     </ClCompile>
     <ClCompile Include="ModelLoader.cpp">
-      <Filter>Source Files\game\model</Filter>
-    </ClCompile>
-    <ClCompile Include="Mouse.cpp">
       <Filter>Source Files\game\model</Filter>
     </ClCompile>
     <ClCompile Include="VertexArray.cpp">
@@ -183,6 +177,12 @@
     <ClCompile Include="TransformComponent.cpp">
       <Filter>Source Files\game\component</Filter>
     </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.h">
@@ -196,12 +196,6 @@
     </ClInclude>
     <ClInclude Include="BadLogStreamException.h">
       <Filter>Header Files\exception</Filter>
-    </ClInclude>
-    <ClInclude Include="Mouse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Keyboard.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>Header Files\game\Model</Filter>
@@ -361,6 +355,12 @@
     </ClInclude>
     <ClInclude Include="TransformComponent.h">
       <Filter>Header Files\game\component</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
+      <Filter>Header Files\game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
