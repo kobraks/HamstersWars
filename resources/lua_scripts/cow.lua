@@ -2,10 +2,13 @@ cow =
 {
 	Collider = 
 	{
+
+		--not important name
 		boundingBox = 
 		{
 			type = box;
 			size = { 10, 10, 10 };
+			position = { 10, 10, 10 } --relative position 0, 0, 0 means center
 			-- size = { x = 10, y = 10, z = 10 };
 		},
 
@@ -15,7 +18,7 @@ cow =
 	},
 	Script = 
 	{
-		update = function (e)
+		on_update = function (e)
 		end
 	},
 

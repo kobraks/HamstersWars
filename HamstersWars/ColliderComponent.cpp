@@ -15,6 +15,11 @@ game::component::ColliderComponent::ColliderComponent(std::shared_ptr<Entity> ow
 	parse_table(table);
 }
 
+std::string game::component::ColliderComponent::get_name() const
+{
+	return "ColliderComponent";
+}
+
 game::component::Component* game::component::ColliderComponent::copy() const
 {
 	return nullptr;

@@ -97,6 +97,11 @@ game::component::Component* game::component::GraphicComponent::copy() const
 	return new GraphicComponent(*this);
 }
 
+std::string game::component::GraphicComponent::get_name() const
+{
+	return "GraphicComponent";
+}
+
 void game::component::GraphicComponent::clear_loaded_models()
 {
 	models_.clear();

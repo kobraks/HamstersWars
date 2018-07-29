@@ -1,5 +1,7 @@
 #pragma once
 
+#include "LogDefines.h"
+
 #pragma region exceptions
 
 #define BAD_LOG_STREAM_EXCEPTION ""
@@ -47,5 +49,6 @@
 #define COPY_FUNCTION "ON_COPY"
 #define CREATE_FUNCTION "ON_CREATE"
 #define DESTROY_FUNCTION "ON_DESTROY"
+#define COLLISION_FUNCTION "ON_COLLISION"
 
 #pragma endregion

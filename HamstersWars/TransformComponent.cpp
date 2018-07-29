@@ -18,6 +18,11 @@ game::component::Component* game::component::TransformComponent::copy() const
 	return new TransformComponent(*this);
 }
 
+std::string game::component::TransformComponent::get_name() const
+{
+	return "TransformComponent";
+}
+
 void game::component::TransformComponent::parse_table(const LuaIntf::LuaRef& table)
 {
 	

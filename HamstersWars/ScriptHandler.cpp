@@ -51,7 +51,7 @@ void game::component::ScriptHandler::set_on_update(const std::string& code)
 void game::component::ScriptHandler::set_on_update(const LuaIntf::LuaRef& function)
 {
 	Log::level() = Log::log_info;
-	Log::print("Adding on update function");
+	Log::print("Adding on_update function");
 	if (!is_function(function))
 		throw exception::NotFunctionExcpetion(UPDATE_FUNCTION);
 
@@ -66,7 +66,7 @@ void game::component::ScriptHandler::set_on_destroy(const std::string& code)
 void game::component::ScriptHandler::set_on_destroy(const LuaIntf::LuaRef& function)
 {
 	Log::level() = Log::log_info;
-	Log::print("Adding on destroy function");
+	Log::print("Adding on_destroy function");
 	if (!is_function(function))
 		throw exception::NotFunctionExcpetion(DESTROY_FUNCTION);
 
@@ -80,8 +80,10 @@ void game::component::ScriptHandler::set_on_copy(const std::string& code)
 
 void game::component::ScriptHandler::set_on_copy(const LuaIntf::LuaRef& function)
 {
+	Log::level() = Log::log_info;
+	Log::print("Adding on_copy function");
 	if (!is_function(function))
-		return;
+		throw exception::NotFunctionExcpetion(COPY_FUNCTION);
 
 	copy_ = function;
 }
@@ -94,8 +96,25 @@ void game::component::ScriptHandler::set_on_create(const std::string& code)
 
 void game::component::ScriptHandler::set_on_create(const LuaIntf::LuaRef& function)
 {
+	Log::level() = Log::log_info;
+	Log::print("Adding on_create function");
 	if (!is_function(function))
-		return;
+		throw exception::NotFunctionExcpetion(CREATE_FUNCTION);
+
+	create_ = function;
+}
+
+void game::component::ScriptHandler::set_on_collision(const std::string& code)
+{
+	//TODO
+}
+
+void game::component::ScriptHandler::set_on_collision(const LuaIntf::LuaRef& function)
+{
+	Log::level() = Log::log_info;
+	Log::print("Adding on_collision function");
+	if (!is_function(function))
+		throw exception::NotFunctionExcpetion(COLLISION_FUNCTION);
 
 	create_ = function;
 }
@@ -106,7 +125,12 @@ game::component::Component* game::component::ScriptHandler::copy() const
 	return new ScriptHandler(*this);
 }
 
-void game::component::ScriptHandler::update()
+std::string game::component::ScriptHandler::get_name() const
+{
+	return "ScriptHandler";
+}
+
+void game::component::ScriptHandler::on_update()
 {
 	run_function(update_);
 }
@@ -209,6 +233,18 @@ void game::component::ScriptHandler::parse_table(const LuaIntf::LuaRef& table)
 				set_on_destroy(value);
 			}
 			catch(exception::GameException& ex)
+			{
+				Log::level() = Log::log_error;
+				Log::print(ex.what());
+			}
+		}
+		else if (bigger_key == COLLISION_FUNCTION)
+		{
+			try
+			{
+				set_on_collision(value);
+			}
+			catch (exception::GameException& ex)
 			{
 				Log::level() = Log::log_error;
 				Log::print(ex.what());

@@ -36,6 +36,7 @@ namespace game::component
 		void force_texture(const std::string& file_name);
 		void force_texture(const int& id, const std::string& file_name);
 		Component* copy() const override;
+		std::string get_name() const override;
 
 		void clear_loaded_models();
 	private:

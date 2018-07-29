@@ -30,19 +30,27 @@ namespace game::component
 
 		void set_on_update(const std::string& code);
 		void set_on_update(const LuaIntf::LuaRef& function);
+		
 		void set_on_destroy(const std::string& code);
 		void set_on_destroy(const LuaIntf::LuaRef& function);
+		
 		void set_on_copy(const std::string& code);
 		void set_on_copy(const LuaIntf::LuaRef& function);
+
 		void set_on_create(const std::string& code);
 		void set_on_create(const LuaIntf::LuaRef& function);
 
-		Component* copy() const override;
+		void set_on_collision(const std::string& code);
+		void set_on_collision(const LuaIntf::LuaRef& function);
 
-		void update();
+		Component* copy() const override;
+		std::string get_name() const override;
+
+		void on_update();
 		void on_destroy();
 		void on_create();
 		void on_copy();
+		void on_collision();
 
 	protected:
 		void register_clas(LuaIntf::LuaContext& context) const override;
@@ -53,6 +61,7 @@ namespace game::component
 		LuaIntf::LuaRef create_;
 		LuaIntf::LuaRef destroy_;
 		LuaIntf::LuaRef copy_;
+		LuaIntf::LuaRef collision_;
 
 		void parse_table(const LuaIntf::LuaRef& table);
 		void run_function(LuaIntf::LuaRef& function) const;

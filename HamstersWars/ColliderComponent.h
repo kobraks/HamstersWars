@@ -11,6 +11,7 @@ namespace game::component
 	public:
 		ColliderComponent(std::shared_ptr<Entity> owner, const LuaIntf::LuaRef& table);
 
+		std::string get_name() const override;
 		Component* copy() const override;
 		~ColliderComponent();
 

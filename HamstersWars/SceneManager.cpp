@@ -61,7 +61,7 @@ void game::SceneManager::update()
 	{
 		auto script = entity->get_component<component::ScriptHandler>();
 		if (script)
-			script->update();
+			script->on_update();
 	}
 }
 

@@ -20,6 +20,7 @@ namespace game::component
 		virtual ~TransformComponent();
 
 		Component* copy() const override;
+		std::string get_name() const override;
 
 	private:
 		void parse_table(const LuaIntf::LuaRef& table);
