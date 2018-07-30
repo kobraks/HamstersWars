@@ -150,12 +150,11 @@ void game::component::ScriptHandler::on_copy()
 	run_function(copy_);
 }
 
-void game::component::ScriptHandler::register_clas(LuaIntf::LuaContext& context) const
+void game::component::ScriptHandler::register_class(LuaIntf::LuaBinding& binding) const
 {
 	using namespace script;
-	auto binds = LuaIntf::LuaBinding(context);
 
-	binds
+	binding
 		.beginClass<glm::vec3>("vec3")
 			.addConstructor(LUA_ARGS(float, float, float))
 			.addVariable("x", &glm::vec3::x, true)

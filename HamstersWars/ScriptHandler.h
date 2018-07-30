@@ -53,7 +53,7 @@ namespace game::component
 		void on_collision();
 
 	protected:
-		void register_clas(LuaIntf::LuaContext& context) const override;
+		void register_class(LuaIntf::LuaBinding& binding) const override;
 
 	private:
 		ScriptHandler();

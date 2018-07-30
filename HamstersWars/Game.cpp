@@ -129,7 +129,7 @@ void game::Game::on_reshape(int width, int height)
 
 void game::Game::on_timer(int id)
 {
-	if (Keyboard::is_down(27))
+	if (Keyboard::is_up(27))
 		stop();
 
 	if (Keyboard::is_down('w'))
@@ -141,7 +141,7 @@ void game::Game::on_timer(int id)
 		velocity_horizontal = 1;
 	if (Keyboard::is_down('d'))
 		velocity_horizontal = -1;
-	if (Keyboard::is_down('r'))
+	if (Keyboard::is_up('r'))
 	{
 		delete shader_;
 		shader_ = nullptr;
@@ -172,7 +172,7 @@ void game::Game::on_timer(int id)
 	}
 
 
-	if (Keyboard::is_down('t'))
+	if (Keyboard::is_up('t'))
 		if (captureMouse)
 		{
 			captureMouse = false;
@@ -216,6 +216,8 @@ void game::Game::on_timer(int id)
 	camera_->set_up(up);
 
 	SceneManager::update();
+	Mouse::clear_buttons();
+	Keyboard::clear_keys();
 }
 
 game::Game* game::Game::get_instance()

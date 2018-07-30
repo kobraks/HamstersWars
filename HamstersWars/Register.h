@@ -14,7 +14,7 @@ namespace game::lua
 		{}
 
 	protected:
-		virtual void register_clas(LuaIntf::LuaContext& context) const = 0;
+		virtual void register_class(LuaIntf::LuaBinding& binding) const = 0;
 
 		friend class Script;
 	};

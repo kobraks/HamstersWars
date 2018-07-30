@@ -8,6 +8,7 @@
 #include <typeindex>
 
 #include "Register.h"
+#include "Log.h"
 
 namespace game::lua
 {
@@ -43,8 +44,18 @@ namespace game::lua
 	{
 		if (!registered<T>())
 		{
-			reg->register_clas(lua_);
-			registered_classes_.push_back(typeid(T));
+			try
+			{
+				auto binding = LuaIntf::LuaBinding(lua_);
+				reg->register_class(binding);
+				registered_classes_.push_back(typeid(T));
+
+			}
+			catch (LuaIntf::LuaException& ex)
+			{
+				Log::level() = Log::log_error;
+				Log::print("throws lua exception: %s", ex.what());
+			}
 		}
 	}
 
