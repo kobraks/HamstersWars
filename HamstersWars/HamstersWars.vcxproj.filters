@@ -183,9 +183,6 @@
     <ClCompile Include="Mouse.cpp">
       <Filter>Source Files\game</Filter>
     </ClCompile>
-    <ClCompile Include="Action.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.h">

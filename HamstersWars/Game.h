@@ -31,7 +31,6 @@ namespace game
 
 		void draw();
 		void on_reshape(int width, int height);
-		void on_timer(int id);
 		void main_loop();
 		void update(const float& time_step);
 

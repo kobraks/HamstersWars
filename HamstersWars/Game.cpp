@@ -100,7 +100,8 @@ void game::Game::draw()
 
 void game::Game::on_reshape(int width, int height)
 {
-
+	auto window = reinterpret_cast<sf::Window*>(window_);
+	window->setActive();
 	glViewport(0, 0, width, height);
 	camera_->set_width(width);
 	camera_->set_height(height);
@@ -109,7 +110,47 @@ void game::Game::on_reshape(int width, int height)
 	shader_->get_parameter("Projection").set_value(camera_->get_projection());
 }
 
-void game::Game::on_timer(int id)
+void game::Game::main_loop()
+{
+	auto window = reinterpret_cast<sf::Window*>(window_);
+	sf::Clock timer;
+	auto elapsed_time = 0.f;
+
+	while(window->isOpen())
+	{
+		sf::Event event;
+
+		while(window->pollEvent(event))
+		{
+			if (event.type == sf::Event::Resized)
+			{
+				auto size = window->getSize();
+				on_reshape(size.x, size.y);
+			}
+
+			if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased)
+				Keyboard::parse_event(event);
+
+			if (event.type == sf::Event::MouseButtonPressed || event.type == sf::Event::MouseButtonReleased || event.
+				type == sf::Event::MouseEntered || event.type == sf::Event::MouseLeft || event.type == sf::Event::
+				MouseMoved || event.type == sf::Event::MouseWheelMoved || event.type == sf::Event::MouseWheelScrolled)
+				Mouse::parse_event(event);
+
+		}
+
+		elapsed_time += timer.restart().asMilliseconds();
+		while (elapsed_time >= TIME_STEP)
+		{
+			update(TIME_STEP);
+
+			elapsed_time -= TIME_STEP;
+		}
+
+		draw();
+	}
+}
+
+void game::Game::update(const float& time_step)
 {
 	if (Keyboard::is_up(27))
 		stop();
@@ -185,46 +226,6 @@ void game::Game::on_timer(int id)
 	SceneManager::update();
 	Mouse::clear_buttons();
 	Keyboard::clear_keys();
-}
-
-void game::Game::main_loop()
-{
-	auto window = reinterpret_cast<sf::Window*>(window_);
-	sf::Clock timer;
-	auto elapsed_time = 0.f;
-
-	while(window->isOpen())
-	{
-		sf::Event event;
-
-		while(window->pollEvent(event))
-		{
-			if (event.type == sf::Event::Resized)
-			{
-				auto size = window->getSize();
-				on_reshape(size.x, size.y);
-			}
-
-			if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased)
-				Keyboard::parse_event(event);
-
-			if (event.type == sf::Event::MouseButtonPressed || event.type == sf::Event::MouseButtonReleased || event.
-				type == sf::Event::MouseEntered || event.type == sf::Event::MouseLeft || event.type == sf::Event::
-				MouseMoved || event.type == sf::Event::MouseWheelMoved || event.type == sf::Event::MouseWheelScrolled)
-				Mouse::parse_event(event);
-
-		}
-
-		elapsed_time += timer.restart().asMilliseconds();
-		while (elapsed_time >= TIME_STEP)
-		{
-			update(TIME_STEP);
-
-			elapsed_time -= TIME_STEP;
-		}
-
-		draw();
-	}
 }
 
 game::Game* game::Game::get_instance()
