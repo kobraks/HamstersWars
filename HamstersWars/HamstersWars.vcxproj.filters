@@ -363,7 +363,7 @@
       <Filter>Header Files\game</Filter>
     </ClInclude>
     <ClInclude Include="Action.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

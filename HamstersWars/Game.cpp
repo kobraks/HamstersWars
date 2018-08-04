@@ -245,6 +245,7 @@ void game::Game::update(const float& time_step)
 	camera_->set_up(up);
 
 	SceneManager::update();
+
 	Mouse::clear_buttons();
 	Keyboard::clear_keys();
 }
