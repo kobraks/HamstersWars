@@ -1,49 +1,30 @@
 #include "Mouse.h"
-#include <GL/freeglut.h>
 
 #include <Lua/lua.hpp>
 #include <Lua/LuaIntf.h>
+#include <SFML/Window.hpp>
 
 #include "Script.h"
 #include "Log.h"
+
+#define POSITION(pos) pos.x, pos.y
 
 void set_position_i(const int &x, const int& y)
 {
 	game::Mouse::set_position(x, y);
 }
 
-void set_cursor_style_i(const int& style)
-{
-	game::Mouse::set_cursor(style);
-}
-
-namespace game
-{
-	void on_passive_motion(int x, int y)
-	{
-		Mouse::get_instance()->on_passive_motion(x, y);
-	}
-
-	void on_motion(int x, int y)
-	{
-		Mouse::get_instance()->on_motion(x, y);
-	}
-
-	void on_mouse(int button, int state, int x, int y)
-	{
-		Mouse::get_instance()->on_mouse(button, state, x, y);
-	}
-}
-
 void game::Mouse::set_position(const int& x, const int& y)
 {
-	glutWarpPointer(x, y);
-
+	set_position(sf::Vector2i(x, y));
 }
 
 void game::Mouse::set_position(const sf::Vector2i& pos)
 {
-	set_position(pos.x, pos.y);
+	auto window = reinterpret_cast<sf::Window*>(get_instance()->window_);
+
+	sf::Mouse::setPosition(pos, *window);
+	get_instance()->position_ = pos;
 }
 
 sf::Vector2i game::Mouse::get_position()
@@ -61,59 +42,55 @@ int game::Mouse::get_position_y()
 	return get_instance()->position_.y;
 }
 
-void game::Mouse::set_cursor(const int& type)
+bool game::Mouse::is_pressed(const int& button)
 {
-	glutSetCursor(type);
+	auto keys = get_instance()->keys_pressed_;
+
+	switch(button)
+	{
+	case Buttons::left:
+		return keys[0];
+	case Buttons::right:
+		return keys[2];
+	case Buttons::middle:
+		return keys[1];
+	default:
+		assert(false);
+	}
 }
 
-void game::Mouse::set_cursor(const CursorStyle& style)
+bool game::Mouse::is_down(const int& button)
 {
-	set_cursor(style);
-}
+	auto keys = get_instance()->keys_;
 
-bool game::Mouse::is_pressed(const Buttons& button)
-{
 	switch (button)
 	{
-	case Buttons::middle:
-		return get_instance()->keys_pressed_[1];
 	case Buttons::left:
-		return get_instance()->keys_pressed_[0];
+		return keys[0];
 	case Buttons::right:
-		return get_instance()->keys_pressed_[2];
+		return keys[2];
+	case Buttons::middle:
+		return keys[1];
+	default:
+		assert(false);
 	}
-
-	return false;
 }
 
-bool game::Mouse::is_down(const Buttons& button)
+bool game::Mouse::is_up(const int& button)
 {
+	auto keys = get_instance()->keys_up_;
+
 	switch (button)
 	{
-	case Buttons::middle:
-		return get_instance()->keys_[1];
 	case Buttons::left:
-		return get_instance()->keys_[0];
+		return keys[0];
 	case Buttons::right:
-		return get_instance()->keys_[2];
-	}
-
-	return false;
-}
-
-bool game::Mouse::is_up(const Buttons& button)
-{
-	switch (button)
-	{
+		return keys[2];
 	case Buttons::middle:
-		return get_instance()->keys_up_[1];
-	case Buttons::left:
-		return get_instance()->keys_up_[0];
-	case Buttons::right:
-		return get_instance()->keys_up_[2];
+		return keys[1];
+	default:
+		assert(false);
 	}
-
-	return false;
 }
 
 bool game::Mouse::is_left_key_pressed()
@@ -171,19 +148,24 @@ bool game::Mouse::is_wheel_down()
 	return get_instance()->wheel_down_;
 }
 
-void game::Mouse::set_event_on_mouse_move(const std::function<void(const int&, const int&)>& function)
+void game::Mouse::add_action_on_press(const button_events& action)
 {
-	get_instance()->on_mouse_move_ = function;
+	get_instance()->on_key_pressed_ += action;
 }
 
-void game::Mouse::set_action_on_mouse_click(const std::function<void(const game::Mouse::Buttons&, const int&, const int&)>& function)
+void game::Mouse::add_action_on_release(const button_events& action)
 {
-	get_instance()->on_mouse_click_ = function;
+	get_instance()->on_key_released_ += action;
 }
 
-void game::Mouse::set_action_on_mouse_release(const std::function<void(const game::Mouse::Buttons&, const int&, const int&)>& function)
+void game::Mouse::add_action_on_move(const move_event& action)
 {
-	get_instance()->on_mouse_release_ = function;
+	get_instance()->on_move_ += action;
+}
+
+void game::Mouse::add_action_on_scroll(const wheel_event& action)
+{
+	get_instance()->on_scroll_ += action;
 }
 
 void game::Mouse::clear_buttons()
@@ -229,101 +211,45 @@ game::Mouse::Mouse()
 	}
 }
 
-void game::Mouse::on_passive_motion(const int& x, const int& y)
+void game::Mouse::initialize(void* wwindow, const bool& visable, const bool& grab)
 {
-	position_ = sf::Vector2i(x, y);
-
-	if (on_mouse_move_)
-		on_mouse_move_(x, y);
-}
-
-void game::Mouse::on_motion(const int& x, const int& y)
-{
-	position_ = sf::Vector2i(x, y);
-
-	if (on_mouse_move_)
-		on_mouse_move_(x, y);
-}
-
-void game::Mouse::on_mouse(const int& button, const int& state, const int& x, const int& y)
-{
-	position_ = sf::Vector2i(x, y);
-
-	Buttons btn;
-
-	if (state == GLUT_DOWN)
-	{
-		switch (button)
-		{
-		case GLUT_MIDDLE_BUTTON:
-			keys_[1] = true;
-			keys_pressed_[1] = true;
-			btn = Buttons::middle;
-			break;
-		case GLUT_LEFT_BUTTON:
-			keys_[0] = true;
-			keys_pressed_[0] = true;
-			btn = Buttons::left;
-			break;
-		case GLUT_RIGHT_BUTTON:
-			keys_[2] = true;
-			keys_pressed_[2] = true;
-			btn = Buttons::right;
-			break;
-		case 3:
-			btn = Buttons::wheel_up;
-			wheel_up_ = true;
-			break;
-		case 4:
-			btn = Buttons::wheel_down;
-			wheel_down_ = true;
-			break;
-		}
-
-		if (on_mouse_click_)
-			on_mouse_click_(btn, x, y);
-	}
-	else if (state == GLUT_UP)
-	{
-		switch (button)
-		{
-		case GLUT_MIDDLE_BUTTON:
-			keys_[1] = false;
-			keys_up_[1] = true;
-			btn = Buttons::middle;
-			break;
-		case GLUT_LEFT_BUTTON:
-			keys_[0] = false;
-			keys_up_[0] = true;
-			btn = Buttons::left;
-			break;
-		case GLUT_RIGHT_BUTTON:
-			keys_[2] = false;
-			keys_up_[2] = true;
-			btn = Buttons::right;
-			break;
-		case 3:
-			btn = Buttons::wheel_up;
-			wheel_up_ = false;
-			break;
-		case 4:
-			btn = Buttons::wheel_down;
-			wheel_down_ = false;
-			break;
-		}
-
-		if (on_mouse_release_)
-			on_mouse_release_(btn, x, y);
-	}
-}
-
-void game::Mouse::initialize()
-{
-	glutMouseFunc(game::on_mouse);
-	glutPassiveMotionFunc(game::on_passive_motion);
-	glutMotionFunc(game::on_motion);
-
 	lua::Script::register_class<Mouse>(get_instance());
+
+	auto window = reinterpret_cast<sf::Window*>(wwindow);
+
+	window->setMouseCursorGrabbed(grab);
+	window->setMouseCursorVisible(visable);
+
+	add_action_on_press([](const int& button, const int& x, const int& y)
+	{
+		get_instance()->keys_pressed_[button] = true;
+		get_instance()->keys_[button] = true;
+	});
+
+	add_action_on_release([](const int& button, const int& x, const int& y)
+	{
+		get_instance()->keys_up_[button] = true;
+		get_instance()->keys_[button] = false;
+	});
+
+	add_action_on_scroll([](const float& delta, const int& direction, const int& x, const int& y)
+	{
+		if (direction == wheel_up)
+		{
+			get_instance()->wheel_up_ = true;
+			get_instance()->wheel_down_ = false;
+		}
+		else
+		{
+			get_instance()->wheel_up_ = false;
+			get_instance()->wheel_down_ = true;
+		}
+	});
+
+	add_action_on_move([](const int& x, const int& y)
+	{
+		get_instance()->position_ = sf::Vector2i(x, y);
+	});
 }
 
 game::Mouse* game::Mouse::get_instance()
@@ -332,25 +258,110 @@ game::Mouse* game::Mouse::get_instance()
 	return &mouse;
 }
 
+void game::Mouse::parse_event(sf::Event& event)
+{
+	auto instance = get_instance();
+	auto& in_window = instance->in_window_;
+	auto& on_move = instance->on_move_;
+	auto& on_key_pressed = instance->on_key_pressed_;
+	auto& on_key_released = instance->on_key_released_;
+	auto& on_scroll = instance->on_scroll_;
+
+	auto position = sf::Mouse::getPosition(*(reinterpret_cast<sf::Window*>(get_instance()->window_)));
+
+	switch(event.type)
+	{
+	case sf::Event::MouseLeft:
+		if (in_window)
+			in_window = false;
+	break;
+
+	case sf::Event::MouseEntered:
+		in_window = true;
+		break;
+
+	case sf::Event::MouseMoved:
+		if(in_window)
+			on_move(POSITION(position));
+		break;
+
+	case sf::Event::MouseButtonPressed:
+		if (in_window)
+			on_key_pressed(translate(event.mouseButton.button), POSITION(position));
+		break;
+
+	case sf::Event::MouseButtonReleased:
+		if (in_window)
+			on_key_released(translate(event.mouseButton.button), POSITION(position));
+		break;
+
+	case sf::Event::MouseWheelMoved:
+	case sf::Event::MouseWheelScrolled:
+		if (in_window)
+			on_scroll(event.mouseWheelScroll.delta, translate(event.mouseWheelScroll.delta), POSITION(position));
+		break;
+
+	default:
+		assert(false);
+	}
+}
+
+game::Mouse::Buttons game::Mouse::translate(const sf::Mouse::Button& button)
+{
+	switch(button)
+	{
+	case sf::Mouse::Left:
+		return left;
+	case sf::Mouse::Right:
+		return right;
+	case sf::Mouse::Middle:
+		return middle;
+	default:
+		return undefined;
+	}
+}
+
+game::Mouse::Wheel game::Mouse::translate(const float& wheel)
+{
+	if (wheel > 0)
+		return wheel_up;
+	
+	return wheel_down;
+}
+
 void game::Mouse::register_class(LuaIntf::LuaBinding& binding) const
 {
 	binding.
-		addFunction("set_mouse_position", &set_position_i, LUA_ARGS(const int&, const int&)).
+		beginModule("mouse").
 
-		addFunction("get_mouse_position_y", &get_position_y).
-		addFunction("get_mouse_position_x", &get_position_x).
+			beginModule("buttons").
+				addConstant("left", left).
+				addConstant("right", right).
+				addConstant("middle", middle).
+				addConstant("undefined", undefined).
+			endModule().
 
-		addFunction("is_left_mouse_button_pressed", &is_left_key_pressed).
-		addFunction("is_left_mouse_button_up", &is_left_key_up).
-		addFunction("is_left_mouse_button_down", &is_left_key_down).
+			addFunction("set_position", &set_position_i, LUA_ARGS(const int&, const int&)).
+			addFunction("get_position_x", &get_position_x).
+			addFunction("get_position_y", &get_position_y).
 
-		addFunction("is_right_mouse_button_pressed", &is_right_key_pressed).
-		addFunction("is_right_mouse_button_up", &is_right_key_up).
-		addFunction("is_right_mouse_button_down", &is_right_key_down).
+			addFunction("is_left_button_pressed", &is_left_key_pressed).
+			addFunction("is_left_button_up", &is_left_key_up).
+			addFunction("is_left_button_down", &is_left_key_down).
 
-		addFunction("is_middle_mouse_button_pressed", &is_middle_key_pressed).
-		addFunction("is_middle_mouse_button_up", &is_middle_key_up).
-		addFunction("is_middle_mouse_button_down", &is_middle_key_down).
+			addFunction("is_right_button_pressed", &is_right_key_pressed).
+			addFunction("is_right_button_up", &is_right_key_up).
+			addFunction("is_right_button_down", &is_right_key_down).
 
-		addFunction("set_cursor_style", &set_cursor_style_i);
+			addFunction("is_middle_button_pressed", &is_middle_key_pressed).
+			addFunction("is_middle_button_up", &is_middle_key_up).
+			addFunction("is_middle_button_down", &is_middle_key_down).
+
+			addFunction("is_button_pressed", &is_pressed, LUA_ARGS(const int&)).
+			addFunction("is_button_up", &is_up, LUA_ARGS(const int&)).
+			addFunction("is_button_down", &is_down, LUA_ARGS(const int&)).
+
+			addFunction("is_wheel_down", &is_wheel_down).
+			addFunction("is_wheel_up", &is_wheel_up).
+		endModule();
 }

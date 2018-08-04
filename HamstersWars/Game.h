@@ -27,15 +27,14 @@ namespace game
 		gl::Camera* camera_;
 		gl::Program* shader_;
 
-		void on_draw();
+		void* window_;
+
+		void draw();
 		void on_reshape(int width, int height);
 		void on_timer(int id);
+		void main_loop();
+		void update(const float& time_step);
 
 		static Game* get_instance();
-		int window_handle_;
-		
-		friend void on_draw_callback();
-		friend void on_reshape(int, int);
-		friend void on_timer(int);
 	};
 }

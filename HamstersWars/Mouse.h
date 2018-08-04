@@ -1,9 +1,16 @@
 #pragma once
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Mouse.hpp>
+#include <SFML/Window/Event.hpp>
+
 #include <functional>
 #include "Register.h"
-#include <GL/freeglut_std.h>
+#include "Action.h"
+
+#define MOUSE_BUTTON_EVENTS_PARAMETERS const int&, const int&, const int&
+#define MOUSE_MOVE_EVENT_PARAMETERS const int&, const int&
+#define MOUSE_WHEEL_EVENT_PARAMETERS const float&, const int&, const int&, const int&
 
 namespace game
 {
@@ -12,32 +19,15 @@ namespace game
 	class Mouse : public sf::NonCopyable, public lua::Register
 	{
 	public:
-		enum class Buttons : int { left = 0, right, middle, wheel_up, wheel_down };
-		enum class CursorStyle : int
-		{
-			right_arrow = GLUT_CURSOR_RIGHT_ARROW,
-			left_arrow = GLUT_CURSOR_LEFT_ARROW,
-			info = GLUT_CURSOR_INFO,
-			destroy = GLUT_CURSOR_DESTROY,
-			help = GLUT_CURSOR_HELP,
-			cycle = GLUT_CURSOR_CYCLE,
-			spray = GLUT_CURSOR_SPRAY,
-			wait = GLUT_CURSOR_WAIT,
-			text = GLUT_CURSOR_TEXT,
-			crosshair = GLUT_CURSOR_CROSSHAIR,
-			up_down = GLUT_CURSOR_UP_DOWN,
-			left_right = GLUT_CURSOR_LEFT_RIGHT,
-			top_side = GLUT_CURSOR_TOP_SIDE,
-			bottom_side = GLUT_CURSOR_BOTTOM_SIDE,
-			left_side = GLUT_CURSOR_LEFT_SIDE,
-			right_side = GLUT_CURSOR_RIGHT_SIDE,
-			top_left_corner = GLUT_CURSOR_TOP_LEFT_CORNER,
-			bottom_right_corner = GLUT_CURSOR_BOTTOM_RIGHT_CORNER,
-			bottom_left_corner = GLUT_CURSOR_BOTTOM_LEFT_CORNER,
-			full_crosshair = GLUT_CURSOR_FULL_CROSSHAIR,
-			none = GLUT_CURSOR_NONE,
-			inherit = GLUT_CURSOR_INHERIT
-		};
+		const static int BUTTONS_COUNT = 4;
+
+		typedef std::function<void(MOUSE_BUTTON_EVENTS_PARAMETERS)> button_events;
+		typedef std::function<void(MOUSE_MOVE_EVENT_PARAMETERS)> move_event;
+		typedef std::function<void(MOUSE_WHEEL_EVENT_PARAMETERS)> wheel_event;
+
+		enum Buttons { left = 0, right = 2, middle = 1, undefined = 3 };
+		enum Wheel { wheel_up, wheel_down };
+
 
 		static void set_position(const int& x, const int& y);
 		static void set_position(const sf::Vector2i& pos);
@@ -46,12 +36,9 @@ namespace game
 		static int get_position_x();
 		static int get_position_y();
 
-		static void set_cursor(const int& type);
-		static void set_cursor(const CursorStyle& style);
-
-		static bool is_pressed(const Buttons& button);
-		static bool is_down(const Buttons& button);
-		static bool is_up(const Buttons& button);
+		static bool is_pressed(const int& button);
+		static bool is_down(const int& button);
+		static bool is_up(const int& button);
 
 		static bool is_left_key_pressed();
 		static bool is_left_key_up();
@@ -68,40 +55,47 @@ namespace game
 		static bool is_wheel_up();
 		static bool is_wheel_down();
 
-		static void set_event_on_mouse_move(const std::function<void(const int&, const int&)>& function);
-		static void set_action_on_mouse_click(const std::function<void(const Buttons&, const int&, const int&)>& function);
-		static void set_action_on_mouse_release(const std::function<void(const Buttons&, const int&, const int&)>& function);
-
-		static void clear_buttons();
-		static void clear_pressed_buttons();
-		static void clear_up_buttons();
+		static void add_action_on_press(const button_events& action);
+		static void add_action_on_release(const button_events& action);
+		static void add_action_on_move(const move_event& action);
+		static void add_action_on_scroll(const wheel_event& action);
 	private:
 		Mouse();
 
-		std::function<void(const int&, const int&)> on_mouse_move_;
-		std::function<void(const Buttons&, const int&, const int&)> on_mouse_click_;
-		std::function<void(const Buttons&, const int&, const int&)> on_mouse_release_;
+		Action<MOUSE_MOVE_EVENT_PARAMETERS> on_move_;
+		Action<MOUSE_BUTTON_EVENTS_PARAMETERS> on_key_pressed_;
+		Action<MOUSE_BUTTON_EVENTS_PARAMETERS> on_key_released_;
+		Action<MOUSE_WHEEL_EVENT_PARAMETERS> on_scroll_;
 
 		sf::Vector2i position_;
-		bool keys_[3]{};
-		bool keys_up_[3]{};
-		bool keys_pressed_[3]{};
+		bool keys_[BUTTONS_COUNT]{};
+		bool keys_up_[BUTTONS_COUNT]{};
+		bool keys_pressed_[BUTTONS_COUNT]{};
 		bool wheel_up_ = false;
 		bool wheel_down_ = false;
+
+		bool in_window_ = true;
+
+		void* window_;
 
 		void on_passive_motion(const int& x, const int& y);
 		void on_motion(const int& x, const int& y);
 		void on_mouse(const int& button, const int& state, const int& x, const int& y);
 
-		static void initialize();
+		static void initialize(void* window, const bool& visable = true, const bool& grab = true);
 
 		static Mouse* get_instance();
+		static void parse_event(sf::Event& event);
+
 
 		friend class Game;
-		friend void on_passive_motion(int, int);
-		friend void on_motion(int, int);
-		friend void on_mouse(int, int, int, int);
 
+		static Buttons translate(const sf::Mouse::Button& button);
+		static Wheel translate(const float& wheel);
+
+		static void clear_buttons();
+		static void clear_pressed_buttons();
+		static void clear_up_buttons();
 	protected:
 		void register_class(LuaIntf::LuaBinding& binding) const override;
 	};

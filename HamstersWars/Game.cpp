@@ -2,7 +2,10 @@
 
 #include "Game.h"
 #include <GL/glew.h>
-#include <GL/freeglut.h>
+
+#include <SFML/Window.hpp>
+#include <sfml/System.hpp>
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -56,37 +59,17 @@ void update()
 	velocity_horizontal /= 1.2;
 }
 
-const float time_step = 1.f / 60.f;
-const int timer_time = 14;
+const float TIME_STEP = 1.f / 60.f;
 
-namespace game
+void game::Game::draw()
 {
-	void on_draw_callback()
-	{
-		game::Game::get_instance()->on_draw();
-	}
+	auto window = reinterpret_cast<sf::Window*>(window_);
+	window->setActive();
 
-	void on_reshape(int widht, int height)
-	{
-		Game::get_instance()->on_reshape(widht, height);
-	}
-
-	void on_timer(int id)
-	{
-		Game::get_instance()->on_timer(id);
-
-		glutTimerFunc(timer_time, on_timer, 0);
-	}
-}
-
-
-void game::Game::on_draw()
-{
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	shader_->use();
 	shader_->get_parameter("Projection").set_value(camera_->get_projection());
 	shader_->get_parameter("View").set_value(camera_->get_view());
-
 	shader_->get_parameter("mode").set_value(1);
 
 	modela->set_rotation(0, 0, 0);
@@ -112,8 +95,7 @@ void game::Game::on_draw()
 	SceneManager::draw();
 
 	glFlush();
-	glutSwapBuffers();
-	glutPostRedisplay();
+	window->display();
 }
 
 void game::Game::on_reshape(int width, int height)
@@ -209,7 +191,7 @@ void game::Game::on_timer(int id)
 		glutWarpPointer(window_width / 2, window_height / 2);
 	}
 
-	update();
+	::update();
 
 	camera_->set_position(pos);
 	camera_->set_target(pos + dir);
@@ -218,6 +200,46 @@ void game::Game::on_timer(int id)
 	SceneManager::update();
 	Mouse::clear_buttons();
 	Keyboard::clear_keys();
+}
+
+void game::Game::main_loop()
+{
+	auto window = reinterpret_cast<sf::Window*>(window_);
+	sf::Clock timer;
+	auto elapsed_time = 0.f;
+
+	while(window->isOpen())
+	{
+		sf::Event event;
+
+		while(window->pollEvent(event))
+		{
+			if (event.type == sf::Event::Resized)
+			{
+				auto size = window->getSize();
+				on_reshape(size.x, size.y);
+			}
+
+			if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased)
+				Keyboard::parse_event(event);
+
+			if (event.type == sf::Event::MouseButtonPressed || event.type == sf::Event::MouseButtonReleased || event.
+				type == sf::Event::MouseEntered || event.type == sf::Event::MouseLeft || event.type == sf::Event::
+				MouseMoved || event.type == sf::Event::MouseWheelMoved || event.type == sf::Event::MouseWheelScrolled)
+				Mouse::parse_event(event);
+
+		}
+
+		elapsed_time += timer.restart().asMilliseconds();
+		while (elapsed_time >= TIME_STEP)
+		{
+			update(TIME_STEP);
+
+			elapsed_time -= TIME_STEP;
+		}
+
+		draw();
+	}
 }
 
 game::Game* game::Game::get_instance()
@@ -229,13 +251,19 @@ game::Game* game::Game::get_instance()
 void game::Game::initialize(int argc, char** argv, const char* window_name, const sf::Vector2i& position, const int& width, const int& height)
 {
 	Log::stream().rdbuf(get_instance()->log_file_.rdbuf());
-	glutInit(&argc, argv);
+	
+	auto window = new sf::Window(sf::VideoMode(width, height), window_name, sf::Style::Default, sf::ContextSettings(32));
+	window->setPosition(position);
 
-	glutInitWindowPosition(position.x, position.y);
-	glutInitWindowSize(width, height);
-	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
+	get_instance()->window_ = window;
+	
+	window->setVerticalSyncEnabled(true);
+	if (!window->setActive())
+	{
+		Log::level() = Log::log_error;
+		Log::print("Unable to set valid opengl context");
+	}
 
-	get_instance()->window_handle_ = glutCreateWindow(window_name);
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
@@ -246,15 +274,10 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 	if (GLEW_OK != (glew_init_result = glewInit()))
 		throw gl::exception::GlewException(glew_init_result);
 
-	glutDisplayFunc(game::on_draw_callback);
-	glutReshapeFunc(game::on_reshape);
-	glutTimerFunc(timer_time, game::on_timer, 0);
-	
 	Keyboard::initialize();
-	Mouse::initialize();
+	Mouse::initialize(window, true, true);
 
 	Mouse::set_position(width / 2, height / 2);
-	Mouse::set_cursor(GLUT_CURSOR_NONE);
 	Mouse::set_event_on_mouse_move([](const int& x, const int& y) { captureMouse = true; mousePosition.x = x; mousePosition.y = y; });
 
 	window_width = width;
@@ -309,17 +332,17 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 
 void game::Game::run()
 {
-	glutMainLoop();
+	get_instance()->main_loop();
 }
 
 void game::Game::stop()
 {
-	glutLeaveMainLoop();
+	
 }
 
 void game::Game::close()
 {
-	glutDestroyWindow(get_instance()->window_handle_);
+	reinterpret_cast<sf::Window*>(get_instance()->window_)->close();
 }
 
 game::Game::Game()
