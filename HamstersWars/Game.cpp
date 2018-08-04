@@ -274,7 +274,7 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 	if (GLEW_OK != (glew_init_result = glewInit()))
 		throw gl::exception::GlewException(glew_init_result);
 
-	Keyboard::initialize();
+	Keyboard::initialize(window);
 	Mouse::initialize(window, true, true);
 
 	Mouse::set_position(width / 2, height / 2);

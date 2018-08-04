@@ -1,9 +1,16 @@
 #pragma once
 #include <SFML/System/NonCopyable.hpp>
+#include <SFML/Window/Keyboard.hpp>
+#include <SFML/Window/Event.hpp>
+
 #include <functional>
+
 #include "Types.h"
 #include "Register.h"
-#include <GL/freeglut_std.h>
+#include "Action.h"
+
+#define KEYBOARD_KEY_PRESSED_PARAMETERS const int&
+#define KEYBOARD_KEY_RELEASED_PARAMETERS const int&
 
 namespace game
 {
@@ -12,114 +19,36 @@ namespace game
 	class Keyboard : sf::NonCopyable, lua::Register
 	{
 	public:
-		/*enum SpecialKeys
-		{
-			no_scepcial = 0,
-			shift = GLUT_ACTIVE_SHIFT,
-			ctrl = GLUT_ACTIVE_CTRL,
-			alt = GLUT_ACTIVE_ALT
-		};*/
+		typedef std::function<void(KEYBOARD_KEY_PRESSED_PARAMETERS)> key_pressed_action;
+		typedef std::function<void(KEYBOARD_KEY_RELEASED_PARAMETERS)> key_up_action;
 
-		enum Keys
-		{
-			A = 0,
-			B,
-			C,
-			D,
-			E,
-			F,
-			G,
-			H,
-			I,
-			J,
-			K,
-			L,
-			M,
-			N,
-			O,
-			P,
-			Q,
-			R,
-			S,
-			T,
-			U,
-			V,
-			W,
-			X,
-			Y,
-			Z,
-			NUM1,
-			NUM2,
-			NUM3,
-			NUM4,
-			NUM5,
-			NUM6,
-			NUM7,
-			NUM8,
-			NUM9,
-			NUM0,
-			F1,
-			F2,
-			F3,
-			F4,
-			F5,
-			F6,
-			F7,
-			F8,
-			F9,
-			F10,
-			F11,
-			F12,
-			PAGE_UP,
-			PAGE_DOWN,
-			HOME,
-			END,
-			INSERT,
-			RETURN,
-			TAB,
-			TILDE,
-			COMMA
+		static bool is_pressed(const int& key);
+		static bool is_down(const int& key);
+		static bool is_up(const int& key);
 
-		};
+		static void add_action_on_key_released(const key_up_action& on_release);
+		static void add_action_on_key_pressed(const key_pressed_action& on_pressed);
+	private:
+		Keyboard();
 
-		typedef std::function<void(const key_t&)> key_pressed_function;
-		typedef std::function<void(const key_t&)> key_up_function;
+		Action<KEYBOARD_KEY_PRESSED_PARAMETERS> on_key_pressed_;
+		Action<KEYBOARD_KEY_RELEASED_PARAMETERS> on_key_released_;
 
-		static int get_special_keys();
+		bool keys_[sf::Keyboard::KeyCount]{};
+		bool up_keys_[sf::Keyboard::KeyCount]{};
+		bool pressed_keys_[sf::Keyboard::KeyCount]{};
 
-		static bool is_shift_pressed();
-		static bool is_alt_pressed();
-		static bool is_ctrl_pressed();
-		static bool is_pressed(const key_t& key);
-		static bool is_down(const key_t& key);
-		static bool is_up(const key_t& key);
+		void* window_;
 
-		static void set_event_on_key_press(const key_pressed_function& function);
-		static void set_event_on_key_up(const key_up_function& function);
+		static Keyboard* get_instance();
 
+		static void initialize(void* window);
+		static void parse_event(const sf::Event& event);
 		static void clear_keys();
 		static void clear_pressed_keys();
 		static void clear_up_keys();
 
-	private:
-		Keyboard();
-
-		std::function<void(const key_t&)> on_key_press_;
-		std::function<void(const key_t&)> on_key_up_;
-
-		void on_key_press(const key_t& key, const int& x, const int& y);
-		void on_key_up(const key_t& key, const int& x, const int& y);
-
-		key_t keys_[256]{};
-		key_t up_keys_[256]{};
-		key_t pressed_keys_[256]{};
-		static Keyboard* get_instance();
-
-		static void initialize();
-
 		friend class Game;
-		friend void on_key_press(key_t, int, int);
-		friend void on_key_up(key_t key, int x, int y);
 	protected:
 		void register_class(LuaIntf::LuaBinding& binding) const override;
 	};
