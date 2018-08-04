@@ -257,7 +257,7 @@ game::Game* game::Game::get_instance()
 
 void game::Game::initialize(int argc, char** argv, const char* window_name, const sf::Vector2i& position, const int& width, const int& height)
 {
-	//Log::stream().rdbuf(get_instance()->log_file_.rdbuf());
+	Log::stream().rdbuf(get_instance()->log_file_.rdbuf());
 	
 	auto window = new sf::Window(sf::VideoMode(width, height), window_name, sf::Style::Default, sf::ContextSettings(32));
 	window->setPosition(position);
