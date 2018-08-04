@@ -155,22 +155,7 @@ void game::Game::on_timer(int id)
 
 
 	if (Keyboard::is_up('t'))
-		if (captureMouse)
-		{
-			captureMouse = false;
-			Mouse::set_event_on_mouse_move(nullptr);
-			Mouse::set_cursor(GLUT_CURSOR_INHERIT);
-
-
-		}
-		else
-		{
-			captureMouse = true;
-			Mouse::set_event_on_mouse_move([](const int& x, const int& y) { captureMouse = true; mousePosition.x = x; mousePosition.y = y; });
-			Mouse::set_cursor(GLUT_CURSOR_NONE);
-
-		}
-
+		captureMouse = captureMouse ? false : true;
 
 	if (captureMouse)
 	{
@@ -188,7 +173,7 @@ void game::Game::on_timer(int id)
 		auto right = glm::normalize(glm::cross(dir, glm::vec3(0, 1, 0)));
 		up = glm::normalize(glm::cross(right, dir));
 
-		glutWarpPointer(window_width / 2, window_height / 2);
+		Mouse::set_position(window_width / 2, window_height / 2);
 	}
 
 	::update();
@@ -278,7 +263,6 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 	Mouse::initialize(window, true, true);
 
 	Mouse::set_position(width / 2, height / 2);
-	Mouse::set_event_on_mouse_move([](const int& x, const int& y) { captureMouse = true; mousePosition.x = x; mousePosition.y = y; });
 
 	window_width = width;
 	window_height = height;

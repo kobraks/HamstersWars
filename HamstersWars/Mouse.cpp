@@ -9,6 +9,18 @@
 
 #define POSITION(pos) pos.x, pos.y
 
+void set_position_x(const int &x)
+{
+	auto y = game::Mouse::get_position_y();
+	game::Mouse::set_position(x, y);
+}
+
+void set_position_y(const int& y)
+{
+	auto x = game::Mouse::get_position_x();
+	game::Mouse::set_position(x, y);
+}
+
 void set_position_i(const int &x, const int& y)
 {
 	game::Mouse::set_position(x, y);
@@ -356,8 +368,8 @@ void game::Mouse::register_class(LuaIntf::LuaBinding& binding) const
 			endModule().
 
 			beginModule("position").
-				addVariable("x", &position_.x, false).
-				addVariable("y", &position_.y, false).
+				addProperty("x", &get_position_x, &set_position_x).
+				addProperty("y", &get_position_y, &set_position_y).
 			endModule().
 
 			addFunction("set_position", &set_position_i, LUA_ARGS(const int&, const int&)).
