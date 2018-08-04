@@ -6,6 +6,7 @@
 #include "Defines.h"
 #include "Script.h"
 #include "Defines.h"
+#include "Utils.h"
 
 #pragma region components
 #include "ScriptHandler.h"
@@ -143,20 +144,12 @@ std::shared_ptr<game::Entity> game::EntityLoader::load_entity(const std::string&
 	{
 		Log::level() = Log::log_info;
 		Log::print("Loading entity: %s", type.c_str());
-		//if table_type is table_type and has path then it should be loaded from path file
-		if (table.isTable() && table.has("path"))
+		//if table is and path or contains a path element.
+		if (utils::is_path(table))
 		{
 			Log::level() = Log::log_info;
 			Log::print("entity has a file path so its will be loaded from it");
-			load_components_from_file(entity, type, table["path"].value<std::string>());
-		}
-
-		//if table_type is not table_type and is value then treat that value as path to entity file
-		else if (!table.isTable() && !table.toValue<std::string>().empty())
-		{
-			Log::level() = Log::log_info;
-			Log::print("entity is a file path");
-			load_components_from_file(entity, type, table.toValue<std::string>());
+			load_components_from_file(entity, type, utils::get_path(table));
 		}
 		//entity is in entities file and is table_type then load the components
 		else if (table.isTable())

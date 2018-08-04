@@ -170,6 +170,23 @@ std::string game::utils::get_path(const LuaIntf::LuaRef& path)
 	return "";
 }
 
+bool game::utils::is_path(const LuaIntf::LuaRef& lua_ref)
+{
+	if (lua_ref.isTable())
+	{
+		for (auto element : lua_ref)
+			if (equals(element.key<std::string>(), "lua_ref"))
+				return true;
+	}
+	else
+	{
+		if (!lua_ref.toValue<std::string>().empty())
+			return true;
+	}
+
+	return false;
+}
+
 bool game::utils::is_local_path(const std::string& path)
 {
 	std::regex regex("^.x:\\|/");
