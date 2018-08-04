@@ -168,6 +168,20 @@ void game::Mouse::add_action_on_scroll(const wheel_event& action)
 	get_instance()->on_scroll_ += action;
 }
 
+void game::Mouse::set_visable(bool visable)
+{
+	auto window = reinterpret_cast<sf::Window*>(get_instance()->window_);
+
+	window->setMouseCursorVisible(visable);
+}
+
+void game::Mouse::set_grabbed(bool grabbed)
+{
+	auto window = reinterpret_cast<sf::Window*>(get_instance()->window_);
+
+	window->setMouseCursorGrabbed(grabbed);
+}
+
 void game::Mouse::clear_buttons()
 {
 	auto& keys_up = get_instance()->keys_up_;
@@ -341,9 +355,17 @@ void game::Mouse::register_class(LuaIntf::LuaBinding& binding) const
 				addConstant("undefined", undefined).
 			endModule().
 
+			beginModule("position").
+				addVariable("x", &position_.x, false).
+				addVariable("y", &position_.y, false).
+			endModule().
+
 			addFunction("set_position", &set_position_i, LUA_ARGS(const int&, const int&)).
 			addFunction("get_position_x", &get_position_x).
 			addFunction("get_position_y", &get_position_y).
+
+			addFunction("set_visable", &set_visable, LUA_ARGS(LuaIntf::_def<bool, true>)).
+			addFunction("set_grabbed", &set_grabbed, LUA_ARGS(LuaIntf::_def<bool, true>)).
 
 			addFunction("is_left_button_pressed", &is_left_key_pressed).
 			addFunction("is_left_button_up", &is_left_key_up).

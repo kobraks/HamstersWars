@@ -59,6 +59,9 @@ namespace game
 		static void add_action_on_release(const button_events& action);
 		static void add_action_on_move(const move_event& action);
 		static void add_action_on_scroll(const wheel_event& action);
+
+		static void set_visable(bool visable = true);
+		static void set_grabbed(bool grabbed = true);
 	private:
 		Mouse();
 
