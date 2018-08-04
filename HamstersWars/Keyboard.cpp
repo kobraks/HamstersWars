@@ -8,18 +8,26 @@
 #include "Script.h"
 #include "Log.h"
 
+#define ASSERT(key) assert(key != sf::Keyboard::Unknown && key < sf::Keyboard::KeyCount)
+
 bool game::Keyboard::is_pressed(const int& key)
 {
+	ASSERT(key);
+
 	return get_instance()->pressed_keys_[key];
 }
 
 bool game::Keyboard::is_down(const int& key)
 {
+	ASSERT(key);
+
 	return get_instance()->keys_[key];
 }
 
 bool game::Keyboard::is_up(const int& key)
 {
+	ASSERT(key);
+
 	return get_instance()->up_keys_[key];
 }
 
