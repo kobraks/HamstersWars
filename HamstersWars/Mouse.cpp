@@ -241,7 +241,7 @@ void game::Mouse::initialize(void* wwindow, const bool& visable, const bool& gra
 {
 	lua::Script::register_class<Mouse>(get_instance());
 
-	auto window = reinterpret_cast<sf::Window*>(wwindow);
+	auto window = reinterpret_cast<sf::Window*>(get_instance()->window_ = wwindow);
 
 	window->setMouseCursorGrabbed(grab);
 	window->setMouseCursorVisible(visable);
@@ -357,6 +357,9 @@ game::Mouse::Wheel game::Mouse::translate(const float& wheel)
 
 void game::Mouse::register_class(LuaIntf::LuaBinding& binding) const
 {
+	Log::level() = Log::log_info;
+	Log::print("Register mouse functions");
+
 	binding.
 		beginModule("mouse").
 

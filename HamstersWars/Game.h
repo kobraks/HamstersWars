@@ -26,6 +26,7 @@ namespace game
 		std::fstream log_file_;
 		gl::Camera* camera_;
 		gl::Program* shader_;
+		bool is_runing = false;
 
 		void* window_;
 

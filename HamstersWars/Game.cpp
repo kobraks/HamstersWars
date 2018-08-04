@@ -30,7 +30,6 @@
 glm::vec3 pos(0.f, 1.f, 4.f);
 glm::vec3 dir (0.f, 0.f, -1.f);
 glm::vec3 up(0.f, 1.f, 0.f);
-glm::vec2 mousePosition;
 
 const float speed = 0.05f;
 bool flyingMode = true;
@@ -114,14 +113,23 @@ void game::Game::main_loop()
 {
 	auto window = reinterpret_cast<sf::Window*>(window_);
 	sf::Clock timer;
+	timer.restart();
 	auto elapsed_time = 0.f;
+	sf::Event event;
 
-	while(window->isOpen())
+	while(is_runing)
 	{
-		sf::Event event;
+		if (!window->isOpen())
+		{
+			is_runing = false;
+			break;
+		}
 
 		while(window->pollEvent(event))
 		{
+			if (event.type == sf::Event::Closed)
+				window->close();
+
 			if (event.type == sf::Event::Resized)
 			{
 				auto size = window->getSize();
@@ -138,7 +146,7 @@ void game::Game::main_loop()
 
 		}
 
-		elapsed_time += timer.restart().asMilliseconds();
+		elapsed_time += timer.restart().asSeconds();
 		while (elapsed_time >= TIME_STEP)
 		{
 			update(TIME_STEP);
@@ -152,19 +160,19 @@ void game::Game::main_loop()
 
 void game::Game::update(const float& time_step)
 {
-	if (Keyboard::is_up(27))
+	if (Keyboard::is_up(sf::Keyboard::Key::Escape))
 		stop();
 
-	if (Keyboard::is_down('w'))
+	if (Keyboard::is_down(sf::Keyboard::Key::W))
 		velocity_vertical = 1;
-	if (Keyboard::is_down('s'))
+	if (Keyboard::is_down(sf::Keyboard::Key::S))
 		velocity_vertical = -1;
 
-	if (Keyboard::is_down('a'))
+	if (Keyboard::is_down(sf::Keyboard::Key::A))
 		velocity_horizontal = 1;
-	if (Keyboard::is_down('d'))
+	if (Keyboard::is_down(sf::Keyboard::Key::D))
 		velocity_horizontal = -1;
-	if (Keyboard::is_up('r'))
+	if (Keyboard::is_up(sf::Keyboard::R))
 	{
 		delete shader_;
 		shader_ = nullptr;
@@ -195,16 +203,29 @@ void game::Game::update(const float& time_step)
 	}
 
 
-	if (Keyboard::is_up('t'))
-		captureMouse = captureMouse ? false : true;
+	if (Keyboard::is_up(sf::Keyboard::T))
+	{
+		if (captureMouse)
+		{
+			captureMouse = false;
+			Mouse::set_visable(true);
+			Mouse::set_grabbed(false);
+		}
+		else
+		{
+			captureMouse = true;
+			Mouse::set_visable(false);
+			Mouse::set_grabbed(true);
+		}
+	}
 
 	if (captureMouse)
 	{
 		float theta = atan2(dir.z, dir.x);
 		float phi = asin(dir.y);
 
-		theta += (mousePosition.x - window_width / 2) * 0.01;
-		phi -= (mousePosition.y - window_height / 2) * 0.01;
+		theta += (Mouse::get_position_x() - window_width / 2.f) * 0.01f;
+		phi -= (Mouse::get_position_y() - window_height / 2.f) * 0.01f;
 
 		dir.x = cos(theta) * cos(phi);
 		dir.y = sin(phi);
@@ -236,7 +257,7 @@ game::Game* game::Game::get_instance()
 
 void game::Game::initialize(int argc, char** argv, const char* window_name, const sf::Vector2i& position, const int& width, const int& height)
 {
-	Log::stream().rdbuf(get_instance()->log_file_.rdbuf());
+	//Log::stream().rdbuf(get_instance()->log_file_.rdbuf());
 	
 	auto window = new sf::Window(sf::VideoMode(width, height), window_name, sf::Style::Default, sf::ContextSettings(32));
 	window->setPosition(position);
@@ -261,8 +282,7 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 		throw gl::exception::GlewException(glew_init_result);
 
 	Keyboard::initialize(window);
-	Mouse::initialize(window, true, true);
-
+	Mouse::initialize(window, true, false);
 	Mouse::set_position(width / 2, height / 2);
 
 	window_width = width;
@@ -317,12 +337,13 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 
 void game::Game::run()
 {
+	get_instance()->is_runing = true;
 	get_instance()->main_loop();
 }
 
 void game::Game::stop()
 {
-	
+	get_instance()->is_runing = false;
 }
 
 void game::Game::close()

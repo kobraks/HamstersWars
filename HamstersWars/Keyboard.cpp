@@ -38,7 +38,7 @@ void game::Keyboard::clear_keys()
 	auto& pressed_keys = get_instance()->pressed_keys_;
 	auto& up_keys = get_instance()->up_keys_;
 
-	for (size_t i = 0; i < 256; ++i)
+	for (size_t i = 0; i < sf::Keyboard::KeyCount; ++i)
 	{
 		pressed_keys[i] = false;
 		up_keys[i] = false;
@@ -49,19 +49,19 @@ void game::Keyboard::clear_pressed_keys()
 {
 	auto &keys = get_instance()->pressed_keys_;
 
-	std::fill(keys, keys + 256, false);
+	std::fill(keys, keys + sf::Keyboard::KeyCount, false);
 }
 
 void game::Keyboard::clear_up_keys()
 {
 	auto &keys = get_instance()->up_keys_;
 
-	std::fill(keys, keys + 256, false);
+	std::fill(keys, keys + sf::Keyboard::KeyCount, false);
 }
 
 game::Keyboard::Keyboard(): window_(nullptr)
 {
-	for (size_t i = 0; i < 256; ++i)
+	for (size_t i = 0; i < sf::Keyboard::KeyCount; ++i)
 	{
 		keys_[i] = false;
 		up_keys_[i] = false;
