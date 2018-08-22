@@ -127,8 +127,7 @@ void game::Keyboard::register_class(LuaIntf::LuaBinding& binding) const
 {
 	using namespace sf;
 
-	Log::level() = Log::log_info;
-	Log::print("Register keyboard functions");
+	LOG(LOG_INFO, "Registering keyboard interactions");
 
 	binding.beginModule("keyboard").
 #pragma region keys
