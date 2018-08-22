@@ -2,6 +2,7 @@
 #include <gl/glew.h>
 #include <string>
 #include <memory>
+#include <istream>
 
 namespace gl
 {
@@ -20,6 +21,7 @@ namespace gl
 	public:
 		Shader(shader_type::shader_type_t type);
 		Shader(shader_type::shader_type_t type, const std::string& code);
+		Shader(shader_type::shader_type_t type, std::istream& stream);
 		Shader(const Shader&) = default;
 
 		Shader& operator=(const Shader&) = default;

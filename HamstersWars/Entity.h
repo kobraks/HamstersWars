@@ -32,12 +32,6 @@ namespace game
 		}
 
 		template<class T>
-		void add_component()
-		{
-			add_compoenent<T>(new T(this));
-		}
-
-		template<class T>
 		T* get_component()
 		{
 			auto component = components_.find(typeid(T));

@@ -17,6 +17,7 @@ namespace game
 	{
 	public:
 		static std::vector<std::shared_ptr<Entity>> load(const std::string& file);
+		static std::shared_ptr<Entity> load_entity(const std::string& name, const std::string& file);
 
 	private:
 		static void load_components_from_file(std::shared_ptr<Entity> entity, const std::string& entity_name, const std::string& file);

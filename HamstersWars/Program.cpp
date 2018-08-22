@@ -181,8 +181,8 @@ void gl::Program::populate_parameters()
 {
 	GLint ucount = 0;
 	glGetProgramiv(*obj_, GL_ACTIVE_UNIFORMS, &ucount);
-	Log::level() = Log::log_info;
-	Log::print("Atributes count: %i", ucount);
+	LOG(LOG_DEBUG, "Program attributes count: %i", ucount);
+
 	GLchar buf[256];
 	GLsizei u_length;
 	GLsizei u_size;
@@ -192,8 +192,7 @@ void gl::Program::populate_parameters()
 	for (int i = 0; i<ucount; i++)
 	{
 		glGetActiveUniform(*obj_, i, 256, &u_length, &u_size, &u_type, buf);
-		Log::level() = Log::log_debug;
-		Log::print("\n\tAttribute: %i\n\tname: %s\n\ttype: %u\n\tlength: %u\n\tsize: %i", i, buf, u_type, u_length, u_size);
+		LOG(LOG_DEBUG1, "Attribute: %i\n\tname: %s\n\ttype: %u\n\tlength: %u\n\tsize: %i", i, buf, u_type, u_length, u_size);
 		std::string u_name(buf);
 
 		if (u_type == GL_SAMPLER_2D)

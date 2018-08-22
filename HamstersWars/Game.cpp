@@ -25,6 +25,8 @@
 #include "Shader.h"
 #include "Program.h"
 #include <iostream>
+#include "LinkException.h"
+#include "CompileException.h"
 
 
 glm::vec3 pos(0.f, 1.f, 4.f);
@@ -175,24 +177,9 @@ void game::Game::update(const float& time_step)
 	if (Keyboard::is_up(sf::Keyboard::R))
 	{
 		delete shader_;
-		shader_ = nullptr;
-
-		Log::level() = Log::log_info;
-		Log::print("Loading vertex shader");
-		gl::Shader vertex(gl::shader_type::Vertex);
-		vertex.load_source_form_file(SHADERS_PATH "texture.vert");
-		vertex.compile();
-
-		Log::level() = Log::log_info;
-		Log::print("Loading fragment shader");
-		gl::Shader fragment(gl::shader_type::Fragment);
-		fragment.load_source_form_file(SHADERS_PATH"texture.frag");
-		fragment.compile();
-
-		auto shader = get_instance()->shader_ = new gl::Program(vertex, fragment);
+		auto shader = shader_ = load_program(SHADERS_PATH "texture");
 
 		glActiveTexture(GL_TEXTURE0);
-
 
 		shader->link();
 		shader->use();
@@ -250,6 +237,107 @@ void game::Game::update(const float& time_step)
 	Keyboard::clear_keys();
 }
 
+gl::Shader * game::Game::load_shader(const std::string & file, const TShader& type)
+{
+	gl::Shader* shader;
+
+	switch(type)
+	{
+	case vertex:
+		LOG(LOG_DEBUG, "Loading vertex shader form: %s", SHADERS_PATH "texture.vert");
+		shader = new gl::Shader(gl::shader_type::Vertex);
+		break;
+	case fragment:
+		LOG(LOG_DEBUG, "Loading fragment shader form: %s", SHADERS_PATH "texture.vert");
+		shader = new gl::Shader(gl::shader_type::Fragment);
+		break;
+	case geometry:
+		LOG(LOG_DEBUG, "Loading geometry shader form: %s", SHADERS_PATH "texture.vert");
+		shader = new gl::Shader(gl::shader_type::Geometry);
+		break;
+	}
+
+	try
+	{
+		shader->load_source_form_file(file);
+		LOG(LOG_DEBUG, "Compiling shader");
+		shader->compile();
+	}
+	catch(gl::exception::CompileException& ex)
+	{
+		LOG(LOG_ERROR, "Unable to compile shader: %s", ex.what());
+		delete shader;
+		return nullptr;
+	}
+	catch(std::exception& ex)
+	{
+		LOG(LOG_ERROR, "Unable to ready shader source: %s", ex.what());
+		delete shader;
+		return nullptr;
+	}
+
+	return shader;
+}
+
+gl::Program * game::Game::generate_program(gl::Shader * vertex, gl::Shader * fragment, gl::Shader * geometry)
+{
+	auto program = new gl::Program();
+
+	if (vertex)
+	{
+		LOG(LOG_DEBUG, "Attaching vertex shader");
+		program->attach(*vertex);
+	}
+	else
+		LOG(LOG_WARNING, "No vertex shader");
+
+	if (vertex)
+	{
+		LOG(LOG_DEBUG, "Attaching fragment shader");
+		program->attach(*fragment);
+	}
+	else
+		LOG(LOG_WARNING, "No fragment shader");
+
+	if (vertex)
+	{
+		LOG(LOG_DEBUG, "Attaching geometry shader");
+		program->attach(*geometry);
+	}
+	else
+		LOG(LOG_WARNING, "No geometry shader");
+
+	try
+	{
+		LOG(LOG_DEBUG, "Linking the shader");
+		program->link();
+	}
+	catch (gl::exception::LinkException& ex)
+	{
+		LOG(LOG_ERROR, "Unable to link shaders %s", ex.what());
+
+		delete program;
+		program = nullptr;
+	}
+
+	return program;
+}
+
+gl::Program * game::Game::load_program(const std::string & file)
+{
+	gl::Shader* vertex_shader = load_shader(file + ".vert", vertex);
+	gl::Shader* fragment_shader = load_shader(file + ".frag", fragment);
+	gl::Shader* geometry_shader= load_shader(file + ".geo", geometry);
+
+	gl::Program* program = generate_program(vertex_shader, fragment_shader, geometry_shader);
+
+	delete vertex_shader;
+	delete fragment_shader;
+	delete geometry_shader;
+
+	return program;
+}
+
 game::Game* game::Game::get_instance()
 {
 	static Game instance;
@@ -258,7 +346,11 @@ game::Game* game::Game::get_instance()
 
 void game::Game::initialize(int argc, char** argv, const char* window_name, const sf::Vector2i& position, const int& width, const int& height)
 {
-	FileLog
+	if (fopen_s(&Output2File::stream(), LOG_FILE, "w"))
+	{
+		Output2File::stream() = stderr;
+		LOG(LOG_ERROR, "Unable to open %s", LOG_FILE);
+	}
 
 	auto window = new sf::Window(sf::VideoMode(width, height), window_name, sf::Style::Default, sf::ContextSettings(32));
 	window->setPosition(position);
@@ -267,10 +359,7 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 	
 	window->setVerticalSyncEnabled(true);
 	if (!window->setActive())
-	{
-		Log::level() = Log::log_error;
-		Log::print("Unable to set valid opengl context");
-	}
+		LOG(LOG_ERROR, "Unable to set valid opengl contex");
 
 
 	glEnable(GL_DEPTH_TEST);
@@ -291,26 +380,16 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 
 	get_instance()->camera_ = new gl::Camera(width, height, pos, pos + dir, glm::vec3(0, 1, 0), 60.f);
 
-	Log::level() = Log::log_info;
-	Log::print("Loading vertex shader");
-	gl::Shader vertex(gl::shader_type::Vertex);
-	vertex.load_source_form_file(SHADERS_PATH "texture.vert");
-	vertex.compile();
-
-	Log::level() = Log::log_info;
-	Log::print("Loading fragment shader");
-	gl::Shader fragment(gl::shader_type::Fragment);
-	fragment.load_source_form_file(SHADERS_PATH"texture.frag");
-	fragment.compile();
-
-	auto shader = get_instance()->shader_ = new gl::Program(vertex, fragment);
+	LOG(LOG_INFO, "Loading texture shader");
+	auto shader = get_instance()->shader_ = load_program(SHADERS_PATH"texture");
+	if (!shader)
+		exit(EXIT_FAILURE);
 
 	glActiveTexture(GL_TEXTURE0);
 
 	modela = model::ModelLoader::load(MODELS_PATH"cow.3DS");
 	modela->set_scale(glm::vec3(0.005f));
 
-	shader->link();
 	shader->use();
 
 	shader->set_uniform(shader->get_uniform("my_texture"), GL_TEXTURE0);

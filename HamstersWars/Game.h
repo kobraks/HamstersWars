@@ -35,6 +35,12 @@ namespace game
 		void main_loop();
 		void update(const float& time_step);
 
+		enum TShader : int { fragment, geometry, vertex };
+
+		static gl::Shader* load_shader(const std::string& file, const TShader& type);
+		static gl::Program* generate_program(gl::Shader* vertex, gl::Shader* fragment, gl::Shader* geometry = nullptr);
+		static gl::Program* load_program(const std::string& file);
+
 		static Game* get_instance();
 	};
 }

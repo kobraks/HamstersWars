@@ -18,6 +18,16 @@ gl::Shader::Shader(shader_type::shader_type_t type, const std::string& code) : S
 	compile();
 }
 
+gl::Shader::Shader(shader_type::shader_type_t type, std::istream& stream)
+{
+	std::stringstream str;
+
+	stream.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+	str << stream.rdbuf();
+
+	source(str.str());
+}
+
 gl::Shader::operator unsigned() const
 {
 	return *obj_;

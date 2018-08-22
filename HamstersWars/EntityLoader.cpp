@@ -26,17 +26,25 @@ std::vector<std::shared_ptr<game::Entity>> game::EntityLoader::load(const std::s
 {
 	try
 	{
-		Log::level() = Log::log_info;
-		Log::print("Loading file %s", file.c_str());
+		LOG(LOG_INFO, "Loading entitys from %s", file.c_str());
 		lua::Script::do_file(file);
 	}
 	catch(LuaIntf::LuaException& lua)
 	{
-		Log::write_error("lua throws exception: ", lua.what());
+		LOG(LOG_ERROR, "Lua throws exception: %s", lua.what());
 		return std::vector<std::shared_ptr<game::Entity>>();
 	}
 
 	return get_entities(LuaIntf::LuaRef(lua::Script::lua(), "entities"));
+}
+
+std::shared_ptr<game::Entity> game::EntityLoader::load_entity(const std::string & name, const std::string & file)
+{
+	std::shared_ptr<Entity> entity(new Entity());
+	entity->set_type(name);
+	load_components_from_file(entity, name, file);
+
+	return entity;
 }
 
 /**
@@ -50,15 +58,13 @@ void game::EntityLoader::load_components_from_file(std::shared_ptr<Entity> entit
 {
 	try
 	{
-		Log::level() = Log::log_info;
-		Log::print("Opening file: %s", std::string(LUA_SCRIPTS_PATH + file).c_str());
+		LOG(LOG_DEBUG, "Opening file: %s", std::string(LUA_SCRIPTS_PATH + file).c_str());
 
 		lua::Script::do_file(std::string(LUA_SCRIPTS_PATH + file).c_str());
 	}
 	catch (LuaIntf::LuaException& lua)
 	{
-		Log::write_error("lua throws exception: ", lua.what());
-
+		LOG(LOG_ERROR, "Lua throws exception: %s", lua.what());
 		return;
 	}
 
@@ -70,19 +76,17 @@ void game::EntityLoader::load_components_from_file(std::shared_ptr<Entity> entit
 
 		if (!components.isValid() || !components.isTable())
 		{
-			Log::level() = Log::log_warning;
-			Log::print("insite doeas not exist any of component table_type");
+			LOG(LOG_WARNING, "Entity %s has no components", entity->get_type());
 			return;
 		}
 	}
 	catch (LuaIntf::LuaException& ex)
 	{
-		Log::write_error("unable to read entity table_type lua throws exception: ", ex.what());
+		LOG(LOG_ERROR, "Lua throws exception: %s", ex.what());
 		return;
 	}
 
-	Log::level() = Log::log_info;
-	Log::print("Loading components");
+	LOG(LOG_DEBUG, "Populate %s with components", entity->get_type());
 	for (auto component : components)
 		get_component(entity, component.key<std::string>(), component.value());
 }
@@ -107,20 +111,15 @@ std::vector<std::shared_ptr<game::Entity>> game::EntityLoader::get_entities(cons
 			if (entity)
 				result.push_back(entity);
 			else
-			{
-				Log::level() = Log::log_error;
-				Log::print("Unable to load entity %s", entity_table.key<std::string>());
-			}
+				LOG(LOG_ERROR, "Unable to load entity %s", entity_table.key<std::string>().c_str());
 		}
 		catch (LuaIntf::LuaException& ex)
 		{
-			Log::write_error("lua throws exception: ", ex.what());
-			
+			LOG(LOG_ERROR, "Lua throws exception: %s", ex.what());
 
 			try
 			{
-				Log::level() = Log::log_error;
-				Log::print("Unable to load entity %s", entity_table.key<std::string>());
+				LOG(LOG_ERROR, "Unable to load entity %s", entity_table.key<std::string>().c_str());
 			}
 			catch(LuaIntf::LuaRef&)
 			{ }
@@ -142,20 +141,18 @@ std::shared_ptr<game::Entity> game::EntityLoader::load_entity(const std::string&
 
 	try
 	{
-		Log::level() = Log::log_info;
-		Log::print("Loading entity: %s", type.c_str());
+		LOG(LOG_DEBUG, "Loading entity %s", type.c_str());
+
 		//if table is and path or contains a path element.
 		if (utils::is_path(table))
 		{
-			Log::level() = Log::log_info;
-			Log::print("entity has a file path so its will be loaded from it");
+			LOG(LOG_DEBUG, "Entity detected as file");
 			load_components_from_file(entity, type, utils::get_path(table));
 		}
 		//entity is in entities file and is table_type then load the components
 		else if (table.isTable())
 		{
-			Log::level() = Log::log_info;
-			Log::print("entity is a table_type");
+			LOG(LOG_DEBUG, "Entity is an table");
 			for (auto component : table)
 				get_component(entity, component.key<std::string>(), component.value());
 		}
@@ -164,8 +161,7 @@ std::shared_ptr<game::Entity> game::EntityLoader::load_entity(const std::string&
 	}
 	catch(LuaIntf::LuaException& ex)
 	{
-		Log::write_error("lua error", ex.what());
-
+		LOG(LOG_ERROR, "Lua throws exception: %s", ex.what());
 		return nullptr;
 	}
 	
@@ -197,7 +193,6 @@ void game::EntityLoader::get_component(std::shared_ptr<Entity> entity, const std
 		add_component<component::TransformComponent>(entity, ref, component);
 	else
 	{
-		Log::level() = Log::log_warning;
-		Log::print("Unrecognize component: %s", component.c_str());
+		LOG(LOG_WARNING, "Unrecognized %s component %s", entity->get_type().c_str(), component.c_str());
 	}
 }
