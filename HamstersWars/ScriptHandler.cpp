@@ -50,8 +50,7 @@ void game::component::ScriptHandler::set_on_update(const std::string& code)
 
 void game::component::ScriptHandler::set_on_update(const LuaIntf::LuaRef& function)
 {
-	Log::level() = Log::log_info;
-	Log::print("Adding on_update function");
+	LOG(LOG_DEBUG, "Adding on_update function to %s", get_owner()->get_type().c_str());
 	if (!is_function(function))
 		throw exception::NotFunctionExcpetion(UPDATE_FUNCTION);
 
@@ -65,8 +64,7 @@ void game::component::ScriptHandler::set_on_destroy(const std::string& code)
 
 void game::component::ScriptHandler::set_on_destroy(const LuaIntf::LuaRef& function)
 {
-	Log::level() = Log::log_info;
-	Log::print("Adding on_destroy function");
+	LOG(LOG_DEBUG, "Adding on_destroy function to %s", get_owner()->get_type().c_str());
 	if (!is_function(function))
 		throw exception::NotFunctionExcpetion(DESTROY_FUNCTION);
 
@@ -80,8 +78,7 @@ void game::component::ScriptHandler::set_on_copy(const std::string& code)
 
 void game::component::ScriptHandler::set_on_copy(const LuaIntf::LuaRef& function)
 {
-	Log::level() = Log::log_info;
-	Log::print("Adding on_copy function");
+	LOG(LOG_DEBUG, "Adding on_copy function to %s", get_owner()->get_type().c_str());
 	if (!is_function(function))
 		throw exception::NotFunctionExcpetion(COPY_FUNCTION);
 
@@ -96,8 +93,7 @@ void game::component::ScriptHandler::set_on_create(const std::string& code)
 
 void game::component::ScriptHandler::set_on_create(const LuaIntf::LuaRef& function)
 {
-	Log::level() = Log::log_info;
-	Log::print("Adding on_create function");
+	LOG(LOG_DEBUG, "Adding on_create function to %s", get_owner()->get_type().c_str());
 	if (!is_function(function))
 		throw exception::NotFunctionExcpetion(CREATE_FUNCTION);
 
@@ -111,8 +107,7 @@ void game::component::ScriptHandler::set_on_collision(const std::string& code)
 
 void game::component::ScriptHandler::set_on_collision(const LuaIntf::LuaRef& function)
 {
-	Log::level() = Log::log_info;
-	Log::print("Adding on_collision function");
+	LOG(LOG_DEBUG, "Adding on_collision function to %s", get_owner()->get_type().c_str());
 	if (!is_function(function))
 		throw exception::NotFunctionExcpetion(COLLISION_FUNCTION);
 
@@ -195,10 +190,9 @@ void game::component::ScriptHandler::parse_table(const LuaIntf::LuaRef& table)
 			{
 				set_on_update(value);
 			}
-			catch(exception::GameException& ex)
+			catch (exception::GameException& ex)
 			{
-				Log::level() = Log::log_error;
-				Log::print(ex.what());
+				LOG(LOG_ERROR, "Exception was thrown: %s", ex.what());
 			}
 		}
 		else if (bigger_key == COPY_FUNCTION)
@@ -209,8 +203,7 @@ void game::component::ScriptHandler::parse_table(const LuaIntf::LuaRef& table)
 			}
 			catch (exception::GameException& ex)
 			{
-				Log::level() = Log::log_error;
-				Log::print(ex.what());
+				LOG(LOG_ERROR, "Exception was thrown: %s", ex.what());
 			}
 		}
 		else if (bigger_key == CREATE_FUNCTION)
@@ -221,8 +214,7 @@ void game::component::ScriptHandler::parse_table(const LuaIntf::LuaRef& table)
 			}
 			catch (exception::GameException& ex)
 			{
-				Log::level() = Log::log_error;
-				Log::print(ex.what());
+				LOG(LOG_ERROR, "Exception was thrown: %s", ex.what());
 			}
 		}
 		else if (bigger_key == DESTROY_FUNCTION)
@@ -231,10 +223,9 @@ void game::component::ScriptHandler::parse_table(const LuaIntf::LuaRef& table)
 			{
 				set_on_destroy(value);
 			}
-			catch(exception::GameException& ex)
+			catch (exception::GameException& ex)
 			{
-				Log::level() = Log::log_error;
-				Log::print(ex.what());
+				LOG(LOG_ERROR, "Exception was thrown: %s", ex.what());
 			}
 		}
 		else if (bigger_key == COLLISION_FUNCTION)
@@ -245,17 +236,13 @@ void game::component::ScriptHandler::parse_table(const LuaIntf::LuaRef& table)
 			}
 			catch (exception::GameException& ex)
 			{
-				Log::level() = Log::log_error;
-				Log::print(ex.what());
+				LOG(LOG_ERROR, "Exception was thrown: %s", ex.what());
 			}
 		}
 		else
-		{
-			Log::level() = Log::log_warning;
-			Log::print("Unable to recognize gived table_type key: %s", element.key<std::string>().c_str());
+			LOG(LOG_WARNING, "Unable to recognize gived table_type key: %s", element.key<std::string>().c_str());
 		}
 
-	}
 }
 
 void game::component::ScriptHandler::run_function(LuaIntf::LuaRef& function) const
@@ -270,8 +257,7 @@ void game::component::ScriptHandler::run_function(LuaIntf::LuaRef& function) con
 		}
 		catch (LuaIntf::LuaException& ex)
 		{
-			Log::level() = Log::log_error;
-			Log::print("Entity [%s] Component [%s] throws lua exception: %s", get_owner()->get_type().c_str(), "Script", ex.what());
+			LOG(LOG_ERROR, "Entity [%s] Component [%s] throws lua exception: %s", get_owner()->get_type().c_str(), "Script", ex.what());
 		}
 	}
 }

@@ -357,7 +357,7 @@ game::Mouse::Wheel game::Mouse::translate(const float& wheel)
 
 void game::Mouse::register_class(LuaIntf::LuaBinding& binding) const
 {
-	LOG(LOG_INFO, "Registering mouse functions"):
+	LOG(LOG_INFO, "Registering mouse functions");
 
 	binding.
 		beginModule("mouse").

@@ -9,7 +9,7 @@ namespace game
 	public:
 		Rectangle() = default;
 		Rectangle(T left, T top, T width, T height) : left(left), top(top), width(width), height(height) {}
-		Rectangle(const sf::Vector2<T>& position, const sf::Vector2<T>& size) : left(position.x), riht(position.y),
+		Rectangle(const sf::Vector2<T>& position, const sf::Vector2<T>& size) : left(position.x), top(position.y),
 			width(size.x), height(size.y)
 		{
 		}

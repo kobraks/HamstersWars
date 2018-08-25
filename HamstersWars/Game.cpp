@@ -239,7 +239,7 @@ void game::Game::update(const float& time_step)
 
 gl::Shader * game::Game::load_shader(const std::string & file, const TShader& type)
 {
-	gl::Shader* shader;
+	gl::Shader* shader = nullptr;
 
 	switch(type)
 	{
