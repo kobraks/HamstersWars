@@ -93,8 +93,10 @@ namespace game
 		action get(const size_type& index) const;
 		action& get(const size_type& index);
 
-		void operator()(Params&&... params) const;
+		void operator()(Params&... params) const;
 		LuaAction& operator+=(const action& action);
+
+		void call(Params&... params) const;
 
 		void add(const action& action);
 
@@ -276,10 +278,9 @@ namespace game
 	}
 
 	template <class ... Params>
-	void LuaAction<Params...>::operator()(Params&&... params) const
+	void LuaAction<Params...>::operator()(Params&... params) const
 	{
-		for (auto function : actions_)
-			function.call(params...);
+		call(params...);
 	}
 
 	template <class ... Params>
@@ -287,6 +288,13 @@ namespace game
 	{
 		add(action);
 		return *this;
+	}
+
+	template <class ... Params>
+	void LuaAction<Params...>::call(Params&... params) const
+	{
+		for (auto function : actions_)
+			function.call(params...);
 	}
 
 	template <class ... Params>

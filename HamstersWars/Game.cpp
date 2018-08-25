@@ -244,15 +244,15 @@ gl::Shader * game::Game::load_shader(const std::string & file, const TShader& ty
 	switch(type)
 	{
 	case vertex:
-		LOG(LOG_DEBUG, "Loading vertex shader form: %s", SHADERS_PATH "texture.vert");
+		LOG(LOG_DEBUG, "Loading vertex shader form: %s", file.c_str());
 		shader = new gl::Shader(gl::shader_type::Vertex);
 		break;
 	case fragment:
-		LOG(LOG_DEBUG, "Loading fragment shader form: %s", SHADERS_PATH "texture.vert");
+		LOG(LOG_DEBUG, "Loading fragment shader form: %s", file.c_str());
 		shader = new gl::Shader(gl::shader_type::Fragment);
 		break;
 	case geometry:
-		LOG(LOG_DEBUG, "Loading geometry shader form: %s", SHADERS_PATH "texture.vert");
+		LOG(LOG_DEBUG, "Loading geometry shader form: %s", file.c_str());
 		shader = new gl::Shader(gl::shader_type::Geometry);
 		break;
 	}
@@ -271,7 +271,7 @@ gl::Shader * game::Game::load_shader(const std::string & file, const TShader& ty
 	}
 	catch(std::exception& ex)
 	{
-		LOG(LOG_ERROR, "Unable to ready shader source: %s", ex.what());
+		LOG(LOG_ERROR, "Unable to read shader source: %s", ex.what());
 		delete shader;
 		return nullptr;
 	}

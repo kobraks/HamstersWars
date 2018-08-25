@@ -1,71 +1,71 @@
-- Sat Aug 25 05:30:04 2018  info: Registering keyboard interactions
-- Sat Aug 25 05:30:04 2018  info: Registering mouse functions
-- Sat Aug 25 05:30:04 2018  info: Loading texture shader
-- Sat Aug 25 05:30:04 2018  debug: Loading vertex shader form: ../resources/shaders/texture.vert
-- Sat Aug 25 05:30:04 2018  debug: Compiling shader
-- Sat Aug 25 05:30:04 2018  debug: Loading fragment shader form: ../resources/shaders/texture.vert
-- Sat Aug 25 05:30:04 2018  debug: Compiling shader
-- Sat Aug 25 05:30:04 2018  debug: Loading geometry shader form: ../resources/shaders/texture.vert
-- Sat Aug 25 05:30:04 2018  error: Unable to ready shader source: ios_base::failbit set: iostream stream error
-- Sat Aug 25 05:30:04 2018  debug: Attaching vertex shader
-- Sat Aug 25 05:30:04 2018  debug: Attaching fragment shader
-- Sat Aug 25 05:30:04 2018  warning: No geometry shader
-- Sat Aug 25 05:30:04 2018  debug: Linking the shader
-- Sat Aug 25 05:30:04 2018  debug: Program attributes count: 6
-- Sat Aug 25 05:30:04 2018  info: Opening file ../resources/models/cow.3DS
-- Sat Aug 25 05:30:04 2018  debug: Import of scene ../resources/models/cow.3DS succeeded
-- Sat Aug 25 05:30:04 2018  debug: Meses count: 4
-- Sat Aug 25 05:30:04 2018  debug: Processing mesh number: 0
-- Sat Aug 25 05:30:04 2018  warning: Mesh has not normal vectors
-- Sat Aug 25 05:30:04 2018  info: Loading texture ../resources/textures/COWSKIN.JPG
-- Sat Aug 25 05:30:04 2018  debug: Image size 793x440
-- Sat Aug 25 05:30:04 2018  debug: Processing mesh number: 1
-- Sat Aug 25 05:30:04 2018  warning: Mesh has not normal vectors
-- Sat Aug 25 05:30:04 2018  info: Loading texture ../resources/textures/default.png
-- Sat Aug 25 05:30:04 2018  error: Unable to load file ../resources/textures/default.png, ios_base::failbit set: iostream stream error
-- Sat Aug 25 05:30:04 2018  debug: Image size 0x0
-- Sat Aug 25 05:30:04 2018  debug: Processing mesh number: 2
-- Sat Aug 25 05:30:04 2018  warning: Mesh has not normal vectors
-- Sat Aug 25 05:30:04 2018  info: Loading texture ../resources/textures/COWEYE.JPG
-- Sat Aug 25 05:30:04 2018  debug: Image size 220x220
-- Sat Aug 25 05:30:04 2018  debug: Processing mesh number: 3
-- Sat Aug 25 05:30:04 2018  warning: Mesh has not normal vectors
-- Sat Aug 25 05:30:04 2018  info: Loading texture ../resources/textures/COWCUER.JPG
-- Sat Aug 25 05:30:04 2018  debug: Image size 168x168
-- Sat Aug 25 05:30:04 2018  info: Loading entitys from ../resources/lua_scripts/entities.lua
-- Sat Aug 25 05:30:04 2018  debug: Loading entity cow
-- Sat Aug 25 05:30:04 2018  debug: Entity detected as file
-- Sat Aug 25 05:30:04 2018  debug: Opening file: ../resources/lua_scripts/cow.lua
-- Sat Aug 25 05:30:04 2018  debug: Populate x٘ with components
-- Sat Aug 25 05:30:04 2018  debug: Loading Graphic component
-- Sat Aug 25 05:30:04 2018  warning: Unable to recognize gievd table_type key: ala
-- Sat Aug 25 05:30:04 2018  debug: Attempting to load model path
-- Sat Aug 25 05:30:04 2018  debug: Attempting to load file: cow.3DS
-- Sat Aug 25 05:30:04 2018  debug: Detected as local path so model will be loaded from: ../resources/models/cow.3DS
-- Sat Aug 25 05:30:04 2018  info: Opening file ../resources/models/cow.3DS
-- Sat Aug 25 05:30:04 2018  debug: Import of scene ../resources/models/cow.3DS succeeded
-- Sat Aug 25 05:30:04 2018  debug: Meses count: 4
-- Sat Aug 25 05:30:04 2018  debug: Processing mesh number: 0
-- Sat Aug 25 05:30:04 2018  warning: Mesh has not normal vectors
-- Sat Aug 25 05:30:04 2018  info: Loading texture ../resources/textures/COWSKIN.JPG
-- Sat Aug 25 05:30:04 2018  debug: Texture loaded before
-- Sat Aug 25 05:30:04 2018  debug: Processing mesh number: 1
-- Sat Aug 25 05:30:04 2018  warning: Mesh has not normal vectors
-- Sat Aug 25 05:30:04 2018  info: Loading texture ../resources/textures/default.png
-- Sat Aug 25 05:30:04 2018  debug: Texture loaded before
-- Sat Aug 25 05:30:04 2018  debug: Processing mesh number: 2
-- Sat Aug 25 05:30:04 2018  warning: Mesh has not normal vectors
-- Sat Aug 25 05:30:04 2018  info: Loading texture ../resources/textures/COWEYE.JPG
-- Sat Aug 25 05:30:04 2018  debug: Texture loaded before
-- Sat Aug 25 05:30:04 2018  debug: Processing mesh number: 3
-- Sat Aug 25 05:30:04 2018  warning: Mesh has not normal vectors
-- Sat Aug 25 05:30:04 2018  info: Loading texture ../resources/textures/COWCUER.JPG
-- Sat Aug 25 05:30:04 2018  debug: Texture loaded before
-- Sat Aug 25 05:30:04 2018  debug: Attempting to load drawable value
-- Sat Aug 25 05:30:04 2018  debug: Loading Collider component
-- Sat Aug 25 05:30:04 2018  debug: Loading Script component
-- Sat Aug 25 05:30:04 2018  debug: Adding on_update function to cow
-- Sat Aug 25 05:30:04 2018  debug: Loading Transform component
-- Sat Aug 25 05:30:04 2018  debug: Reading position
-- Sat Aug 25 05:30:04 2018  debug: Reading rotation
-- Sat Aug 25 05:30:04 2018  debug: Reading scale
+- Sat Aug 25 15:38:11 2018  info: Registering keyboard interactions
+- Sat Aug 25 15:38:11 2018  info: Registering mouse functions
+- Sat Aug 25 15:38:11 2018  info: Loading texture shader
+- Sat Aug 25 15:38:11 2018  debug: Loading vertex shader form: ../resources/shaders/texture.vert
+- Sat Aug 25 15:38:11 2018  debug: Compiling shader
+- Sat Aug 25 15:38:11 2018  debug: Loading fragment shader form: ../resources/shaders/texture.frag
+- Sat Aug 25 15:38:11 2018  debug: Compiling shader
+- Sat Aug 25 15:38:11 2018  debug: Loading geometry shader form: ../resources/shaders/texture.geo
+- Sat Aug 25 15:38:11 2018  error: Unable to read shader source: ios_base::failbit set: iostream stream error
+- Sat Aug 25 15:38:11 2018  debug: Attaching vertex shader
+- Sat Aug 25 15:38:11 2018  debug: Attaching fragment shader
+- Sat Aug 25 15:38:11 2018  warning: No geometry shader
+- Sat Aug 25 15:38:11 2018  debug: Linking the shader
+- Sat Aug 25 15:38:11 2018  debug: Program attributes count: 6
+- Sat Aug 25 15:38:11 2018  info: Opening file ../resources/models/cow.3DS
+- Sat Aug 25 15:38:11 2018  debug: Import of scene ../resources/models/cow.3DS succeeded
+- Sat Aug 25 15:38:11 2018  debug: Meses count: 4
+- Sat Aug 25 15:38:11 2018  debug: Processing mesh number: 0
+- Sat Aug 25 15:38:11 2018  warning: Mesh has not normal vectors
+- Sat Aug 25 15:38:11 2018  info: Loading texture ../resources/textures/COWSKIN.JPG
+- Sat Aug 25 15:38:11 2018  debug: Image size 793x440
+- Sat Aug 25 15:38:11 2018  debug: Processing mesh number: 1
+- Sat Aug 25 15:38:11 2018  warning: Mesh has not normal vectors
+- Sat Aug 25 15:38:11 2018  info: Loading texture ../resources/textures/default.png
+- Sat Aug 25 15:38:11 2018  error: Unable to load file ../resources/textures/default.png, ios_base::failbit set: iostream stream error
+- Sat Aug 25 15:38:11 2018  debug: Image size 0x0
+- Sat Aug 25 15:38:11 2018  debug: Processing mesh number: 2
+- Sat Aug 25 15:38:11 2018  warning: Mesh has not normal vectors
+- Sat Aug 25 15:38:11 2018  info: Loading texture ../resources/textures/COWEYE.JPG
+- Sat Aug 25 15:38:11 2018  debug: Image size 220x220
+- Sat Aug 25 15:38:11 2018  debug: Processing mesh number: 3
+- Sat Aug 25 15:38:11 2018  warning: Mesh has not normal vectors
+- Sat Aug 25 15:38:11 2018  info: Loading texture ../resources/textures/COWCUER.JPG
+- Sat Aug 25 15:38:11 2018  debug: Image size 168x168
+- Sat Aug 25 15:38:11 2018  info: Loading entitys from ../resources/lua_scripts/entities.lua
+- Sat Aug 25 15:38:11 2018  debug: Loading entity cow
+- Sat Aug 25 15:38:11 2018  debug: Entity detected as file
+- Sat Aug 25 15:38:11 2018  debug: Opening file: ../resources/lua_scripts/cow.lua
+- Sat Aug 25 15:38:11 2018  debug: Populate �ݿ with components
+- Sat Aug 25 15:38:11 2018  debug: Loading Collider component
+- Sat Aug 25 15:38:11 2018  debug: Loading Graphic component
+- Sat Aug 25 15:38:11 2018  warning: Unable to recognize gievd table_type key: ala
+- Sat Aug 25 15:38:11 2018  debug: Attempting to load drawable value
+- Sat Aug 25 15:38:11 2018  debug: Attempting to load model path
+- Sat Aug 25 15:38:11 2018  debug: Attempting to load file: cow.3DS
+- Sat Aug 25 15:38:11 2018  debug: Detected as local path so model will be loaded from: ../resources/models/cow.3DS
+- Sat Aug 25 15:38:11 2018  info: Opening file ../resources/models/cow.3DS
+- Sat Aug 25 15:38:11 2018  debug: Import of scene ../resources/models/cow.3DS succeeded
+- Sat Aug 25 15:38:11 2018  debug: Meses count: 4
+- Sat Aug 25 15:38:11 2018  debug: Processing mesh number: 0
+- Sat Aug 25 15:38:11 2018  warning: Mesh has not normal vectors
+- Sat Aug 25 15:38:11 2018  info: Loading texture ../resources/textures/COWSKIN.JPG
+- Sat Aug 25 15:38:11 2018  debug: Texture loaded before
+- Sat Aug 25 15:38:11 2018  debug: Processing mesh number: 1
+- Sat Aug 25 15:38:11 2018  warning: Mesh has not normal vectors
+- Sat Aug 25 15:38:11 2018  info: Loading texture ../resources/textures/default.png
+- Sat Aug 25 15:38:11 2018  debug: Texture loaded before
+- Sat Aug 25 15:38:11 2018  debug: Processing mesh number: 2
+- Sat Aug 25 15:38:11 2018  warning: Mesh has not normal vectors
+- Sat Aug 25 15:38:11 2018  info: Loading texture ../resources/textures/COWEYE.JPG
+- Sat Aug 25 15:38:11 2018  debug: Texture loaded before
+- Sat Aug 25 15:38:11 2018  debug: Processing mesh number: 3
+- Sat Aug 25 15:38:11 2018  warning: Mesh has not normal vectors
+- Sat Aug 25 15:38:11 2018  info: Loading texture ../resources/textures/COWCUER.JPG
+- Sat Aug 25 15:38:11 2018  debug: Texture loaded before
+- Sat Aug 25 15:38:11 2018  debug: Loading Transform component
+- Sat Aug 25 15:38:11 2018  debug: Reading position
+- Sat Aug 25 15:38:11 2018  debug: Reading scale
+- Sat Aug 25 15:38:11 2018  debug: Reading rotation
+- Sat Aug 25 15:38:11 2018  debug: Loading Script component
+- Sat Aug 25 15:38:11 2018  debug: Adding on_update function to cow

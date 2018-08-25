@@ -228,6 +228,7 @@
     <ClInclude Include="UnableToFindSpecifedTableKeyException.h" />
     <ClInclude Include="UnknownFormatException.h" />
     <ClInclude Include="UnknownTableElementException.h" />
+    <ClInclude Include="Updatable.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="Vector3D.h" />

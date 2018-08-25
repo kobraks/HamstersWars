@@ -374,6 +374,9 @@
     <ClInclude Include="LuaAction.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
+    <ClInclude Include="Updatable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\shaders\texture.frag">

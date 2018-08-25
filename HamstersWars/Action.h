@@ -90,8 +90,9 @@ namespace game
 		action get(const size_type& index) const;
 		action& get(const size_type& index);
 
-		void operator()(Params&&... params) const;
+		void operator()(Params&... params) const;
 		Action& operator+=(const action& action);
+		void call(Params&... params) const;
 
 		void add(const action& action);
 
@@ -265,10 +266,9 @@ namespace game
 	}
 
 	template <class ... Params>
-	void Action<Params...>::operator()(Params&&... params) const
+	void Action<Params...>::operator()(Params&... params) const
 	{
-		for (auto func : actions_)
-			func(params...);
+		call(params...);
 	}
 
 	template <class ... Params>
@@ -276,6 +276,13 @@ namespace game
 	{
 		add(action);
 		return *this;
+	}
+
+	template <class ... Params>
+	void Action<Params...>::call(Params&... params) const
+	{
+		for (auto func : actions_)
+			func(params...);
 	}
 
 	template <class ... Params>
