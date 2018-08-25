@@ -39,6 +39,8 @@ namespace game
 		static gl::Program* generate_program(gl::Shader* vertex, gl::Shader* fragment, gl::Shader* geometry = nullptr);
 		static gl::Program* load_program(const std::string& file);
 
+		static void register_classes();
+
 		static Game* get_instance();
 	};
 }

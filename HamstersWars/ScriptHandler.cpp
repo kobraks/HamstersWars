@@ -6,9 +6,6 @@
 #include "utils.h"
 #include "NotFunctionException.h"
 
-#define ADD_FUNCTION(x) addFunction(#x, &EntityScriptHandler::x)
-#define ADD_FUNCTION_PARAMS(x,params) addFunction(#x, &EntityScriptHandler::x, params)
-
 game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> owner) : ScriptHandler()
 {
 	set_owner(owner);
@@ -145,33 +142,8 @@ void game::component::ScriptHandler::on_copy()
 	run_function(copy_);
 }
 
-void game::component::ScriptHandler::register_class(LuaIntf::LuaBinding& binding) const
-{
-	using namespace script;
-
-	binding
-		.beginClass<glm::vec3>("vec3")
-			.addConstructor(LUA_ARGS(float, float, float))
-			.addVariable("x", &glm::vec3::x, true)
-			.addVariable("y", &glm::vec3::y, true)
-			.addVariable("z", &glm::vec3::z, true)
-		.endClass()
-		.beginClass<EntityScriptHandler>("EntityScriptHandler")
-			.ADD_FUNCTION(get_elapsed_time)
-			.ADD_FUNCTION_PARAMS(scale, LUA_ARGS(glm::vec3))
-			.ADD_FUNCTION_PARAMS(translate, LUA_ARGS(glm::vec3))
-			.ADD_FUNCTION_PARAMS(rotate, LUA_ARGS(glm::vec3))
-			.ADD_FUNCTION_PARAMS(set_position, LUA_ARGS(glm::vec3))
-			.ADD_FUNCTION_PARAMS(move, LUA_ARGS(glm::vec3))
-			.ADD_FUNCTION(get_position)
-			.ADD_FUNCTION(is_colliding)
-			.ADD_FUNCTION(destroy)
-		.endClass();
-}
-
 game::component::ScriptHandler::ScriptHandler() : Component(nullptr)
 {
-	lua::Script::register_class<ScriptHandler>(this);
 
 }
 

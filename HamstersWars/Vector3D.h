@@ -2,6 +2,8 @@
 #include <glm/glm.hpp>
 #include <SFML/System/Vector3.hpp>
 
+#include "Vector2D.h"
+
 namespace gl
 {
 	class Vector3D
@@ -17,6 +19,7 @@ namespace gl
 		Vector3D(const float& x, const float& y, const float& z) : x(x), y(y), z(z) {}
 		Vector3D(const sf::Vector3f& vector) : Vector3D(vector.x, vector.y, vector.z) {}
 		Vector3D(const glm::vec3& vector) : Vector3D(vector.x, vector.y, vector.z) {}
+		Vector3D(const gl::Vector2D& vector, const float& z = 0) : Vector3D(vector.x, vector.y, z) {}
 		
 		Vector3D(const Vector3D&) = default;
 		Vector3D(Vector3D&&) = default;

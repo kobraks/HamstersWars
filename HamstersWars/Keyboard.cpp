@@ -83,11 +83,11 @@ game::Keyboard* game::Keyboard::get_instance()
 	return &instance;
 }
 
-void game::Keyboard::initialize(void* wwindow)
+void game::Keyboard::initialize(void* window)
 {
-	auto window = reinterpret_cast<sf::Window*>(get_instance()->window_ = wwindow);
+	reinterpret_cast<sf::Window*>(get_instance()->window_ = window);
 
-	lua::Script::register_class<Keyboard>(get_instance());
+	REGISTER_CLASS_INSTANCE(Keyboard, *get_instance());
 
 	add_action_on_key_pressed([](const int& button)
 	{

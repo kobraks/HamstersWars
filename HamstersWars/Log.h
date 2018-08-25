@@ -13,14 +13,14 @@ namespace LogLevel
 	enum TLogLevel : int
 	{
 		no_log = 0,
-		log_error,
-		log_warning,
-		log_info,
-		log_debug,
-		log_debug1,
-		log_debug2,
-		log_debug3,
-		log_debug4
+		error,
+		warning,
+		info,
+		debug,
+		debug1,
+		debug2,
+		debug3,
+		debug4
 	};
 
 	TLogLevel from_string(const std::string& string);
@@ -32,14 +32,14 @@ namespace LogLevel
 #pragma region log_level
 
 #define NO_LOG LogLevel::no_log
-#define LOG_ERROR LogLevel::log_error
-#define LOG_WARNING LogLevel::log_warning
-#define LOG_INFO LogLevel::log_info
-#define LOG_DEBUG LogLevel::log_debug
-#define LOG_DEBUG1 LogLevel::log_debug1
-#define LOG_DEBUG2 LogLevel::log_debug2
-#define LOG_DEBUG3 LogLevel::log_debug3
-#define LOG_DEBUG4 LogLevel::log_debug4
+#define LOG_ERROR LogLevel::error
+#define LOG_WARNING LogLevel::warning
+#define LOG_INFO LogLevel::info
+#define LOG_DEBUG LogLevel::debug
+#define LOG_DEBUG1 LogLevel::debug1
+#define LOG_DEBUG2 LogLevel::debug2
+#define LOG_DEBUG3 LogLevel::debug3
+#define LOG_DEBUG4 LogLevel::debug4
 
 #define LOG_MAX_LEVEL LOG_DEBUG4
 
@@ -66,15 +66,16 @@ public:
 
 	~Log();
 
-	std::ostringstream& get(const LogLevel::TLogLevel& level = LOG_INFO);
-
 	static LogLevel::TLogLevel& reporting_level();
 
-	void print(const LogLevel::TLogLevel& log_level, const char* format, ...);
+	void print(const int& log_level, const char* format, ...);
 protected:
 	std::ostringstream os_;
 	static inline std::mutex mutex_ = std::mutex();
+
+	std::ostringstream& get(const LogLevel::TLogLevel& level = LOG_INFO);
 private:
+
 	static std::string get_string(const char* format, va_list args)
 	{
 		va_list arg_copy;
@@ -122,19 +123,19 @@ std::ostringstream& Log<Output>::get(const LogLevel::TLogLevel& level)
 {
 	os_ << "- " << get_time();
 	os_ << " " << level << ": ";
-	os_ << std::string(level > LogLevel::log_debug ? level - LogLevel::log_debug : 0, '\t');
+	os_ << std::string(level > LogLevel::debug ? level - LogLevel::debug : 0, '\t');
 	return os_;
 }
 
 template <class Output>
 LogLevel::TLogLevel& Log<Output>::reporting_level()
 {
-	static LogLevel::TLogLevel reporting_level = LogLevel::log_debug4;
+	static LogLevel::TLogLevel reporting_level = LogLevel::debug4;
 	return reporting_level;
 }
 
 template <class Output>
-void Log<Output>::print(const LogLevel::TLogLevel& log_level, const char* format, ...)
+void Log<Output>::print(const int& log_level, const char* format, ...)
 {
 	std::lock_guard<std::mutex> guard(mutex_);
 	va_list args;
@@ -142,19 +143,14 @@ void Log<Output>::print(const LogLevel::TLogLevel& log_level, const char* format
 	auto text = get_string(format, args);
 	va_end(args);
 
-	get(log_level) << text;
+	get(static_cast<LogLevel::TLogLevel>(log_level)) << text;
 }
 
 class FileLog : public Log<Output2File>
 {
 };
 
-#define FILE_LOG(level) \
-    if (level > LOG_MAX_LEVEL) ;\
-    else if (level > FileLog::reporting_level() || !Output2File::stream()) ; \
-    else FileLog().Get(level)
-
 #define LOG(log_level, ...) \
-	if (log_level > LOG_MAX_LEVEL); \
+	if (log_level == NO_LOG || log_level > LOG_MAX_LEVEL); \
 	else if (log_level > FileLog::reporting_level() || !Output2File::stream()); \
 	else FileLog().print(log_level, ##__VA_ARGS__);

@@ -4,6 +4,9 @@
 #include "SceneManager.h"
 #include "GraphicComponent.h"
 
+#define ADD_FUNCTION(x) addFunction(#x, &EntityScriptHandler::x)
+#define ADD_FUNCTION_PARAMS(x,params) addFunction(#x, &EntityScriptHandler::x, params)
+
 game::script::EntityScriptHandler::EntityScriptHandler(std::shared_ptr<Entity> entity) : entity_(entity)
 {
 }
@@ -124,4 +127,23 @@ void game::script::EntityScriptHandler::print_log(const std::string& log_level, 
 void game::script::EntityScriptHandler::print_error(const std::string& error_message)
 {
 	LOG(LOG_ERROR, error_message.c_str());
+}
+
+void game::script::EntityScriptHandler::register_class(LuaIntf::LuaBinding& binding) const
+{
+	LOG(LOG_INFO, "Registering lua handlers");
+	using namespace game::script;
+
+	binding
+		.beginClass<EntityScriptHandler>("EntityScriptHandler")
+		.ADD_FUNCTION(get_elapsed_time)
+		.ADD_FUNCTION_PARAMS(scale, LUA_ARGS(glm::vec3))
+		.ADD_FUNCTION_PARAMS(translate, LUA_ARGS(glm::vec3))
+		.ADD_FUNCTION_PARAMS(rotate, LUA_ARGS(glm::vec3))
+		.ADD_FUNCTION_PARAMS(set_position, LUA_ARGS(glm::vec3))
+		.ADD_FUNCTION_PARAMS(move, LUA_ARGS(glm::vec3))
+		.ADD_FUNCTION(get_position)
+		.ADD_FUNCTION(is_colliding)
+		.ADD_FUNCTION(destroy)
+		.endClass();
 }

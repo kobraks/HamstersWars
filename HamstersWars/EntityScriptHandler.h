@@ -5,10 +5,11 @@
 #include <Lua/LuaIntf.h>
 #include <glm/vec3.hpp>
 #include <memory>
+#include "Register.h"
 
 namespace game::script
 {
-	class EntityScriptHandler
+	class EntityScriptHandler : public lua::Register
 	{
 	public:
 		EntityScriptHandler(std::shared_ptr<Entity> entity);
@@ -38,6 +39,9 @@ namespace game::script
 		void print_log(const std::string& log_level, const std::string& log);
 
 		void print_error(const std::string& error_message);
+
+	protected:
+		void register_class(LuaIntf::LuaBinding& binding) const override;
 
 	private:
 		std::shared_ptr<Entity> entity_;

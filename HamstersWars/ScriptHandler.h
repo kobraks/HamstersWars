@@ -17,7 +17,7 @@ namespace LuaIntf
 
 namespace game::component
 {
-	class ScriptHandler : public Component, protected lua::Register
+	class ScriptHandler : public Component
 	{
 	public:
 		explicit ScriptHandler(std::shared_ptr<Entity> owner);
@@ -51,9 +51,6 @@ namespace game::component
 		void on_create();
 		void on_copy();
 		void on_collision();
-
-	protected:
-		void register_class(LuaIntf::LuaBinding& binding) const override;
 
 	private:
 		ScriptHandler();

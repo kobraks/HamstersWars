@@ -239,7 +239,7 @@ game::Mouse::Mouse()
 
 void game::Mouse::initialize(void* wwindow, const bool& visable, const bool& grab)
 {
-	lua::Script::register_class<Mouse>(get_instance());
+	REGISTER_CLASS_INSTANCE(Mouse, *get_instance());
 
 	auto window = reinterpret_cast<sf::Window*>(get_instance()->window_ = wwindow);
 

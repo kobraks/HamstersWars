@@ -10,28 +10,28 @@ LogLevel::TLogLevel LogLevel::from_string(const std::string& string)
 
 	std::transform(str.begin(), str.end(), str.begin(), ::toupper);
 	if (str.find("ERROR") != std::string::npos)
-		return log_error;
+		return error;
 	if (str.find("WARNING") != std::string::npos)
-		return log_warning;
+		return warning;
 	if (str.find("INFO") != std::string::npos)
-		return log_info;
+		return info;
 	if (str.find("DEBUG") != std::string::npos)
-		return log_debug;
+		return debug;
 	if (str.find("DEBUG1") != std::string::npos)
-		return log_debug1;
+		return debug1;
 	if (str.find("DEBUG2") != std::string::npos)
-		return log_debug2;
+		return debug2;
 	if (str.find("DEBUG3") != std::string::npos)
-		return log_debug3;
+		return debug3;
 	if (str.find("DEBUG4") != std::string::npos)
-		return log_debug4;
+		return debug4;
 	return no_log;
 }
 
 std::string LogLevel::to_string(const TLogLevel& level)
 {
 	static const char* const buffer[] = {
-		"no_log", "error", "warning", "info", "debug", "debug1", "debug2", "debug3", "debug4"
+		"NOLOG", "ERROR", "WARNING", "INFO", "DEBUG", "DEBUG1", "DEBUG2", "DEBUG3", "DEBUG4"
 	};
 	return buffer[static_cast<int>(level)];
 }
