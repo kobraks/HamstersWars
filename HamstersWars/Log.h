@@ -113,7 +113,7 @@ Log<Output>::~Log()
 	Output::output(os_.str());
 
 #ifdef __FORCE_LOG_TO_CONSOLE
-	fprintf(stderr, "%s\n", os_.str().c_str());
+	fprintf(stderr, "%s", os_.str().c_str());
 #endif
 }
 

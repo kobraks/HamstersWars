@@ -291,7 +291,7 @@ gl::Program * game::Game::generate_program(gl::Shader * vertex, gl::Shader * fra
 	else
 		LOG(LOG_WARNING, "No vertex shader");
 
-	if (vertex)
+	if (fragment)
 	{
 		LOG(LOG_DEBUG, "Attaching fragment shader");
 		program->attach(*fragment);
@@ -299,7 +299,7 @@ gl::Program * game::Game::generate_program(gl::Shader * vertex, gl::Shader * fra
 	else
 		LOG(LOG_WARNING, "No fragment shader");
 
-	if (vertex)
+	if (geometry)
 	{
 		LOG(LOG_DEBUG, "Attaching geometry shader");
 		program->attach(*geometry);
