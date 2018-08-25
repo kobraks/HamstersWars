@@ -421,8 +421,10 @@ game::IntRect game::Font::find_glyph_rect(Page& page, unsigned width, unsigned h
 			}
 			else
 			{
+				/*
 				Log::level() = Log::log_error;
 				Log::print("Failed to add a new character to the font: the maximum texture size has been reached");
+				*/
 				return IntRect(0, 0, 2, 2);
 			}
 		}
@@ -449,16 +451,17 @@ bool game::Font::set_current_size(unsigned character_size) const
 
 		if (result == FT_Err_Invalid_Pixel_Size)
 		{
-			Log::level() = Log::log_error;
+			/*Log::level() = Log::log_error;
 			Log::print("Failed to set bitmap font size to %u", character_size);
+			*/
 
 			std::string str = "Available sizes are: ";
 
 			for (size_t i = 0; i < face->num_fixed_sizes; ++i)
 				str += std::to_string(face->available_sizes[i].height) + " ";
 
-			Log::level() = Log::log_info;
-			Log::print("%s", str.c_str());
+			/*Log::level() = Log::log_info;
+			Log::print("%s", str.c_str());*/
 		}
 
 		return result == FT_Err_Ok;

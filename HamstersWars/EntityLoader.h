@@ -6,6 +6,7 @@
 #include <string>
 
 #include "Entity.h"
+#include "Log.h"
 
 namespace LuaIntf {
 	class LuaRef;
@@ -35,8 +36,7 @@ namespace game
 	template <class T>
 	void EntityLoader::add_component(std::shared_ptr<Entity> entity, const LuaIntf::LuaRef& table, const std::string& component_name)
 	{
-		Log::level() = Log::log_info;
-		Log::print("Loading %s component", component_name.c_str());
+		LOG(LOG_DEBUG, "Loading %s component", component_name.c_str());
 
 		entity->add_component<T>(new T(entity, table));
 	}
