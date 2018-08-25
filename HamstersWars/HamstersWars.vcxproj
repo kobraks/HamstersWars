@@ -160,6 +160,7 @@
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Transform2d.cpp" />
     <ClCompile Include="Transformable.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="LinkException.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="LogDefines.h" />
+    <ClInclude Include="LuaAction.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
@@ -216,6 +218,7 @@
     <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureLoader.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Transform2d.h" />
     <ClInclude Include="Transformable.h" />
