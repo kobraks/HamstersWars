@@ -26,6 +26,7 @@ inline glm::vec4 convert(aiColor4D color)
 
 std::shared_ptr<game::model::Model> game::model::ModelLoader::load(const std::string& file)
 {
+	LOG(LOG_INFO, "Opening file %s", file.c_str());
 	auto importer = new Assimp::Importer();
 	const aiScene* scene = importer->ReadFile(
 		file, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_PreTransformVertices | aiProcess_GenNormals
@@ -33,22 +34,22 @@ std::shared_ptr<game::model::Model> game::model::ModelLoader::load(const std::st
 
 	if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
-		Log::level() = Log::log_error;
-		Log::print(importer->GetErrorString());
+		LOG(LOG_ERROR, "Unable to import scene: %s", importer->GetErrorString());
 		return nullptr;
 	}
 
-	Log::level() = Log::log_info;
-	Log::print("%s", file.c_str());
-	Log::print("Import of scene %s succeeded", file.c_str());
+	LOG(LOG_DEBUG, "Import of scene %s succeeded", file.c_str());
 
 	const auto meshes = scene->mNumMeshes;
-	Log::print("meshes: %u", meshes);
+	LOG(LOG_DEBUG, "Meses count: %u", meshes);
 	std::vector<std::shared_ptr<Mesh>> model_meshes(meshes);
 
 
 	for (size_t i = 0; i < scene->mNumMeshes; ++i)
+	{
+		LOG(LOG_DEBUG, "Processing mesh number: %u", i);
 		model_meshes[i] = process_mesh(scene, i);
+	}
 
 	delete importer;
 
@@ -67,6 +68,7 @@ std::shared_ptr<game::model::Mesh> game::model::ModelLoader::process_mesh(const 
 
 game::model::Material game::model::ModelLoader::process_material(void* mesh, const void* scene)
 {
+	LOG(LOG_DEBUG1, "Setting an  material");
 	Material result;
 	const aiScene* s = static_cast<const aiScene*>(scene);
 	auto m = static_cast<aiMesh*>(mesh);
@@ -77,16 +79,28 @@ game::model::Material game::model::ModelLoader::process_material(void* mesh, con
 	aiColor4D specular_color;
 	float shininess;
 
+	LOG(LOG_DEBUG1, "Reading ambient color");
 	material.Get(AI_MATKEY_COLOR_AMBIENT, ambient_color);
-	material.Get(AI_MATKEY_COLOR_DIFFUSE, diffuse_color);
-	material.Get(AI_MATKEY_COLOR_SPECULAR, specular_color);
-	material.Get(AI_MATKEY_SHININESS, shininess);
-
 	result.ambient = convert(ambient_color);
+	LOG(LOG_DEBUG2, "Ambient color: r=%f, g=%f, b=%f, a=%f", result.ambient.r, result.ambient.g, result.ambient.b, result.ambient.a);
+	
+	LOG(LOG_DEBUG1, "Reading diffuse color");
+	material.Get(AI_MATKEY_COLOR_DIFFUSE, diffuse_color);
 	result.diffuse = convert(diffuse_color);
-	result.specular = convert(specular_color);
-	result.shininess = shininess;
+	LOG(LOG_DEBUG2, "Diffuse color: r=%f, g=%f, b=%f, a=%f", result.diffuse.r, result.diffuse.g, result.diffuse.b, result.diffuse.a);
 
+	LOG(LOG_DEBUG1, "Reading specular color");
+	material.Get(AI_MATKEY_COLOR_SPECULAR, specular_color);
+	result.specular = convert(specular_color);
+	LOG(LOG_DEBUG2, "Specular color: r=%f, g=%f, b=%f, a=%f", result.specular.r, result.specular.g, result.specular.b, result.specular.a);
+
+	LOG(LOG_DEBUG1, "Reading shininess");
+	material.Get(AI_MATKEY_SHININESS, shininess);
+	result.shininess = shininess;
+	LOG(LOG_DEBUG2, "Shininess: %f", shininess);
+
+
+	LOG(LOG_DEBUG1, "Loading texutre");
 	aiString texture_file;
 	if (material.GetTexture(aiTextureType_DIFFUSE, 0, &texture_file) == AI_SUCCESS)
 		result.texture = TextureLoader::load_texture(TEXTURES_PATH + std::string(texture_file.C_Str()));

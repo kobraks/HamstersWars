@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{18275893-86C8-464C-B908-8AA90BF66835}</ProjectGuid>
     <RootNamespace>HamstersWars</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -135,11 +135,8 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityLoader.cpp" />
     <ClCompile Include="EntityScriptHandler.cpp" />
-    <ClCompile Include="Font.cpp" />
-    <ClCompile Include="Framebuffer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameException.cpp" />
-    <ClCompile Include="Glyph.cpp" />
     <ClCompile Include="GraphicComponent.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Keyboard.cpp" />
@@ -157,13 +154,11 @@
     <ClCompile Include="ScriptHandler.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ProgramParameter.cpp" />
-    <ClCompile Include="Text.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="Transform2d.cpp" />
     <ClCompile Include="Transformable.cpp" />
-    <ClCompile Include="Transformable2d.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="VertexArray.cpp" />
@@ -185,12 +180,10 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityLoader.h" />
     <ClInclude Include="EntityScriptHandler.h" />
-    <ClInclude Include="Font.h" />
     <ClInclude Include="Framebuffer.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameException.h" />
     <ClInclude Include="GlewException.h" />
-    <ClInclude Include="Glyph.h" />
     <ClInclude Include="GraphicComponent.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Keyboard.h" />
@@ -198,6 +191,7 @@
     <ClInclude Include="LinkException.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="LogDefines.h" />
+    <ClInclude Include="LuaAction.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
@@ -206,7 +200,6 @@
     <ClInclude Include="NotFunctionException.h" />
     <ClInclude Include="OpenFileException.h" />
     <ClInclude Include="Program.h" />
-    <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Register.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Script.h" />
@@ -216,15 +209,15 @@
     <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureLoader.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
-    <ClInclude Include="Transform2d.h" />
     <ClInclude Include="Transformable.h" />
-    <ClInclude Include="Transformable2d.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="UnableToFindSpecifedTableKeyException.h" />
     <ClInclude Include="UnknownFormatException.h" />
     <ClInclude Include="UnknownTableElementException.h" />
+    <ClInclude Include="Updatable.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="Vector3D.h" />

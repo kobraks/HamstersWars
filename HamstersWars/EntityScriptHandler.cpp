@@ -24,8 +24,7 @@ void game::script::EntityScriptHandler::rotate(const glm::vec3& axis)
 
 	if (!component)
 	{
-		Log::level() = Log::log_error;
-		Log::print("There is no grahpic component for rotate");
+		LOG(LOG_WARNING, "%s has no grahpic component to rotate", entity_->get_type().c_str());
 	}
 	else
 	{
@@ -39,8 +38,7 @@ void game::script::EntityScriptHandler::translate(const glm::vec3& axis)
 
 	if (!component)
 	{
-		Log::level() = Log::log_error;
-		Log::print("There is no grahpic component for translate");
+		LOG(LOG_WARNING, "%s has no grahpic component to rotate", entity_->get_type().c_str());
 	}
 	else
 	{
@@ -59,8 +57,7 @@ void game::script::EntityScriptHandler::move(const glm::vec3& vector)
 
 	if (!component)
 	{
-		Log::level() = Log::log_error;
-		Log::print("There is no grahpic component for move");
+		LOG(LOG_WARNING, "%s has no grahpic component to move", entity_->get_type().c_str());
 	}
 	else
 	{
@@ -79,8 +76,7 @@ void game::script::EntityScriptHandler::scale(const glm::vec3& axis)
 
 	if (!component)
 	{
-		Log::level() = Log::log_error;
-		Log::print("There is no grahpic component for rotate");
+		LOG(LOG_WARNING, "%s has no grahpic component to scale", entity_->get_type().c_str());
 	}
 	else
 	{
@@ -122,11 +118,10 @@ void game::script::EntityScriptHandler::set_model(const std::string& file)
 
 void game::script::EntityScriptHandler::print_log(const std::string& log_level, const std::string& log)
 {
-	Log::level() = Log::log_level_from_string(log_level);
-	Log::print("%s", log.c_str());
+	LOG(LogLevel::from_string(log), "%s", log.c_str());
 }
 
 void game::script::EntityScriptHandler::print_error(const std::string& error_message)
 {
-	Log::write_error(error_message);
+	LOG(LOG_ERROR, error_message.c_str());
 }

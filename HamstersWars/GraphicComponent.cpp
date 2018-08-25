@@ -46,16 +46,13 @@ void game::component::GraphicComponent::draw(gl::Program& program, game::Transfo
 
 void game::component::GraphicComponent::load(const std::string& file)
 {
-	Log::level() = Log::log_info;
-	Log::print("Attempting to load file: %s", file.c_str());
+	LOG(LOG_DEBUG, "Attempting to load file: %s", file.c_str());
 
 	auto path = file;
 	if (utils::is_local_path(file))
 	{
 		path.insert(0, MODELS_PATH);
-
-		Log::print("Detected as local path so model will be loaded from: %s", path.c_str());
-
+		LOG(LOG_DEBUG, "Detected as local path so model will be loaded from: %s", path.c_str());
 	}
 
 	auto model = models_.find(path);
@@ -64,8 +61,7 @@ void game::component::GraphicComponent::load(const std::string& file)
 	if (model != models_.end())
 	{
 		model_ = model->second;
-
-		Log::print("Model was loaded before");
+		LOG(LOG_DEBUG, "Model was loaded before");
 	}
 	else
 	{
@@ -123,35 +119,28 @@ void game::component::GraphicComponent::parse_table(const LuaIntf::LuaRef& table
 
 		if (key == "MODEL")
 		{
-			Log::level() = Log::log_info;
-			Log::print("Attempting to load model path");
+			LOG(LOG_DEBUG, "Attempting to load model path");
 			load(utils::get_path(value));
 
 		}
 		else if (key == "VISIBLE")
 		{
-			Log::level() = Log::log_info;
-			Log::print("Attempting to load drawable value");
+			LOG(LOG_DEBUG, "Attempting to load drawable value");
 			drawable_ = element.value<bool>();
-			Log::print("Visible value: %s", drawable_ ? "true" : "false");
+			LOG(LOG_DEBUG1, "Visible value: %s", drawable_ ? "true" : "false");
 		}
 		else if (value.isTable())
 			try
 			{
-				Log::level() = Log::log_info;
-				Log::print("Attempting to load mesh values");
+				LOG(LOG_DEBUG, "Attempting to load mesh values");
 				parse_mesh(value);
 			}
 			catch(exception::GameException& ex)
 			{
-				Log::level() = Log::log_error;
-				Log::print(ex.what());
+				LOG(LOG_ERROR, "%s", ex.what());
 			}
 		else
-		{
-			Log::level() = Log::log_warning;
-			Log::print("Unable to recognize gived table_type key: %s", element.key<std::string>().c_str());
-		}
+			LOG(LOG_WARNING, "Unable to recognize gievd table_type key: %s", element.key<std::string>().c_str());
 	}
 }
 
@@ -172,11 +161,7 @@ void game::component::GraphicComponent::parse_mesh(const LuaIntf::LuaRef& table)
 		else if (utils::equals(element.key<std::string>(), "texture"))
 			path = utils::get_path(element.value());
 		else
-		{
-			Log::level() = Log::log_warning;
-			Log::print("Unable to recognize gived table_type key: %s", element.key<std::string>().c_str());
-		}
-
+			LOG(LOG_WARNING, "Unable to recognize gievd table_type key: %s", element.key<std::string>().c_str());
 	}
 
 	if (!id_found)

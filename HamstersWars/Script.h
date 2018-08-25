@@ -53,8 +53,7 @@ namespace game::lua
 			}
 			catch (LuaIntf::LuaException& ex)
 			{
-				Log::level() = Log::log_error;
-				Log::print("throws lua exception: %s", ex.what());
+				LOG(LOG_ERROR, "Lua throws exception: %s", ex.what());
 			}
 		}
 	}

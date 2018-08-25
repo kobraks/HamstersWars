@@ -13,12 +13,12 @@ int main(int argc, char** argv)
 	}
 	catch(std::exception& ex)
 	{
-		Log::level() = Log::log_error;
-		Log::print("%s", ex.what());
 		game::Game::stop();
 		game::Game::close();
+		LOG(LOG_ERROR, "Game was closed with exception: %s", ex.what());
 
 		system("pause");
+		return EXIT_FAILURE;
 	}
 
 	return EXIT_SUCCESS;

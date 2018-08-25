@@ -45,6 +45,9 @@ inline glm::vec4 convert(const aiColor4D& color)
 
 game::model::Mesh::Mesh(const aiMesh& mesh)
 {
+	LOG(LOG_DEBUG1, "Vertex count %u", mesh.mNumVertices);
+	LOG(LOG_DEBUG1, "Faces count %u", mesh.mNumFaces * 3);
+
 	element_count_ = mesh.mNumFaces * 3;
 
 	vertices_ = std::make_shared<verticles_table_type>();
@@ -61,8 +64,7 @@ game::model::Mesh::Mesh(const aiMesh& mesh)
 
 	if (mesh.HasNormals())
 	{
-		Log::level() = Log::log_warning;
-		Log::print("Model has not normal vectors");
+		LOG(LOG_WARNING, "Mesh has not normal vectors")
 	}
 
 	for (size_t i = 0; i <  mesh.mNumVertices; ++i)
@@ -125,8 +127,11 @@ game::model::Mesh::Mesh(const aiMesh& mesh)
 	delete[] normals;
 	delete[] indices;
 
+	gl::Vector3D origin = glm::vec3((min.x + max.x) / 2, (min.y + max.y) / 2, (min.z + max.z) / 2);
+
+	LOG(LOG_DEBUG1, "Origin point: x=%f, y=%f, z=%f", origin.x, origin.y, origin.z);
 	// glm::vec3 center = glm::vec3((min_x + max_x) / 2, (min_y + max_y) / 2, (min_z + max_z) / 2);
-	set_origin(glm::vec3((min.x + max.x) / 2, (min.y + max.y) / 2, (min.z + max.z) / 2));
+	set_origin(origin);
 	size_ = max - min;
 }
 

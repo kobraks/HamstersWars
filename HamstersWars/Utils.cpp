@@ -37,7 +37,7 @@ gl::Vector3D game::utils::get_vector3d(const LuaTable& vector)
 {
 	assert(vector.isTable());
 
-	gl::Vector3D result;
+	gl::Vector3D result(1.f);
 	for (auto el : vector)
 	{
 		auto key = el.key<std::string>();

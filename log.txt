@@ -1,124 +1,210 @@
-Start logging
-1: Sat Aug  4 06:19:48 2018  [INFO]: Register keyboard functions
-2: Sat Aug  4 06:19:48 2018  [INFO]: Register mouse functions
-3: Sat Aug  4 06:19:48 2018  [INFO]: Loading vertex shader
-4: Sat Aug  4 06:19:48 2018  [INFO]: Loading fragment shader
-5: Sat Aug  4 06:19:48 2018  [INFO]: Atributes count: 6
-6: Sat Aug  4 06:19:48 2018  [DEBUG]: 
-	Attribute: 0
+- Sat Aug 25 15:57:58 2018  info: Registering keyboard interactions
+- Sat Aug 25 15:57:58 2018  info: Registering mouse functions
+- Sat Aug 25 15:57:58 2018  info: Registering Timer
+- Sat Aug 25 15:57:58 2018  info: Loading texture shader
+- Sat Aug 25 15:57:58 2018  debug: Loading vertex shader form: ../resources/shaders/texture.vert
+- Sat Aug 25 15:57:58 2018  debug: Compiling shader
+- Sat Aug 25 15:57:58 2018  debug: Loading fragment shader form: ../resources/shaders/texture.frag
+- Sat Aug 25 15:57:58 2018  debug: Compiling shader
+- Sat Aug 25 15:57:58 2018  debug: Loading geometry shader form: ../resources/shaders/texture.geo
+- Sat Aug 25 15:57:58 2018  error: Unable to read shader source: ios_base::failbit set: iostream stream error
+- Sat Aug 25 15:57:58 2018  debug: Attaching vertex shader
+- Sat Aug 25 15:57:58 2018  debug: Attaching fragment shader
+- Sat Aug 25 15:57:58 2018  warning: No geometry shader
+- Sat Aug 25 15:57:58 2018  debug: Linking the shader
+- Sat Aug 25 15:57:58 2018  debug: Program attributes count: 6
+- Sat Aug 25 15:57:58 2018  debug1: 	Attribute: 0
 	name: Model
 	type: 35676
 	length: 5
 	size: 1
-7: Sat Aug  4 06:19:48 2018  [DEBUG]: 
-	Attribute: 1
+- Sat Aug 25 15:57:58 2018  debug1: 	Attribute: 1
 	name: Projection
 	type: 35676
 	length: 10
 	size: 1
-8: Sat Aug  4 06:19:48 2018  [DEBUG]: 
-	Attribute: 2
+- Sat Aug 25 15:57:58 2018  debug1: 	Attribute: 2
 	name: View
 	type: 35676
 	length: 4
 	size: 1
-9: Sat Aug  4 06:19:48 2018  [DEBUG]: 
-	Attribute: 3
+- Sat Aug 25 15:57:58 2018  debug1: 	Attribute: 3
 	name: color
 	type: 35666
 	length: 5
 	size: 1
-10: Sat Aug  4 06:19:48 2018  [DEBUG]: 
-	Attribute: 4
+- Sat Aug 25 15:57:58 2018  debug1: 	Attribute: 4
 	name: my_texture
 	type: 35678
 	length: 10
 	size: 1
-11: Sat Aug  4 06:19:48 2018  [DEBUG]: 
-	Attribute: 5
+- Sat Aug 25 15:57:58 2018  debug1: 	Attribute: 5
 	name: mode
 	type: 5124
 	length: 4
 	size: 1
-12: Sat Aug  4 06:19:48 2018  [INFO]: ../resources/models/cow.3DS
-13: Sat Aug  4 06:19:49 2018  [INFO]: Import of scene ../resources/models/cow.3DS succeeded
-14: Sat Aug  4 06:19:49 2018  [INFO]: meshes: 4
-15: Sat Aug  4 06:19:49 2018  [WARNING]: Model has not normal vectors
-16: Sat Aug  4 06:19:49 2018  [INFO]: Image size: 793, 440
-17: Sat Aug  4 06:19:49 2018  [WARNING]: Model has not normal vectors
-18: Sat Aug  4 06:19:49 2018  [ERROR]: Unable to load ../resources/textures/default.png, with exception ios_base::failbit set: iostream stream error
-19: Sat Aug  4 06:19:49 2018  [INFO]: Image size: 0, 0
-20: Sat Aug  4 06:19:49 2018  [WARNING]: Model has not normal vectors
-21: Sat Aug  4 06:19:49 2018  [INFO]: Image size: 220, 220
-22: Sat Aug  4 06:19:49 2018  [WARNING]: Model has not normal vectors
-23: Sat Aug  4 06:19:49 2018  [INFO]: Image size: 168, 168
-24: Sat Aug  4 06:19:49 2018  [INFO]: Atributes count: 6
-25: Sat Aug  4 06:19:49 2018  [DEBUG]: 
-	Attribute: 0
-	name: Model
-	type: 35676
-	length: 5
-	size: 1
-26: Sat Aug  4 06:19:49 2018  [DEBUG]: 
-	Attribute: 1
-	name: Projection
-	type: 35676
-	length: 10
-	size: 1
-27: Sat Aug  4 06:19:49 2018  [DEBUG]: 
-	Attribute: 2
-	name: View
-	type: 35676
-	length: 4
-	size: 1
-28: Sat Aug  4 06:19:49 2018  [DEBUG]: 
-	Attribute: 3
-	name: color
-	type: 35666
-	length: 5
-	size: 1
-29: Sat Aug  4 06:19:49 2018  [DEBUG]: 
-	Attribute: 4
-	name: my_texture
-	type: 35678
-	length: 10
-	size: 1
-30: Sat Aug  4 06:19:49 2018  [DEBUG]: 
-	Attribute: 5
-	name: mode
-	type: 5124
-	length: 4
-	size: 1
-31: Sat Aug  4 06:19:49 2018  [INFO]: Loading file ../resources/lua_scripts/entities.lua
-32: Sat Aug  4 06:19:49 2018  [INFO]: Loading entity: cow
-33: Sat Aug  4 06:19:49 2018  [INFO]: entity is a file path
-34: Sat Aug  4 06:19:49 2018  [INFO]: Opening file: ../resources/lua_scripts/cow.lua
-35: Sat Aug  4 06:19:49 2018  [INFO]: Loading components
-36: Sat Aug  4 06:19:49 2018  [INFO]: Loading Transform component
-37: Sat Aug  4 06:19:49 2018  [INFO]: Reading position
-38: Sat Aug  4 06:19:49 2018  [INFO]: Position: x = 1.000000, y = 2.000000, z = 3.000000
-39: Sat Aug  4 06:19:49 2018  [INFO]: Reading rotation
-40: Sat Aug  4 06:19:49 2018  [INFO]: Rotate: x = 0.000000, y = 0.000000, z = 0.000000
-41: Sat Aug  4 06:19:49 2018  [INFO]: Reading scale
-42: Sat Aug  4 06:19:49 2018  [INFO]: Scale: x = 0.005000, y = 0.005000, z = 0.005000
-43: Sat Aug  4 06:19:49 2018  [INFO]: Loading Collider component
-44: Sat Aug  4 06:19:49 2018  [INFO]: Loading Script component
-45: Sat Aug  4 06:19:49 2018  [INFO]: Adding on_update function
-46: Sat Aug  4 06:19:49 2018  [INFO]: Loading Graphic component
-47: Sat Aug  4 06:19:49 2018  [WARNING]: Unable to recognize gived table_type key: ala
-48: Sat Aug  4 06:19:49 2018  [INFO]: Attempting to load model path
-49: Sat Aug  4 06:19:49 2018  [INFO]: Attempting to load file: cow.3DS
-50: Sat Aug  4 06:19:49 2018  [INFO]: Detected as local path so model will be loaded from: ../resources/models/cow.3DS
-51: Sat Aug  4 06:19:49 2018  [INFO]: ../resources/models/cow.3DS
-52: Sat Aug  4 06:19:49 2018  [INFO]: Import of scene ../resources/models/cow.3DS succeeded
-53: Sat Aug  4 06:19:49 2018  [INFO]: meshes: 4
-54: Sat Aug  4 06:19:49 2018  [WARNING]: Model has not normal vectors
-55: Sat Aug  4 06:19:49 2018  [INFO]: Texture loaded before file_name = ../resources/textures/COWSKIN.JPG
-56: Sat Aug  4 06:19:49 2018  [WARNING]: Model has not normal vectors
-57: Sat Aug  4 06:19:49 2018  [INFO]: Texture loaded before file_name = ../resources/textures/default.png
-58: Sat Aug  4 06:19:49 2018  [WARNING]: Model has not normal vectors
-59: Sat Aug  4 06:19:49 2018  [INFO]: Texture loaded before file_name = ../resources/textures/COWEYE.JPG
-60: Sat Aug  4 06:19:49 2018  [WARNING]: Model has not normal vectors
-61: Sat Aug  4 06:19:49 2018  [INFO]: Texture loaded before file_name = ../resources/textures/COWCUER.JPG
-62: Sat Aug  4 06:19:49 2018  [INFO]: Attempting to load drawable value
-63: Sat Aug  4 06:19:49 2018  [INFO]: Visible value: true
+- Sat Aug 25 15:57:58 2018  info: Opening file ../resources/models/cow.3DS
+- Sat Aug 25 15:57:58 2018  debug: Import of scene ../resources/models/cow.3DS succeeded
+- Sat Aug 25 15:57:58 2018  debug: Meses count: 4
+- Sat Aug 25 15:57:58 2018  debug: Processing mesh number: 0
+- Sat Aug 25 15:57:58 2018  debug1: 	Vertex count 4148
+- Sat Aug 25 15:57:58 2018  debug1: 	Faces count 25119
+- Sat Aug 25 15:57:58 2018  warning: Mesh has not normal vectors
+- Sat Aug 25 15:57:58 2018  debug1: 	Origin point: x=0.000000, y=140.825989, z=0.000000
+- Sat Aug 25 15:57:58 2018  debug1: 	Setting an  material
+- Sat Aug 25 15:57:58 2018  debug1: 	Reading ambient color
+- Sat Aug 25 15:57:58 2018  debug2: 		Ambient color: r=0.698039, g=0.698039, b=0.698039, a=1.000000
+- Sat Aug 25 15:57:58 2018  debug1: 	Reading diffuse color
+- Sat Aug 25 15:57:58 2018  debug2: 		Diffuse color: r=0.698039, g=0.698039, b=0.698039, a=1.000000
+- Sat Aug 25 15:57:58 2018  debug1: 	Reading specular color
+- Sat Aug 25 15:57:58 2018  debug2: 		Specular color: r=0.898039, g=0.898039, b=0.898039, a=1.000000
+- Sat Aug 25 15:57:58 2018  debug1: 	Reading shininess
+- Sat Aug 25 15:57:58 2018  debug2: 		Shininess: -107374176.000000
+- Sat Aug 25 15:57:58 2018  debug1: 	Loading texutre
+- Sat Aug 25 15:57:58 2018  info: Loading texture ../resources/textures/COWSKIN.JPG
+- Sat Aug 25 15:57:58 2018  debug: Image size 793x440
+- Sat Aug 25 15:57:58 2018  debug: Processing mesh number: 1
+- Sat Aug 25 15:57:58 2018  debug1: 	Vertex count 284
+- Sat Aug 25 15:57:58 2018  debug1: 	Faces count 1656
+- Sat Aug 25 15:57:58 2018  warning: Mesh has not normal vectors
+- Sat Aug 25 15:57:58 2018  debug1: 	Origin point: x=75.203812, y=10.282903, z=-2.436962
+- Sat Aug 25 15:57:58 2018  debug1: 	Setting an  material
+- Sat Aug 25 15:57:58 2018  debug1: 	Reading ambient color
+- Sat Aug 25 15:57:58 2018  debug2: 		Ambient color: r=0.305882, g=0.258824, b=0.219608, a=1.000000
+- Sat Aug 25 15:57:58 2018  debug1: 	Reading diffuse color
+- Sat Aug 25 15:57:58 2018  debug2: 		Diffuse color: r=0.305882, g=0.258824, b=0.219608, a=1.000000
+- Sat Aug 25 15:57:58 2018  debug1: 	Reading specular color
+- Sat Aug 25 15:57:58 2018  debug2: 		Specular color: r=0.898039, g=0.898039, b=0.898039, a=1.000000
+- Sat Aug 25 15:57:58 2018  debug1: 	Reading shininess
+- Sat Aug 25 15:57:58 2018  debug2: 		Shininess: -107374176.000000
+- Sat Aug 25 15:57:58 2018  debug1: 	Loading texutre
+- Sat Aug 25 15:57:59 2018  info: Loading texture ../resources/textures/default.png
+- Sat Aug 25 15:57:59 2018  error: Unable to load file ../resources/textures/default.png, ios_base::failbit set: iostream stream error
+- Sat Aug 25 15:57:59 2018  debug: Image size 0x0
+- Sat Aug 25 15:57:59 2018  debug: Processing mesh number: 2
+- Sat Aug 25 15:57:59 2018  debug1: 	Vertex count 84
+- Sat Aug 25 15:57:59 2018  debug1: 	Faces count 480
+- Sat Aug 25 15:57:59 2018  warning: Mesh has not normal vectors
+- Sat Aug 25 15:57:59 2018  debug1: 	Origin point: x=-185.474792, y=236.961914, z=-1.761273
+- Sat Aug 25 15:57:59 2018  debug1: 	Setting an  material
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading ambient color
+- Sat Aug 25 15:57:59 2018  debug2: 		Ambient color: r=0.243137, g=0.219608, b=0.203922, a=1.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading diffuse color
+- Sat Aug 25 15:57:59 2018  debug2: 		Diffuse color: r=0.243137, g=0.219608, b=0.203922, a=1.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading specular color
+- Sat Aug 25 15:57:59 2018  debug2: 		Specular color: r=1.000000, g=1.000000, b=1.000000, a=1.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading shininess
+- Sat Aug 25 15:57:59 2018  debug2: 		Shininess: 76.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Loading texutre
+- Sat Aug 25 15:57:59 2018  info: Loading texture ../resources/textures/COWEYE.JPG
+- Sat Aug 25 15:57:59 2018  debug: Image size 220x220
+- Sat Aug 25 15:57:59 2018  debug: Processing mesh number: 3
+- Sat Aug 25 15:57:59 2018  debug1: 	Vertex count 423
+- Sat Aug 25 15:57:59 2018  debug1: 	Faces count 1524
+- Sat Aug 25 15:57:59 2018  warning: Mesh has not normal vectors
+- Sat Aug 25 15:57:59 2018  debug1: 	Origin point: x=-165.281830, y=273.983002, z=-1.494905
+- Sat Aug 25 15:57:59 2018  debug1: 	Setting an  material
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading ambient color
+- Sat Aug 25 15:57:59 2018  debug2: 		Ambient color: r=0.796079, g=0.796079, b=0.752941, a=1.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading diffuse color
+- Sat Aug 25 15:57:59 2018  debug2: 		Diffuse color: r=0.796079, g=0.796079, b=0.752941, a=1.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading specular color
+- Sat Aug 25 15:57:59 2018  debug2: 		Specular color: r=0.898039, g=0.898039, b=0.898039, a=1.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading shininess
+- Sat Aug 25 15:57:59 2018  debug2: 		Shininess: -107374176.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Loading texutre
+- Sat Aug 25 15:57:59 2018  info: Loading texture ../resources/textures/COWCUER.JPG
+- Sat Aug 25 15:57:59 2018  debug: Image size 168x168
+- Sat Aug 25 15:57:59 2018  info: Loading entitys from ../resources/lua_scripts/entities.lua
+- Sat Aug 25 15:57:59 2018  debug: Loading entity cow
+- Sat Aug 25 15:57:59 2018  debug: Entity detected as file
+- Sat Aug 25 15:57:59 2018  debug: Opening file: ../resources/lua_scripts/cow.lua
+- Sat Aug 25 15:57:59 2018  debug: Populate ú‹v with components
+- Sat Aug 25 15:57:59 2018  debug: Loading Collider component
+- Sat Aug 25 15:57:59 2018  debug: Loading Graphic component
+- Sat Aug 25 15:57:59 2018  debug: Attempting to load model path
+- Sat Aug 25 15:57:59 2018  debug: Attempting to load file: cow.3DS
+- Sat Aug 25 15:57:59 2018  debug: Detected as local path so model will be loaded from: ../resources/models/cow.3DS
+- Sat Aug 25 15:57:59 2018  info: Opening file ../resources/models/cow.3DS
+- Sat Aug 25 15:57:59 2018  debug: Import of scene ../resources/models/cow.3DS succeeded
+- Sat Aug 25 15:57:59 2018  debug: Meses count: 4
+- Sat Aug 25 15:57:59 2018  debug: Processing mesh number: 0
+- Sat Aug 25 15:57:59 2018  debug1: 	Vertex count 4148
+- Sat Aug 25 15:57:59 2018  debug1: 	Faces count 25119
+- Sat Aug 25 15:57:59 2018  warning: Mesh has not normal vectors
+- Sat Aug 25 15:57:59 2018  debug1: 	Origin point: x=0.000000, y=140.825989, z=0.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Setting an  material
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading ambient color
+- Sat Aug 25 15:57:59 2018  debug2: 		Ambient color: r=0.698039, g=0.698039, b=0.698039, a=1.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading diffuse color
+- Sat Aug 25 15:57:59 2018  debug2: 		Diffuse color: r=0.698039, g=0.698039, b=0.698039, a=1.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading specular color
+- Sat Aug 25 15:57:59 2018  debug2: 		Specular color: r=0.898039, g=0.898039, b=0.898039, a=1.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading shininess
+- Sat Aug 25 15:57:59 2018  debug2: 		Shininess: -107374176.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Loading texutre
+- Sat Aug 25 15:57:59 2018  info: Loading texture ../resources/textures/COWSKIN.JPG
+- Sat Aug 25 15:57:59 2018  debug: Texture loaded before
+- Sat Aug 25 15:57:59 2018  debug: Processing mesh number: 1
+- Sat Aug 25 15:57:59 2018  debug1: 	Vertex count 284
+- Sat Aug 25 15:57:59 2018  debug1: 	Faces count 1656
+- Sat Aug 25 15:57:59 2018  warning: Mesh has not normal vectors
+- Sat Aug 25 15:57:59 2018  debug1: 	Origin point: x=75.203812, y=10.282903, z=-2.436962
+- Sat Aug 25 15:57:59 2018  debug1: 	Setting an  material
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading ambient color
+- Sat Aug 25 15:57:59 2018  debug2: 		Ambient color: r=0.305882, g=0.258824, b=0.219608, a=1.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading diffuse color
+- Sat Aug 25 15:57:59 2018  debug2: 		Diffuse color: r=0.305882, g=0.258824, b=0.219608, a=1.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading specular color
+- Sat Aug 25 15:57:59 2018  debug2: 		Specular color: r=0.898039, g=0.898039, b=0.898039, a=1.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading shininess
+- Sat Aug 25 15:57:59 2018  debug2: 		Shininess: -107374176.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Loading texutre
+- Sat Aug 25 15:57:59 2018  info: Loading texture ../resources/textures/default.png
+- Sat Aug 25 15:57:59 2018  debug: Texture loaded before
+- Sat Aug 25 15:57:59 2018  debug: Processing mesh number: 2
+- Sat Aug 25 15:57:59 2018  debug1: 	Vertex count 84
+- Sat Aug 25 15:57:59 2018  debug1: 	Faces count 480
+- Sat Aug 25 15:57:59 2018  warning: Mesh has not normal vectors
+- Sat Aug 25 15:57:59 2018  debug1: 	Origin point: x=-185.474792, y=236.961914, z=-1.761273
+- Sat Aug 25 15:57:59 2018  debug1: 	Setting an  material
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading ambient color
+- Sat Aug 25 15:57:59 2018  debug2: 		Ambient color: r=0.243137, g=0.219608, b=0.203922, a=1.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading diffuse color
+- Sat Aug 25 15:57:59 2018  debug2: 		Diffuse color: r=0.243137, g=0.219608, b=0.203922, a=1.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading specular color
+- Sat Aug 25 15:57:59 2018  debug2: 		Specular color: r=1.000000, g=1.000000, b=1.000000, a=1.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading shininess
+- Sat Aug 25 15:57:59 2018  debug2: 		Shininess: 76.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Loading texutre
+- Sat Aug 25 15:57:59 2018  info: Loading texture ../resources/textures/COWEYE.JPG
+- Sat Aug 25 15:57:59 2018  debug: Texture loaded before
+- Sat Aug 25 15:57:59 2018  debug: Processing mesh number: 3
+- Sat Aug 25 15:57:59 2018  debug1: 	Vertex count 423
+- Sat Aug 25 15:57:59 2018  debug1: 	Faces count 1524
+- Sat Aug 25 15:57:59 2018  warning: Mesh has not normal vectors
+- Sat Aug 25 15:57:59 2018  debug1: 	Origin point: x=-165.281830, y=273.983002, z=-1.494905
+- Sat Aug 25 15:57:59 2018  debug1: 	Setting an  material
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading ambient color
+- Sat Aug 25 15:57:59 2018  debug2: 		Ambient color: r=0.796079, g=0.796079, b=0.752941, a=1.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading diffuse color
+- Sat Aug 25 15:57:59 2018  debug2: 		Diffuse color: r=0.796079, g=0.796079, b=0.752941, a=1.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading specular color
+- Sat Aug 25 15:57:59 2018  debug2: 		Specular color: r=0.898039, g=0.898039, b=0.898039, a=1.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Reading shininess
+- Sat Aug 25 15:57:59 2018  debug2: 		Shininess: -107374176.000000
+- Sat Aug 25 15:57:59 2018  debug1: 	Loading texutre
+- Sat Aug 25 15:57:59 2018  info: Loading texture ../resources/textures/COWCUER.JPG
+- Sat Aug 25 15:57:59 2018  debug: Texture loaded before
+- Sat Aug 25 15:57:59 2018  warning: Unable to recognize gievd table_type key: ala
+- Sat Aug 25 15:57:59 2018  debug: Attempting to load drawable value
+- Sat Aug 25 15:57:59 2018  debug1: 	Visible value: true
+- Sat Aug 25 15:57:59 2018  debug: Loading Transform component
+- Sat Aug 25 15:57:59 2018  debug: Reading position
+- Sat Aug 25 15:57:59 2018  debug1: 	Position: x = 1.000000, y = 2.000000, z = 3.000000
+- Sat Aug 25 15:57:59 2018  debug: Reading rotation
+- Sat Aug 25 15:57:59 2018  debug1: 	Rotate: x = 0.000000, y = 0.000000, z = 0.000000
+- Sat Aug 25 15:57:59 2018  debug: Reading scale
+- Sat Aug 25 15:57:59 2018  debug1: 	Scale: x = 0.005000, y = 0.005000, z = 0.005000
+- Sat Aug 25 15:57:59 2018  debug: Loading Script component
+- Sat Aug 25 15:57:59 2018  debug: Adding on_update function to cow

@@ -6,6 +6,7 @@
 #include <string>
 
 #include "Entity.h"
+#include "Log.h"
 
 namespace LuaIntf {
 	class LuaRef;
@@ -17,6 +18,7 @@ namespace game
 	{
 	public:
 		static std::vector<std::shared_ptr<Entity>> load(const std::string& file);
+		static std::shared_ptr<Entity> load_entity(const std::string& name, const std::string& file);
 
 	private:
 		static void load_components_from_file(std::shared_ptr<Entity> entity, const std::string& entity_name, const std::string& file);
@@ -34,8 +36,7 @@ namespace game
 	template <class T>
 	void EntityLoader::add_component(std::shared_ptr<Entity> entity, const LuaIntf::LuaRef& table, const std::string& component_name)
 	{
-		Log::level() = Log::log_info;
-		Log::print("Loading %s component", component_name.c_str());
+		LOG(LOG_DEBUG, "Loading %s component", component_name.c_str());
 
 		entity->add_component<T>(new T(entity, table));
 	}

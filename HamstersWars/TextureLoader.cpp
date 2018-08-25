@@ -5,11 +5,11 @@
 
 std::shared_ptr<gl::Texture> game::model::TextureLoader::load_texture(const std::string& file)
 {
+	LOG(LOG_INFO, "Loading texture %s", file.c_str());
 	auto iter = textures_.find(file);
 	if (iter != textures_.end())
 	{
-		Log::level() = Log::log_info;
-		Log::print("Texture loaded before file_name = %s", file.c_str());
+		LOG(LOG_DEBUG, "Texture loaded before");
 		return iter->second;
 	}
 	gl::util::Image image;
@@ -19,12 +19,10 @@ std::shared_ptr<gl::Texture> game::model::TextureLoader::load_texture(const std:
 	}
 	catch(std::exception& ex)
 	{
-		Log::level() = Log::log_error;
-		Log::print("Unable to load %s, with exception %s", file.c_str(), ex.what());
+		LOG(LOG_ERROR, "Unable to load file %s, %s", file.c_str(), ex.what());
 	}
 
-	Log::level() = Log::log_info;
-	Log::print("Image size: %u, %u", image.width(), image.height());
+	LOG(LOG_DEBUG, "Image size %ux%u", image.width(), image.height());
 
 	return textures_[file] = std::make_shared<gl::Texture>(image);
 }
