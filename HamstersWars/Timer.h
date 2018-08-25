@@ -18,7 +18,7 @@ namespace game
 	{
 	public:
 		typedef std::function<void(TIMER_PARAMETERS)> action;
-
+		Timer() = default;
 		explicit Timer(const float& time);
 
 		float get_delay() const;

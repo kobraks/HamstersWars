@@ -27,6 +27,8 @@
 #include <iostream>
 #include "LinkException.h"
 #include "CompileException.h"
+#include "Script.h"
+#include "Timer.h"
 
 
 glm::vec3 pos(0.f, 1.f, 4.f);
@@ -375,6 +377,9 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 	Mouse::initialize(window, true, false);
 	Mouse::set_position(width / 2, height / 2);
 
+	Timer timer;
+	lua::Script::register_class<Timer>(&timer);
+
 	window_width = width;
 	window_height = height;
 
@@ -431,13 +436,10 @@ void game::Game::close()
 	reinterpret_cast<sf::Window*>(get_instance()->window_)->close();
 }
 
-game::Game::Game()
+game::Game::Game(): camera_(nullptr), shader_(nullptr), window_(nullptr)
 {
-	log_file_.open(LOG_FILE, std::ios::trunc | std::ios::out);
-	log_file_ << "Start logging" << std::endl;
 }
 
 game::Game::~Game()
 {
-	log_file_.close();
 }

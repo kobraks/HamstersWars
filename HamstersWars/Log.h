@@ -129,7 +129,7 @@ std::ostringstream& Log<Output>::get(const LogLevel::TLogLevel& level)
 template <class Output>
 LogLevel::TLogLevel& Log<Output>::reporting_level()
 {
-	static LogLevel::TLogLevel reporting_level = LogLevel::log_debug;
+	static LogLevel::TLogLevel reporting_level = LogLevel::log_debug4;
 	return reporting_level;
 }
 
