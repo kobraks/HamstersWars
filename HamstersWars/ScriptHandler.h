@@ -63,6 +63,9 @@ namespace game::component
 		void parse_table(const LuaIntf::LuaRef& table);
 		void run_function(LuaIntf::LuaRef& function) const;
 
+		static std::string get_function_name(const std::string& code);
+		static LuaIntf::LuaRef get_function(const std::string& code);
+
 		static bool is_function(const LuaIntf::LuaRef& function);
 	};
 

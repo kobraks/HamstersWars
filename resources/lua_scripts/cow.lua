@@ -18,7 +18,21 @@ cow =
 	},
 	Script = 
 	{
+		on_create = function (e)
+			log.print(log.debug, "creating");
+		end,
+
 		on_update = function (e)
+			if keyboard.is_key_pressed(keyboard.keys.k) then
+				log.print(log.debug, "Mateusz to debil");
+			end
+			if keyboard.is_key_pressed(keyboard.keys.x) then
+				mouse.position.x = 10;
+				mouse.position.y = 10;
+			end
+			if mouse.is_left_button_pressed() then
+				log.print(log.debug4, "Mateusz to malpa");
+			end
 		end
 	},
 

@@ -5,6 +5,20 @@
 #include "defines.h"
 #include "utils.h"
 #include "NotFunctionException.h"
+#include <algorithm>
+
+std::string trim(const std::string& str,
+	const std::string& whitespace = " \t")
+{
+	const auto strBegin = str.find_first_not_of(whitespace);
+	if (strBegin == std::string::npos)
+		return ""; // no content
+
+	const auto strEnd = str.find_last_not_of(whitespace);
+	const auto strRange = strEnd - strBegin + 1;
+
+	return str.substr(strBegin, strRange);
+}
 
 game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> owner) : ScriptHandler()
 {
@@ -42,7 +56,16 @@ game::component::ScriptHandler::ScriptHandler(std::shared_ptr<Entity> entity, co
 
 void game::component::ScriptHandler::set_on_update(const std::string& code)
 {
-	//TODO
+	try
+	{
+		LOG(LOG_DEBUG, "Adding on_update function to %s", get_owner()->get_type().c_str());
+
+		set_on_update(get_function(code));
+	}
+	catch (LuaIntf::LuaException& ex)
+	{
+		LOG(LOG_ERROR, "Lua throws exception: %s", ex.what());
+	}
 }
 
 void game::component::ScriptHandler::set_on_update(const LuaIntf::LuaRef& function)
@@ -56,7 +79,16 @@ void game::component::ScriptHandler::set_on_update(const LuaIntf::LuaRef& functi
 
 void game::component::ScriptHandler::set_on_destroy(const std::string& code)
 {
-	//TODO
+	try
+	{
+		LOG(LOG_DEBUG, "Adding on_destroy function to %s", get_owner()->get_type().c_str());
+
+		set_on_destroy(get_function(code));
+	}
+	catch (LuaIntf::LuaException& ex)
+	{
+		LOG(LOG_ERROR, "Lua throws exception: %s", ex.what());
+	}
 }
 
 void game::component::ScriptHandler::set_on_destroy(const LuaIntf::LuaRef& function)
@@ -70,7 +102,16 @@ void game::component::ScriptHandler::set_on_destroy(const LuaIntf::LuaRef& funct
 
 void game::component::ScriptHandler::set_on_copy(const std::string& code)
 {
-	//TODO
+	try
+	{
+		LOG(LOG_DEBUG, "Adding on_copy function to %s", get_owner()->get_type().c_str());
+
+		set_on_copy(get_function(code));
+	}
+	catch (LuaIntf::LuaException& ex)
+	{
+		LOG(LOG_ERROR, "Lua throws exception: %s", ex.what());
+	}
 }
 
 void game::component::ScriptHandler::set_on_copy(const LuaIntf::LuaRef& function)
@@ -84,7 +125,16 @@ void game::component::ScriptHandler::set_on_copy(const LuaIntf::LuaRef& function
 
 void game::component::ScriptHandler::set_on_create(const std::string& code)
 {
-	//TODO
+	try
+	{
+		LOG(LOG_DEBUG, "Adding on_create function to %s", get_owner()->get_type().c_str());
+
+		set_on_create(get_function(code));
+	}
+	catch (LuaIntf::LuaException& ex)
+	{
+		LOG(LOG_ERROR, "Lua throws exception: %s", ex.what());
+	}
 }
 
 
@@ -99,7 +149,16 @@ void game::component::ScriptHandler::set_on_create(const LuaIntf::LuaRef& functi
 
 void game::component::ScriptHandler::set_on_collision(const std::string& code)
 {
-	//TODO
+	try
+	{
+		LOG(LOG_DEBUG, "Adding on_collision function to %s", get_owner()->get_type().c_str());
+
+		set_on_collision(get_function(code));
+	}
+	catch (LuaIntf::LuaException& ex)
+	{
+		LOG(LOG_ERROR, "Lua throws exception: %s", ex.what());
+	}
 }
 
 void game::component::ScriptHandler::set_on_collision(const LuaIntf::LuaRef& function)
@@ -232,6 +291,26 @@ void game::component::ScriptHandler::run_function(LuaIntf::LuaRef& function) con
 			LOG(LOG_ERROR, "Entity [%s] Component [%s] throws lua exception: %s", get_owner()->get_type().c_str(), "Script", ex.what());
 		}
 	}
+}
+
+std::string game::component::ScriptHandler::get_function_name(const std::string& code)
+{
+	static const std::string FUNCTION = "function";
+
+	auto pos = code.find("()");
+	if (pos == std::string::npos)
+		return FUNCTION;
+
+	std::string name = code.substr(FUNCTION.size(), pos - FUNCTION.size());
+	return trim(name);
+}
+
+LuaIntf::LuaRef game::component::ScriptHandler::get_function(const std::string& code)
+{
+	LOG(LOG_DEBUG1, "Code [%s]", code.c_str());
+
+	lua::Script::do_string(code);
+	return LuaIntf::LuaRef(lua::Script::lua(), get_function_name(code).c_str());
 }
 
 bool game::component::ScriptHandler::is_function(const LuaIntf::LuaRef& function)

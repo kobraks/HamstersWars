@@ -1,6 +1,8 @@
 #include "SceneManager.h"
 #include "EntityLoader.h"
 
+#include <algorithm>
+
 #include "Log.h"
 #include "ScriptHandler.h"
 #include "GraphicComponent.h"
@@ -12,10 +14,81 @@ game::SceneManager::SceneManager()
 
 game::SceneManager::~SceneManager()
 {
-	delete handler_;
 }
 
-void game::SceneManager::initialize(const gl::Program& program, shader_behavior behavior)
+void game::SceneManager::add(const Entity& entity)
+{
+	auto pos = std::find(entities_.begin(), entities_.end(), entity);
+
+	if (pos == entities_.end())
+		entities_.push_back(entity);
+}
+
+void game::SceneManager::remove(const Entity& entity)
+{
+	to_remove_.push(entity);
+}
+
+void game::SceneManager::clone(const Entity& entity)
+{
+	auto clone = Entity(entity->copy());
+	add(clone);
+}
+
+void game::SceneManager::load_entity(const std::string& entity_file, const std::string& entity_name)
+{
+	add(EntityLoader::load_entity(entity_name, entity_file));
+}
+
+void game::SceneManager::load_entittes(const std::string& entities_file)
+{
+	entities_ = EntityLoader::load(entities_file);
+}
+
+void game::SceneManager::register_class(LuaIntf::LuaBinding& binding) const
+{
+}
+
+void game::SceneManager::draw(gl::Program& program, game::Transform& transform)
+{
+	for (auto entity : entities_)
+	{
+		auto graphic = entity->get_component<component::GraphicComponent>();
+
+		if (graphic)
+			graphic->draw(program, transform);
+	}
+}
+
+void game::SceneManager::update(const float& time_step)
+{
+	remove();
+
+	for (auto entity : entities_)
+	{
+		auto handler = entity->get_component<component::ScriptHandler>();
+
+		if (handler)
+			handler->on_update();
+	}
+}
+
+void game::SceneManager::remove()
+{
+	while(!to_remove_.empty())
+	{
+		auto entity = to_remove_.pop();
+		auto handler = entity->get_component<component::ScriptHandler>();
+
+		if (handler)
+			handler->on_destroy();
+
+		auto pos = std::find(entities_.begin(), entities_.end(), entity);
+		entities_.erase(pos);
+	}
+}
+
+/*void game::SceneManager::initialize(const gl::Program& program, shader_behavior behavior)
 {
 	auto instance = get_instance();
 
@@ -25,8 +98,9 @@ void game::SceneManager::initialize(const gl::Program& program, shader_behavior 
 	delete instance->handler_;
 	instance->handler_ = new CollisionHandler(instance);
 	instance->draw_bounding_boxes_ = false;
-}
+}*/
 
+/*
 void game::SceneManager::draw()
 {
 	auto instance = get_instance();
@@ -48,7 +122,7 @@ void game::SceneManager::draw()
 			shader_behavior_(shader_, model);
 		else
 			model->draw();
-	}*/
+	}#1#
 }
 
 void game::SceneManager::update()
@@ -122,3 +196,4 @@ void game::SceneManager::destroy()
 			entities_.erase(iter);
 	}
 }
+*/

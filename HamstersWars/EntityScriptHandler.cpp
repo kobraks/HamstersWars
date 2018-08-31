@@ -21,7 +21,7 @@ float game::script::EntityScriptHandler::get_elapsed_time()
 	return 1.f;
 }
 
-void game::script::EntityScriptHandler::rotate(const glm::vec3& axis)
+void game::script::EntityScriptHandler::rotate(const gl::Vector3D& axis)
 {
 	auto component = entity_->get_component<component::GraphicComponent>();
 
@@ -35,7 +35,7 @@ void game::script::EntityScriptHandler::rotate(const glm::vec3& axis)
 	}
 }
 
-void game::script::EntityScriptHandler::translate(const glm::vec3& axis)
+void game::script::EntityScriptHandler::translate(const gl::Vector3D& axis)
 {
 	auto component = entity_->get_component<component::GraphicComponent>();
 
@@ -49,12 +49,12 @@ void game::script::EntityScriptHandler::translate(const glm::vec3& axis)
 	}
 }
 
-void game::script::EntityScriptHandler::set_position(const glm::vec3& pos)
+void game::script::EntityScriptHandler::set_position(const gl::Vector3D& pos)
 {
 	translate(pos);
 }
 
-void game::script::EntityScriptHandler::move(const glm::vec3& vector)
+void game::script::EntityScriptHandler::move(const gl::Vector3D& vector)
 {
 	auto component = entity_->get_component<component::GraphicComponent>();
 
@@ -73,7 +73,7 @@ glm::vec3 game::script::EntityScriptHandler::get_position()
 	return glm::vec3();
 }
 
-void game::script::EntityScriptHandler::scale(const glm::vec3& axis)
+void game::script::EntityScriptHandler::scale(const gl::Vector3D& axis)
 {
 	auto component = entity_->get_component<component::GraphicComponent>();
 
@@ -117,16 +117,6 @@ void game::script::EntityScriptHandler::set_texture(const std::string& file)
 
 void game::script::EntityScriptHandler::set_model(const std::string& file)
 {
-}
-
-void game::script::EntityScriptHandler::print_log(const std::string& log_level, const std::string& log)
-{
-	LOG(LogLevel::from_string(log), "%s", log.c_str());
-}
-
-void game::script::EntityScriptHandler::print_error(const std::string& error_message)
-{
-	LOG(LOG_ERROR, error_message.c_str());
 }
 
 void game::script::EntityScriptHandler::register_class(LuaIntf::LuaBinding& binding) const

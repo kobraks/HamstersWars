@@ -3,29 +3,30 @@
 
 #include <Lua/lua.hpp>
 #include <Lua/LuaIntf.h>
-#include <glm/vec3.hpp>
 #include <memory>
 #include "Register.h"
+#include "Vector3D.h"
 
 namespace game::script
 {
 	class EntityScriptHandler : public lua::Register
 	{
 	public:
+		EntityScriptHandler() = default;
 		EntityScriptHandler(std::shared_ptr<Entity> entity);
 		~EntityScriptHandler();
 
 		float get_elapsed_time();
 
-		void rotate(const glm::vec3& axis);
-		void translate(const glm::vec3& axis);
+		void rotate(const gl::Vector3D& axis);
+		void translate(const gl::Vector3D& axis);
 		
-		void set_position(const glm::vec3& pos);
-		void move(const glm::vec3& vector);
+		void set_position(const gl::Vector3D& pos);
+		void move(const gl::Vector3D& vector);
 
 		glm::vec3 get_position();
 
-		void scale(const glm::vec3& axis);
+		void scale(const gl::Vector3D& axis);
 
 		void destroy();
 
@@ -35,11 +36,6 @@ namespace game::script
 
 		void set_texture(const std::string& file);
 		void set_model(const std::string& file);
-
-		void print_log(const std::string& log_level, const std::string& log);
-
-		void print_error(const std::string& error_message);
-
 	protected:
 		void register_class(LuaIntf::LuaBinding& binding) const override;
 

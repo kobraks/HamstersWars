@@ -206,6 +206,7 @@
     <ClInclude Include="ScriptHandler.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ProgramParameter.h" />
+    <ClInclude Include="Stack.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureLoader.h" />

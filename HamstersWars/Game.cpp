@@ -30,6 +30,7 @@
 #include "Script.h"
 #include "Timer.h"
 #include "EntityScriptHandler.h"
+#include "SceneManager.h"
 
 #define ADD_FUNCTION(TYPE, X) addFunction(#X, TYPE::X)
 #define ADD_FUNCTION_PARAMS(TYPE, X, PARAMS) addFunction(#X, TYPE::X, PARAMS)
@@ -103,8 +104,9 @@ void game::Game::draw()
 		mesh->draw();
 	}
 
-	SceneManager::draw();
-
+	Transform transform;
+	static_cast<SceneManager*>(scene_manager_)->draw(*shader_, transform);
+	
 	glFlush();
 	window->display();
 }
@@ -241,7 +243,7 @@ void game::Game::update(const float& time_step)
 	camera_->set_target(pos + dir);
 	camera_->set_up(up);
 
-	SceneManager::update();
+	static_cast<SceneManager*>(scene_manager_)->update(time_step);
 
 	Mouse::clear_buttons();
 	Keyboard::clear_keys();
@@ -367,6 +369,18 @@ void game::Game::register_classes()
 	{
 		LOG(LOG_INFO, "Registering log");
 		binding.
+			beginModule("log").
+				addConstant("error", LOG_ERROR).
+				addConstant("warning", LOG_WARNING).
+				addConstant("info", LOG_INFO).
+				addConstant("debug", LOG_DEBUG).
+				addConstant("debug1", LOG_DEBUG1).
+				addConstant("debug2", LOG_DEBUG2).
+				addConstant("debug3", LOG_DEBUG3).
+				addConstant("debug4", LOG_DEBUG4).
+				addFunction("print", &print_log, LUA_ARGS(int, std::string)).
+			endModule();
+		binding.
 			beginModule("Log").
 				addConstant("error", LOG_ERROR).
 				addConstant("warning", LOG_WARNING).
@@ -440,7 +454,10 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 	shader->set_uniform(shader->get_uniform("my_texture"), GL_TEXTURE0);
 	shader->set_uniform(shader->get_uniform("mode"), 1);
 
-	SceneManager::initialize(*shader, [](gl::Program& shader, const game::Drawable*)
+	auto scene_manager = get_instance()->scene_manager_ = new SceneManager();
+	static_cast<SceneManager*>(scene_manager)->load_entittes(LUA_SCRIPTS_PATH"entities.lua");
+
+	/*SceneManager::initialize(*shader, [](gl::Program& shader, const game::Drawable*)
 	{
 		/*shader.get_parameter("mode")->set_value(1);
 
@@ -453,10 +470,10 @@ void game::Game::initialize(int argc, char** argv, const char* window_name, cons
 			shader.get_parameter("mode")->set_value(-1);
 			shader.get_parameter("model")->set_value(mesh->bounding_box()->get_model_matrix());
 			mesh->bounding_box()->draw();
-		}*/
-	});
+		}#1#
+	});*/
 
-	SceneManager::load_from_file(LUA_SCRIPTS_PATH"entities.lua");
+	//SceneManager::load_from_file(LUA_SCRIPTS_PATH"entities.lua");
 
 }
 
@@ -482,4 +499,7 @@ game::Game::Game(): camera_(nullptr), shader_(nullptr), window_(nullptr)
 
 game::Game::~Game()
 {
+	auto scene_manager = static_cast<SceneManager*>(scene_manager_);
+
+	delete scene_manager;
 }

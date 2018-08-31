@@ -3,7 +3,6 @@
 #include <SFML/System.hpp>
 #include "Camera.h"
 #include "Program.h"
-#include "SceneManager.h"
 
 namespace game
 {
@@ -27,6 +26,7 @@ namespace game
 		bool is_runing = false;
 
 		void* window_;
+		void* scene_manager_;
 
 		void draw();
 		void on_reshape(int width, int height);

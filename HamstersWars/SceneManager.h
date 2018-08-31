@@ -10,49 +10,42 @@
 #include "Entity.h"
 #include "CollisionHandler.h"
 #include "Types.h"
+#include "Register.h"
+#include "Drawable.h"
+#include "Updatable.h"
+#include "Stack.h"
 
 namespace game
 {
-	class SceneManager
+	class SceneManager : public lua::Register, public Drawable, public Updatable
 	{
 	public:
-		SceneManager(const SceneManager&) = delete;
+		typedef std::shared_ptr<Entity> Entity;
+		typedef std::vector<Entity> entity_list;
+		typedef Stack<Entity> removal_list;
 
-		SceneManager& operator = (const SceneManager&) = delete;
-
+		SceneManager();
 		~SceneManager();
 
-		static void initialize(const gl::Program& program, shader_behavior behavior = nullptr);
+		void add(const Entity& entity);
+		void remove(const Entity& entity);
+		void clone(const Entity& entity);
 
-		static void draw();
-		static void update();
+		void load_entity(const std::string& entity_file, const std::string& entity_name);
+		void load_entittes(const std::string& entities_file);
 
-		static void set_shader(const gl::Program& program);
-		static void set_shader_behavior(shader_behavior& behavior);
+	protected:
+		void register_class(LuaIntf::LuaBinding& binding) const override;
 
-		static void load_from_file(const std::string& file_name);
-
-		static std::vector<std::shared_ptr<Entity>> get_entites();
-
-		static void destroy(std::shared_ptr<Entity> entity);
-
-		static CollisionHandler* get_collision_handler();
-
-		static void draw_bounding_boxes(bool enable);
+	public:
+		void draw(gl::Program& program, game::Transform& transform) override;
+		void update(const float& time_step) override;
 
 	private:
-		SceneManager();;
-		static SceneManager * get_instance();
+		entity_list entities_;
+		removal_list to_remove_;
 
-		shader_behavior shader_behavior_;
-		std::vector<std::shared_ptr<Entity>> entities_;
-		std::stack<std::shared_ptr<Entity>> to_destroy_;
-		gl::Program shader_;
-		bool draw_bounding_boxes_;
-
-		void destroy();
-
-		CollisionHandler* handler_;
+		void remove();
 	};
 }
 
