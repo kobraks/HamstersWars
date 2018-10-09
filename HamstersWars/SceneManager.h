@@ -1,23 +1,15 @@
 #pragma once
-#include <functional>
-#include <vector>
-#include <stack>
-#include <string>
-#include <memory>
 
 #include "Program.h"
 #include "Model.h"
 #include "Entity.h"
-#include "CollisionHandler.h"
 #include "Types.h"
 #include "Register.h"
-#include "Drawable.h"
-#include "Updatable.h"
 #include "Stack.h"
 
 namespace game
 {
-	class SceneManager : public lua::Register, public Drawable, public Updatable
+	class SceneManager : public lua::Register
 	{
 	public:
 		typedef std::shared_ptr<Entity> Entity;
@@ -36,10 +28,6 @@ namespace game
 
 	protected:
 		void register_class(LuaIntf::LuaBinding& binding) const override;
-
-	public:
-		void draw(gl::Program& program, game::Transform& transform) override;
-		void update(const float& time_step) override;
 
 	private:
 		entity_list entities_;

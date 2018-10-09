@@ -6,10 +6,10 @@
 #include <unordered_map>
 
 #include "ProgramParameter.h"
-#include "Light.h"
 #include "Vector3D.h"
 #include "Vector3D.h"
 #include "Texture.h"
+#include "LinkException.h"
 
 namespace gl
 {
@@ -48,7 +48,6 @@ namespace gl
 		void set_uniform(const Uniform& uniform, const Vector3D& value);
 		void set_uniform(const Uniform& uniform, const glm::vec4& value);
 		void set_uniform(const Uniform& uniform, const GLuint& texture_id_, Texture& texture);
-		void set_uniform(const Uniform& uniform, const Light& light);
 
 		void set_uniform(const std::string& name, const glm::mat4& value);
 		void set_uniform(const std::string& name, const float& value);
@@ -56,7 +55,6 @@ namespace gl
 		void set_uniform(const std::string& name, const Vector3D& value);
 		void set_uniform(const std::string& name, const glm::vec4& value);
 		void set_uniform(const std::string& name, const GLuint& texture_id, Texture& texture);
-		void set_uniform(const std::string& name, const Light& light);
 
 		ProgramParameter operator[] (const std::string& name) const;
 		ProgramParameter operator[] (const char* name) const;

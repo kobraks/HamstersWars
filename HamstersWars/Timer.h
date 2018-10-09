@@ -7,14 +7,13 @@
 
 #include "Action.h"
 #include "LuaAction.h"
-#include "Updatable.h"
 #include "Register.h"
 
 #define TIMER_PARAMETERS float
 
 namespace game
 {
-	class Timer : public Updatable, public lua::Register
+	class Timer : public lua::Register
 	{
 	public:
 		typedef std::function<void(TIMER_PARAMETERS)> action;
@@ -31,7 +30,7 @@ namespace game
 		void pause(const bool& pause = true);
 		void stop(const bool& stop = true);
 
-		void update(const float& time_step) override;
+		void update(const float& time_step);
 		void on_timer();
 
 		void add_action_on_update(const action& action);

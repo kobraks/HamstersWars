@@ -1,9 +1,6 @@
+#include "stdafx.h"
 #include "Shader.h"
 #include "Log.h"
-#include "CompileException.h"
-
-#include <fstream>
-#include <sstream>
 
 gl::Shader::Shader(shader_type::shader_type_t type)
 {

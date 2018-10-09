@@ -1,7 +1,7 @@
+#include "stdafx.h"
 #include "TextureLoader.h"
 
 #include "Image.h"
-#include "Log.h"
 
 std::shared_ptr<gl::Texture> game::model::TextureLoader::load_texture(const std::string& file)
 {

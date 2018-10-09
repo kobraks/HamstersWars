@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "Component.h"
 
 game::component::Component::Component(std::shared_ptr<Entity> owner) : owner_(owner)

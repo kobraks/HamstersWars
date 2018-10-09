@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "ProgramParameter.h"
 
 #include "glm/gtc/type_ptr.hpp"

@@ -2,7 +2,7 @@
 #include <gl/glew.h>
 #include <string>
 #include <memory>
-#include <istream>
+#include "CompileException.h"
 
 namespace gl
 {

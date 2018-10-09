@@ -1,7 +1,6 @@
+#include "stdafx.h"
 #include "Transformable.h"
 #include <glm/gtc/matrix_transform.hpp>
-
-#include <iostream>
 
 std::ostream& operator << (std::ostream& out, const glm::mat4& mat)
 {

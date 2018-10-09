@@ -1,5 +1,5 @@
+#include "stdafx.h"
 #include "ColliderComponent.h"
-
 
 
 game::component::ColliderComponent::~ColliderComponent()

@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "Model.h"
 #include <utility>
 #include <glm/gtc/matrix_transform.hpp>

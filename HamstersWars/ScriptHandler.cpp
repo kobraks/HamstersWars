@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "ScriptHandler.h"
 #include "EntityScriptHandler.h"
 #include "Script.h"

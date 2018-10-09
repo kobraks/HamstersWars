@@ -1,10 +1,6 @@
+#include "stdafx.h"
 #include "Image.h"
 #include <FreeImage/FreeImage.h>
-#include <fstream>
-#include <algorithm>
-
-#include "OpenFileException.h"
-#include "UnknownFormatException.h"
 
 FREE_IMAGE_FORMAT convert(gl::util::image_type::image_type_t type)
 {

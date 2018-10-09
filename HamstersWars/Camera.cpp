@@ -1,6 +1,6 @@
+#include "stdafx.h"
 #include "Camera.h"
 #include <glm/gtc/matrix_transform.hpp>
-
 
 gl::Camera::Camera() : height_(0), width_(0), fov_(0)
 {

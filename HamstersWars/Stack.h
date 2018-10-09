@@ -192,7 +192,7 @@ typename Stack<T>::StackIterator::self_type& Stack<T>::StackIterator::operator++
 template <class T>
 typename Stack<T>::StackIterator::self_type& Stack<T>::StackIterator::operator++(int i)
 {
-	for (auto int j = 0; j < i; ++j)
+	for (int j = 0; j < i; ++j)
 	{
 		if (element_ == nullptr)
 			break;
@@ -242,7 +242,7 @@ typename Stack<T>::ConstStackIterator::self_type& Stack<T>::ConstStackIterator::
 template <class T>
 typename Stack<T>::ConstStackIterator::self_type& Stack<T>::ConstStackIterator::operator++(int i)
 {
-	for (auto int j = 0; j < i; ++j)
+	for (int j = 0; j < i; ++j)
 	{
 		if (element_ == nullptr)
 			break;

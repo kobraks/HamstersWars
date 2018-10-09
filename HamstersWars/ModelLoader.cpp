@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "ModelLoader.h"
 #include <assimp\scene.h>
 #include <assimp\postprocess.h>
@@ -9,10 +10,7 @@
 
 #include <vector>
 
-#include "Log.h"
 #include "Mesh.h"
-#include "Defines.h"
-#include <iostream>
 
 inline glm::vec3 convert(aiColor3D color)
 {

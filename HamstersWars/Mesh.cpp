@@ -1,12 +1,10 @@
+#include "stdafx.h"
 #include "Mesh.h"
-#include "Log.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "VertexBuffer.h"
 #include "VertexArray.h"
-#include "Defines.h"
-#include "Utils.h"
 
 float color = 0;
 #define COLOR_INC 0.1f

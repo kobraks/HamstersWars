@@ -1,8 +1,7 @@
+#include "stdafx.h"
 #include "VertexArray.h"
 
 #include "VertexBuffer.h"
-#include <ostream>
-#include <iostream>
 
 gl::VertexArray::VertexArray()
 {

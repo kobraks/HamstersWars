@@ -1,5 +1,5 @@
+#include "stdafx.h"
 #include "Script.h"
-#include <algorithm>
 
 LuaIntf::LuaContext game::lua::Script::lua_;
 std::unordered_map<std::string, LuaIntf::LuaRef*> game::lua::Script::refs_;

@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "GraphicComponent.h"
 #include "Entity.h"
 #include "ModelLoader.h"

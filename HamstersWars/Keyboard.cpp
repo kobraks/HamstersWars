@@ -1,9 +1,5 @@
+#include "stdafx.h"
 #include "Keyboard.h"
-
-#include <SFML/Window.hpp>
-
-#include <Lua/lua.hpp>
-#include <Lua/LuaIntf.h>
 
 #include "Script.h"
 #include "Log.h"

@@ -1,5 +1,5 @@
+#include "stdafx.h"
 #include "Program.h"
-#include "LinkException.h"
 #include "Shader.h"
 #include <glm/gtc/type_ptr.hpp>
 #include "Log.h"

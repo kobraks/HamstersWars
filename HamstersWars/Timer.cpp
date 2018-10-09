@@ -1,6 +1,5 @@
+#include "stdafx.h"
 #include "Timer.h"
-
-#include "Log.h"
 
 #define ADD_FUNCTION(X) addFunction(#X, &Timer::X)
 #define ADD_FUNCTION_PARAMS(X, ...) addFunction(#X, &Timer::X, LUA_ARGS(##__VA_ARGS__))

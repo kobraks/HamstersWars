@@ -1,54 +1,103 @@
+#include "stdafx.h"
 #include "Entity.h"
+#include "System.h"
 
-
-game::Entity::Entity()
+namespace game
 {
-}
+	Entity::Entity() : id_(get_id())
+	{
+	}
 
-game::Entity::Entity(const Entity& entity)
-{
-	type_ = entity.type_;
+	Entity::Entity(const std::string name) : id_(get_id()), name_(name)
+	{
+	}
 
-	components_ = entity.components_;
+	Entity::Entity(const Entity& other) : id_(get_id())
+	{
+		name_ = other.name_;
 
-	for (auto& component : components_)
-		component.second = component.second->copy();
-}
+		for(auto pair : other.systems_)
+		{
+			auto system = pair.second;
+			add_system(system);
+			system->add_entity(this);
+		}
+	}
 
-game::Entity::Entity(Entity&& entity) noexcept
-{
-	type_ = std::move(entity.type_);
+	Entity& Entity::operator=(const Entity& other)
+	{
+		drop_all_systems();
+		name_ = other.name_;
+		systems_.reserve(other.systems_.size());
 
-	components_ = std::move(entity.components_);
-}
+		for (auto pair : other.systems_)
+		{
+			auto system = pair.second;
+			add_system(system);
+			system->add_entity(this);
+		}
 
-game::Entity::~Entity()
-{
-	for (auto& component : components_)
-		delete component.second;
-}
+		return *this;
+	}
 
-game::Entity* game::Entity::copy() const
-{
-	return new Entity(*this);
-}
+	Entity::~Entity()
+	{
+		drop_all_systems();
+	}
 
-std::string game::Entity::get_type() const
-{
-	return type_;
-}
+	const entity_id_type& Entity::id() const
+	{
+		return id_;
+	}
 
-void game::Entity::set_type(const std::string& type)
-{
-	type_ = type;
-}
+	void Entity::add_system(interfaces::System* system)
+	{
+		if (!has_system(system->id()))
+		{
+			systems_[utils::to_upper_copy(utils::trim_copy(system->id()))] = system;
+		}
+	}
 
-void game::Entity::add_component(std::type_index type_index, component::Component* component)
-{
-	auto comp = components_.find(type_index);
+	void Entity::drop_system(const system_id_type& system_id)
+	{
+		system_list_type::iterator pair = systems_.find(utils::to_upper_copy(utils::trim_copy(system_id)));
 
-	if (comp != components_.end())
-		delete comp->second;
+		if (pair != systems_.end())
+			erase_system(pair);
+	}
 
-	components_[type_index] = component;
+	void Entity::drop_all_systems()
+	{
+		auto pair = systems_.begin();
+
+		while (pair != systems_.end())
+			erase_system(pair);
+
+		systems_.clear();
+	}
+
+	bool Entity::has_system(const system_id_type& system_id)
+	{
+		return systems_.find(utils::to_upper_copy(utils::trim_copy(system_id))) != systems_.end();
+	}
+
+	void Entity::set_name(const std::string& name)
+	{
+		name_ = name;
+	}
+
+	std::string Entity::get_name() const
+	{
+		return name_;
+	}
+
+	void Entity::erase_system(system_list_type::iterator pair)
+	{
+		auto system = pair->second;
+
+		systems_.erase(pair);
+
+		if (system->contains_entity(id_))
+			system->drop_entity(id_);
+	}
 }

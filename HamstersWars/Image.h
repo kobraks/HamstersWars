@@ -1,7 +1,8 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <SFML/System/Vector2.hpp>
-#include <string>
+#include "OpenFileException.h"
+#include "UnknownFormatException.h"
 
 namespace gl::util
 {

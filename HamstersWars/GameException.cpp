@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "GameException.h"
 #include <cstdarg>
 #include <utility>

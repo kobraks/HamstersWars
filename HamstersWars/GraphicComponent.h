@@ -8,11 +8,10 @@
 #include "Component.h"
 #include "Model.h"
 #include "Transformable.h"
-#include "Drawable.h"
 
 namespace game::component
 {
-	class GraphicComponent : public Component, public game::Transformable, public Drawable
+	class GraphicComponent : public Component, public game::Transformable
 	{
 	public:
 		GraphicComponent(std::shared_ptr<Entity> owner, const LuaIntf::LuaRef& table);

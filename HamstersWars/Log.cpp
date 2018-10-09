@@ -1,8 +1,8 @@
+#include "stdafx.h"
 #include "Log.h"
+
 #include <cstdarg>
 #include <cstdio>
-#include <algorithm>
-#include <string>
 
 LogLevel::TLogLevel LogLevel::from_string(const std::string& string)
 {

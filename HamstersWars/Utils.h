@@ -1,10 +1,11 @@
 #pragma once
 #include <Lua/lua.hpp>
 #include <Lua/LuaIntf.h>
-#include <string>
 #include "Vector3D.h"
 #include "Vector2D.h"
 #include "Color.h"
+#include "UnknownTableElementException.h"
+#define GET_TYPE_NAME(type) typeid(type).name()
 
 namespace game::utils
 {
@@ -15,7 +16,7 @@ namespace game::utils
 	 * \param str string to be transformed
 	 * \return a upper case string
 	 */
-	std::string to_upper_copy(const std::string& str);
+	std::string to_upper_copy(std::string str);
 	/**
 	 * \brief transformating string to upper case form
 	 * \param str string to be transformed
@@ -28,7 +29,7 @@ namespace game::utils
 	 * \param str string to be transformed
 	 * \return a lower case string
 	 */
-	std::string to_lower_copy(const std::string& str);
+	std::string to_lower_copy(std::string str);
 	/**
 	 * \brief transformating string to lower case form
 	 * \param str string to be transformed
@@ -127,5 +128,66 @@ namespace game::utils
 	* \return returns greater values of to vectors
 	*/
 	gl::Vector2D get_lesser_values(const gl::Vector2D& left, const gl::Vector2D& right);
+
+
+	std::string& l_trim(std::string &string);
+	std::string& r_trim(std::string &string);
+	std::string& trim(std::string &string);
+
+	std::string l_trim_copy(std::string string);
+	std::string r_trim_copy(std::string string);
+	std::string trim_copy(std::string string);
+
+	template<class Type>
+	static inline Type convert(const std::string& value)
+	{
+		Type result;
+		std::istringstream stream(value);
+		if (stream >> result)
+			return result;
+
+		assert(false && "Unable to convert string to value");
+		throw std::runtime_error("Unable to convert string to value");
+	}
+
+	template<>
+	static inline std::string convert<std::string>(const std::string& value)
+	{
+		return value;
+	}
+
+	template<>
+	static inline const char* convert<const char*>(const std::string& value)
+	{
+		return value.c_str();
+	}
+
+	template<>
+	static inline char* convert<char*>(const std::string& value)
+	{
+		auto result = new char[value.size() + 1];
+		std::copy(value.begin(), value.end(), result);
+		result[value.size() + 1] = 0;
+
+		return result;
+	}
+
+	template<class Type>
+	static inline std::string to_string(const Type& value)
+	{
+		std::ostringstream stream;
+
+		if (stream << value)
+			return stream.str();
+
+		assert(false && "Unable to convert value to string");
+		throw std::runtime_error("Unable to convert string to value");
+	}
+
+	template<>
+	static inline std::string to_string<std::string>(const std::string& value)
+	{
+		return value;
+	}
 }
 

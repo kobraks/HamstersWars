@@ -1,5 +1,5 @@
+#include "stdafx.h"
 #include "Texture.h"
-#include <vector>
 
 #define PUSHSTATE() GLint restoreId; glGetIntegerv(GL_TEXTURE_BINDING_2D, &restoreId);
 #define POPSTATE() glBindTexture( GL_TEXTURE_2D, restoreId );

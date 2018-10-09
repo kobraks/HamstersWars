@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "EntityScriptHandler.h"
 #include "Log.h"
 
@@ -94,19 +95,12 @@ void game::script::EntityScriptHandler::destroy()
 
 bool game::script::EntityScriptHandler::is_colliding()
 {
-	return SceneManager::get_collision_handler()->has_collision(entity_);
+	return false;
 }
 
 std::vector<game::script::EntityScriptHandler> game::script::EntityScriptHandler::get_colliders()
 {
-	auto colliders = SceneManager::get_collision_handler()->get_colliders(entity_);
-
 	std::vector<game::script::EntityScriptHandler> result;
-	result.reserve(colliders.size());
-
-	for (auto collider : colliders)
-		result.push_back(EntityScriptHandler(collider));
-
 	return result;
 }
 

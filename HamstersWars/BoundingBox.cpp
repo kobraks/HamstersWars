@@ -1,9 +1,7 @@
+#include "stdafx.h"
 #include "BoundingBox.h"
-
 #include "VertexBuffer.h"
 #include "VertexArray.h"
-#include "Defines.h"
-#include <iostream>
 
 inline void set_less_value(gl::Vector3D& value, const gl::Vector3D& right)
 {

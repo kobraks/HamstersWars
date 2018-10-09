@@ -1,62 +1,51 @@
 #pragma once
 
 #include "Types.h"
+#include "PropertyManager.h"
 #include "Component.h"
-
-#include <map>
-#include <typeindex>
-#include <string>
 
 namespace game
 {
+	namespace interfaces
+	{
+		class System;
+	}
+
 	class Entity
 	{
 	public:
-		Entity();
-		Entity(const Entity& entity);
-		Entity(Entity&& entity) noexcept;
+		typedef std::unordered_map<system_id_type, interfaces::System*> system_list_type;
+		PropertyManager properties;
 
+		Entity();
+		explicit Entity(const std::string name);
+		Entity(const Entity& other);
+
+		Entity& operator=(const Entity& other);
 		~Entity();
 
-		Entity* copy() const;
+		const entity_id_type& id() const;
+		
+		void add_system(interfaces::System* system);
 
-		std::string get_type() const;
-		void set_type(const std::string& type);
+		void drop_system(const system_id_type& system_id);
+		void drop_all_systems();
 
-		void add_component(std::type_index type_index, component::Component* component);
+		bool has_system(const system_id_type& system_id);
 
-		template<class T>
-		void add_component(component::Component* component)
-		{
-			add_component(typeid(T), component);
-		}
-
-		template<class T>
-		T* get_component()
-		{
-			auto component = components_.find(typeid(T));
-			if (component != components_.end())
-				return dynamic_cast<T*>(component->second);
-
-			return nullptr;
-		}
-
-		template<class T>
-		void remove_component()
-		{
-			auto& component = components_.find(typeid(T));
-			if (component != components_.end())
-			{
-				delete component->second;
-			}
-
-		}
+		void set_name(const std::string& name);
+		std::string get_name() const;
+	protected:
+		system_list_type systems_;
 
 	private:
-		std::string type_;
+		static inline entity_id_type next_id_ = 0;
+		const entity_id_type id_;
 
-		std::map<std::type_index, component::Component*> components_;
+		const entity_id_type get_id();
+		std::string name_;
 
+		void erase_system(system_list_type::iterator pair);
 	};
 }
 
