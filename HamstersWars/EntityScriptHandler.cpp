@@ -24,25 +24,25 @@ float game::script::EntityScriptHandler::get_elapsed_time()
 
 void game::script::EntityScriptHandler::rotate(const gl::Vector3D& axis)
 {
-	auto component = entity_->get_component<component::GraphicComponent>();
+	auto component = nullptr;//entity_->get_component<component::GraphicComponent>();
 
 	if (!component)
 	{
-		LOG(LOG_WARNING, "%s has no grahpic component to rotate", entity_->get_type().c_str());
+		//LOG(LOG_WARNING, "%s has no grahpic component to rotate", entity_->get_type().c_str());
 	}
 	else
 	{
-		component->rotate(axis);
+		//component->rotate(axis);
 	}
 }
 
 void game::script::EntityScriptHandler::translate(const gl::Vector3D& axis)
 {
-	auto component = entity_->get_component<component::GraphicComponent>();
+	auto component = nullptr;//entity_->get_component<component::GraphicComponent>();
 
 	if (!component)
 	{
-		LOG(LOG_WARNING, "%s has no grahpic component to rotate", entity_->get_type().c_str());
+		//LOG(LOG_WARNING, "%s has no grahpic component to rotate", entity_->get_type().c_str());
 	}
 	else
 	{
@@ -57,15 +57,15 @@ void game::script::EntityScriptHandler::set_position(const gl::Vector3D& pos)
 
 void game::script::EntityScriptHandler::move(const gl::Vector3D& vector)
 {
-	auto component = entity_->get_component<component::GraphicComponent>();
+	auto component = nullptr;//entity_->get_component<component::GraphicComponent>();
 
 	if (!component)
 	{
-		LOG(LOG_WARNING, "%s has no grahpic component to move", entity_->get_type().c_str());
+		//LOG(LOG_WARNING, "%s has no grahpic component to move", entity_->get_type().c_str());
 	}
 	else
 	{
-		component->move(vector);
+		//component->move(vector);
 	}
 }
 
@@ -76,15 +76,15 @@ glm::vec3 game::script::EntityScriptHandler::get_position()
 
 void game::script::EntityScriptHandler::scale(const gl::Vector3D& axis)
 {
-	auto component = entity_->get_component<component::GraphicComponent>();
+	//auto component = entity_->get_component<component::GraphicComponent>();
 
-	if (!component)
+	//if (!component)
 	{
-		LOG(LOG_WARNING, "%s has no grahpic component to scale", entity_->get_type().c_str());
+		//LOG(LOG_WARNING, "%s has no grahpic component to scale", entity_->get_type().c_str());
 	}
-	else
+	//else
 	{
-		component->scale(axis);
+		//component->scale(axis);
 	}
 }
 

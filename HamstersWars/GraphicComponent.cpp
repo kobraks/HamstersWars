@@ -36,14 +36,14 @@ std::shared_ptr<game::model::Model> game::component::GraphicComponent::get_model
 	return model_;
 }
 
-void game::component::GraphicComponent::draw(gl::Program& program, game::Transform& transform)
+/*void game::component::GraphicComponent::draw(gl::Program& program, game::Transform& transform)
 {
 	if (model_)
 	{
 		program["Model"] = transform * this->get_transform();
 		model_->draw();
 	}
-}
+}*/
 
 void game::component::GraphicComponent::load(const std::string& file)
 {

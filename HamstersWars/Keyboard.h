@@ -38,16 +38,16 @@ namespace game
 		bool up_keys_[sf::Keyboard::KeyCount]{};
 		bool pressed_keys_[sf::Keyboard::KeyCount]{};
 
-		void* window_;
-
 		static Keyboard* get_instance();
 
-		static void initialize(void* window);
+		static void initialize();
 		static void parse_event(const sf::Event& event);
 		static void clear_keys();
 		static void clear_pressed_keys();
 		static void clear_up_keys();
-
+		
+		static bool is_legal(const int& key);
+		
 		friend class Game;
 	protected:
 		void register_class(LuaIntf::LuaBinding& binding) const override;

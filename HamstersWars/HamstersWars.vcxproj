@@ -78,7 +78,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -103,7 +103,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -133,6 +133,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ColliderComponent.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Configuration.cpp" />
     <ClCompile Include="ConfigurationLoader.cpp" />
     <ClCompile Include="ConsoleArgument.cpp" />
     <ClCompile Include="ConsoleArgumentContainer.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="CompileException.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="Configuration.h" />
     <ClInclude Include="ConfigurationLoader.h" />
     <ClInclude Include="ConsoleArgument.h" />
     <ClInclude Include="ConsoleArgumentContainer.h" />

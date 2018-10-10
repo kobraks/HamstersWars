@@ -91,6 +91,11 @@ namespace game
 		return name_;
 	}
 
+	const entity_id_type Entity::get_id()
+	{
+		return ++next_id_;
+	}
+
 	void Entity::erase_system(system_list_type::iterator pair)
 	{
 		auto system = pair->second;

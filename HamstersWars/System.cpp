@@ -19,7 +19,7 @@ namespace game::interfaces
 		return id_;
 	}
 
-	const entity_id_type& System::add_entity(entity_pointer_type entity)
+	const entity_id_type System::add_entity(entity_pointer_type entity)
 	{
 		if (!entity)
 		{

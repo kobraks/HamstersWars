@@ -28,7 +28,6 @@ namespace game
 		enum Buttons { left = 0, right = 2, middle = 1, undefined = 3 };
 		enum Wheel { wheel_up, wheel_down };
 
-
 		static void set_position(const int& x, const int& y);
 		static void set_position(const sf::Vector2i& pos);
 
@@ -85,7 +84,8 @@ namespace game
 		void on_motion(const int& x, const int& y);
 		void on_mouse(const int& button, const int& state, const int& x, const int& y);
 
-		static void initialize(void* window, const bool& visable = true, const bool& grab = true);
+		static void set_window(void* window);
+		static void initialize();
 
 		static Mouse* get_instance();
 		static void parse_event(sf::Event& event);

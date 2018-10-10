@@ -38,20 +38,28 @@ namespace game
 		int run();
 
 		bool is_running() const;
+		void set_max_updates(const uint32& max_updates);
+		void set_update_rate(const float& update_rate);
 
+		float get_update_rate() const;
 
 	private:
 		gl::Camera* camera_;
 		bool running_ = false;
 		int exit_code_ = 0;
 
+		int32 update_rate_ = static_cast<uint32>(1000.0f / 20.0f);
+		uint32 max_updates_ = 5;
+
 		void* window_;
 		void* scene_manager_;
 
+		void init_renderer();
+
 		void draw();
 		void on_reshape(int width, int height);
+		void update();
 		void main_loop();
-		void update(const float& time_step);
 
 		static void register_classes();
 	};

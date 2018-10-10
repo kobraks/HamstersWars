@@ -14,7 +14,7 @@ namespace game::interfaces
 		virtual ~System();
 
 		const system_id_type& id() const;
-		const entity_id_type& add_entity(entity_pointer_type entity);
+		const entity_id_type add_entity(entity_pointer_type entity);
 		virtual void populate_entity(entity_pointer_type entity) = 0;
 		bool contains_entity(const entity_id_type& entity_id);
 		

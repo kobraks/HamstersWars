@@ -138,6 +138,9 @@ namespace game::utils
 	std::string r_trim_copy(std::string string);
 	std::string trim_copy(std::string string);
 
+	std::string get_string(const char* format, va_list args);
+	std::string print_to_string(const char* format, ...);
+
 	template<class Type>
 	static inline Type convert(const std::string& value)
 	{

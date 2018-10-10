@@ -52,13 +52,13 @@ void update()
 	velocity_horizontal /= 1.2;
 }
 
-void print_log(const int& log_level, const std::string& message)
-{
-	LOG(static_cast<LogLevel::TLogLevel>(log_level), message.c_str());
-}
-
 namespace game
 {
+	void print_log(const int& log_level, const std::string& message)
+	{
+		LOG(static_cast<log::level::TLogLevel>(log_level), message.c_str());
+	}
+
 	bool is_running()
 	{
 		return Game::get_instance()->is_running();
@@ -102,7 +102,7 @@ namespace game
 			properties.add<std::string>("config_file", args.get_argument("config_file").value<std::string>());
 		}
 		else
-			properties.add<std::string>("config_file", "../config.lua");
+			properties.add<std::string>("config_file", CONFIG_FILE);
 	}
 
 	void Game::quit(const int& exit_code)
@@ -115,14 +115,23 @@ namespace game
 	{
 		running_ = true;
 
-		Keyboard::initialize(window_);
-		Mouse::initialize(window_, true, false);
-
+		Keyboard::initialize();
+		Mouse::initialize();
 		register_classes();
 
-		ConfigurationLoader::load_config(properties.get<std::string>("config_file"), properties);
+		auto config = ConfigurationLoader::load_config(properties.get<std::string>("config_file"));
+		properties.add<Configuration>("config", config);
+
+		set_max_updates(config.max_updates);
+		set_update_rate(config.update_rate);
+		properties.set<bool>("debug", config.debug);
+
+		init_renderer();
+		Mouse::set_window(window_);
 
 		main_loop();
+
+		LOG(LOG_INFO, "Exit code: %i", exit_code_);
 
 		return exit_code_;
 	}
@@ -130,6 +139,130 @@ namespace game
 	bool Game::is_running() const
 	{
 		return running_;
+	}
+
+	void Game::set_max_updates(const uint32& max_updates)
+	{
+		if (200 >= max_updates && 1 <= max_updates)
+			max_updates_ = max_updates;
+	}
+
+	void Game::set_update_rate(const float& update_rate)
+	{
+		if (200.0f >= update_rate && 1.0f <= update_rate)
+			update_rate_ = static_cast<uint32>(1000.0f / update_rate);
+	}
+
+	float Game::get_update_rate() const
+	{
+		return 1000.0f / static_cast<float>(update_rate_);
+	}
+
+	void Game::init_renderer()
+	{
+		auto config = properties.get<Configuration>("config");
+		sf::ContextSettings context_settings;
+		context_settings.depthBits = config.open_gl_settings.depth_bits;
+		context_settings.stencilBits = config.open_gl_settings.stencil_bits;
+		context_settings.majorVersion = config.open_gl_settings.major_version;
+		context_settings.minorVersion = config.open_gl_settings.minor_version;
+
+		auto window = new sf::Window(sf::VideoMode(config.window_settings.size.x, config.window_settings.size.y),
+		                             config.window_settings.title, config.window_settings.style, context_settings);
+		window->setPosition(sf::Vector2i(config.window_settings.position.x, config.window_settings.position.y));
+
+		window_ = window;
+	}
+
+	void Game::draw()
+	{
+		auto window = reinterpret_cast<sf::Window*>(window_);
+		window->setActive();
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		glFlush();
+		window->display();
+	}
+
+	void Game::on_reshape(int width, int height)
+	{
+		auto window = reinterpret_cast<sf::Window*>(window_);
+		window->setActive();
+		glViewport(0, 0, width, height);
+		camera_->set_width(width);
+		camera_->set_height(height);
+
+		/*shader_->use();
+		shader_->get_parameter("Projection").set_value(camera_->get_projection());*/
+	}
+
+	void Game::update()
+	{
+		if (properties.get<bool>("debug"))
+		{
+			if (Keyboard::is_up(sf::Keyboard::T))
+			{
+				if (captureMouse)
+				{
+					captureMouse = false;
+					Mouse::set_visable(true);
+					Mouse::set_grabbed(false);
+				}
+				else
+				{
+					captureMouse = true;
+					Mouse::set_visable(false);
+					Mouse::set_grabbed(true);
+				}
+			}
+		}
+	}
+
+	void Game::main_loop()
+	{
+		sf::Clock update_clock;
+		sf::Clock frame_clock;
+
+		auto window = reinterpret_cast<sf::Window*>(window_);
+		sf::Event event;
+		int32 elapsed_time = 0;
+		update_clock.restart();
+
+		while(is_running() && window && window->isOpen())
+		{
+			while(window->pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+					window->close();
+
+				if (event.type == sf::Event::Resized)
+				{
+					auto size = window->getSize();
+					on_reshape(size.x, size.y);
+				}
+
+				if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased)
+					Keyboard::parse_event(event);
+
+				if (event.type == sf::Event::MouseButtonPressed || event.type == sf::Event::MouseButtonReleased || event.
+					type == sf::Event::MouseEntered || event.type == sf::Event::MouseLeft || event.type == sf::Event::
+					MouseMoved || event.type == sf::Event::MouseWheelMoved || event.type == sf::Event::MouseWheelScrolled)
+					Mouse::parse_event(event);
+			}
+
+			int32 updates = 0;
+
+			elapsed_time += update_clock.restart().asMilliseconds();
+			while(elapsed_time >= update_rate_ && updates++ < max_updates_)
+			{
+				update();
+
+				elapsed_time -= update_rate_;
+			}
+
+			draw();
+		}
 	}
 
 	void Game::register_classes()
@@ -147,7 +280,7 @@ namespace game
 				endClass();
 		});
 		REGISTER_CLASS_CONSTRUCTOR(game::script::EntityScriptHandler, nullptr);
-		REGISTER_FUNCTION(FileLog, [](LuaIntf::LuaBinding& binding)
+		REGISTER_FUNCTION(log::Log, [](LuaIntf::LuaBinding& binding)
 		{
 			LOG(LOG_INFO, "Registering log");
 			binding.
@@ -193,6 +326,14 @@ namespace game
 						addConstant("true", status_true).
 						addConstant("ok", status_ok).
 					endModule().
+				endModule().
+				beginModule("window").
+					addConstant("none", sf::Style::None).
+					addConstant("titlebar", sf::Style::Titlebar).
+					addConstant("resize", sf::Style::Resize).
+					addConstant("close", sf::Style::Close).
+					addConstant("fullscreen", sf::Style::Fullscreen).
+					addConstant("default", sf::Style::Default).
 				endModule();
 		});
 	}

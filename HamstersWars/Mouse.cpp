@@ -234,14 +234,14 @@ game::Mouse::Mouse()
 	}
 }
 
-void game::Mouse::initialize(void* wwindow, const bool& visable, const bool& grab)
+void game::Mouse::set_window(void* window)
+{
+	get_instance()->window_ = window;
+}
+
+void game::Mouse::initialize()
 {
 	REGISTER_CLASS_INSTANCE(Mouse, *get_instance());
-
-	auto window = reinterpret_cast<sf::Window*>(get_instance()->window_ = wwindow);
-
-	window->setMouseCursorGrabbed(grab);
-	window->setMouseCursorVisible(visable);
 
 	add_action_on_press([](const int& button, const int& x, const int& y)
 	{

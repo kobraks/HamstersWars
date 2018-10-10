@@ -22,6 +22,7 @@
 #pragma endregion
 
 #define LOG_FILE "../log.txt"
+#define CONFIG_FILE LUA_SCRIPTS_PATH "config.lua"
 
 #pragma region shaders
 

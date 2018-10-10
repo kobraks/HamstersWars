@@ -5,46 +5,48 @@
 #include "Program.h"
 #include "Shader.h"
 
+#define UNKNOWN_VALUE(cell) LOG(LOG_WARNING, "Unknown value: %s", cell.key<std::string>().c_str());
+
 namespace game
 {
-	void ConfigurationLoader::load_config(const std::string& file_name, PropertyManager& properties)
+	Configuration ConfigurationLoader::load_config(const std::string& file_name)
 	{
-		properties.add<std::string>("window_title", "EMPTY");
-		properties.add<sf::Vector2u>("window_size", sf::Vector2u(800, 600));
-		properties.add<sf::Vector2u>("window_position", sf::Vector2u(100, 100));
+		Configuration configuration;
 
-		if (!properties.contains("debug"))
-			properties.add<bool>("debug", false);
+		try
+		{
+			lua::Script::do_file(file_name);
+			parse(LuaIntf::LuaRef::popFromStack(lua::Script::lua()), configuration);
+		}
+		catch(std::exception& ex)
+		{
+			LOG(LOG_ERROR, "Unable to load configuration from %s, error message: %s", file_name.c_str(), ex.what());
+		}
 
-		properties.add<sf::Keyboard::Key>("up", sf::Keyboard::W);
-		properties.add<sf::Keyboard::Key>("down", sf::Keyboard::S);
-		properties.add<sf::Keyboard::Key>("left", sf::Keyboard::A);
-		properties.add<sf::Keyboard::Key>("right", sf::Keyboard::D);
-
-		properties.add<uint32>("max_updates", 5);
-		properties.add<int32>("update_rate", static_cast<uint32>(1000.0f / 60.0f));
-
-		lua::Script::do_file(file_name);
-
-		parse(LuaIntf::LuaRef::popFromStack(lua::Script::lua()), properties);
+		return configuration;
 	}
 
-	void ConfigurationLoader::parse(LuaIntf::LuaRef table, PropertyManager& properties)
+	void ConfigurationLoader::parse(LuaIntf::LuaRef table, Configuration& configuration)
 	{
-		for (auto element : table)
+		for (auto cell : table)
 		{
-			auto key = utils::to_upper_copy(utils::trim_copy(element.key<std::string>()));
+			auto key = utils::to_upper_copy(utils::trim_copy(cell.key<std::string>()));
 
 			if (key == "WINDOW")
-				parse_window(element.value(), properties);
+				parse_window(cell.value(), configuration);
 			else if (key == "SHADER")
-				parse_shader(element.value(), properties);
+				parse_shader(cell.value(), configuration);
+			else if (key == "OPEN_GL")
+				parse_open_gl(cell.value(), configuration);
 			else
-				parse_other(element.key(), key, properties);
+			{
+				LOG(LOG_INFO, "Parsing %s", cell.key<std::string>().c_str());
+				parse_other(cell.value(), key, configuration);
+			}
 		}
 	}
 
-	void ConfigurationLoader::parse_shader(LuaIntf::LuaRef shader_table, PropertyManager& properties)
+	void ConfigurationLoader::parse_shader(LuaIntf::LuaRef shader_table, Configuration& configuration)
 	{
 		LOG(LOG_INFO, "Parsing shader table");
 
@@ -56,11 +58,22 @@ namespace game
 
 		std::string shader_name;
 
-		for (auto element : shader_table)
-			properties.add<gl::Program*>(element.key<std::string>(), load_program(element.value<std::string>()));
+		for (const auto& value : shader_table)
+		{
+			try
+			{
+				auto shader = load_program(value.value<std::string>());
+				configuration.shader_list.push_back(shader);
+			}
+			catch(std::exception& ex)
+			{
+				LOG(LOG_ERROR, "Unable to load shader: %s=%s, %s", 
+					value.key<std::string>().c_str(), value.value<std::string>().c_str(), ex.what());
+			}
+		}
 	}
 
-	void ConfigurationLoader::parse_window(LuaIntf::LuaRef window_table, PropertyManager& properties)
+	void ConfigurationLoader::parse_window(LuaIntf::LuaRef window_table, Configuration& configuration)
 	{
 		LOG(LOG_INFO, "Parsing window configuration");
 
@@ -70,72 +83,93 @@ namespace game
 			return;
 		}
 
-		for (auto element : window_table)
+		for (const auto& cell : window_table)
 		{
-			auto key = utils::to_upper_copy(utils::trim_copy(element.key<std::string>()));
+			auto key = utils::to_upper_copy(utils::trim_copy(cell.key<std::string>()));
 			
 			if (key == "TITLE")
 			{
-				LOG(LOG_INFO, "WIndow title: %s", element.value<std::string>().c_str());
-				properties.set<std::string>("window_title", element.value<std::string>());
+				LOG(LOG_INFO, "WIndow title: %s", cell.value<std::string>().c_str());
+				configuration.window_settings.title = cell.value<std::string>();
 			}
 			else if (key == "SIZE")
 			{
-				auto size = get_window_size(element.value());
+				auto size = get_window_size(cell.value());
 
 				LOG(LOG_INFO, "Window size(%ux%u)", size.x, size.y);
-				properties.set<sf::Vector2u>("window_size", size);
+				configuration.window_settings.size = size;
 			}
 			else if (key == "POSITION")
 			{
-				auto position = get_window_position(element.value());
+				auto position = get_window_position(cell.value());
 
 				LOG(LOG_INFO, "Window pozition(%ux%u)", position.x, position.y);
-				properties.set<sf::Vector2u>("window_position", position);
+				configuration.window_settings.position = position;
+			}
+			else if (key == "STYLE")
+			{
+				LOG(LOG_INFO, "Window style: %i", cell.value<uint32>());
+				configuration.window_settings.style = cell.value<uint32>();
+			}
+			else
+				UNKNOWN_VALUE(cell);
+		}
+	}
+
+	void ConfigurationLoader::parse_other(LuaIntf::LuaRef value, const std::string& key, Configuration& configuration)
+	{
+		if (!value.isTable() && !value.isFunction() && value.isValid())
+		{
+			if (key == "DEBUG")
+			{
+				LOG(LOG_INFO, "Develop mode: %", value.toValue<bool>() ? "true" : "false");
+				configuration.debug = value.toValue<bool>();
+			}
+			else if (key == "MAX_UPDATES")
+			{
+				configuration.max_updates = value.toValue<uint32>();
+				LOG(LOG_INFO, "Setting max updates to: %u", value.toValue<uint32>());
+			}
+			else if (key == "UPDATE_RATE")
+			{
+				configuration.update_rate = value.toValue<int32>();
+				LOG(LOG_INFO, "Setting update rate to: %u", value.toValue<int32>());
+			}
+			else
+			{
+				configuration.properties.add<LuaIntf::LuaRef>(key, value);
+				LOG(LOG_INFO, "Adding properties");
 			}
 		}
 	}
 
-	void ConfigurationLoader::parse_other(LuaIntf::LuaRef lua, const std::string& key, PropertyManager& properties)
+	void ConfigurationLoader::parse_open_gl(LuaIntf::LuaRef table, Configuration& configuration)
 	{
-		if (!lua.isTable() && !lua.isFunction() && lua.isValid())
+		LOG(LOG_INFO, "Parsing open gl settings");
+
+		for (const auto& cell : table)
 		{
-			if (key == "DEBUG")
+			auto key = utils::to_upper_copy(utils::trim_copy(cell.key<std::string>()));
+			if (key == "VERSION")
 			{
-				LOG(LOG_INFO, "Develop mode: %", lua.toValue<bool>() ? "true" : "false");
-				properties.set<bool>("debug", lua.toValue<bool>());
+				auto version = get_version(cell.value());
+				configuration.open_gl_settings.major_version = version.first;
+				configuration.open_gl_settings.minor_version = version.second;
+
+				LOG(LOG_INFO, "open gl version: %u,%u", version.first, version.second);
 			}
-			else if (key == "UP")
+			else if (key == "DEPTH_BITS")
 			{
-				properties.set<sf::Keyboard::Key>("up", lua.toValue<sf::Keyboard::Key>());
-				properties.set<sf::Keyboard::Key>("right", sf::Keyboard::D);
-				LOG(LOG_INFO, "Up %i", static_cast<int>(lua.toValue<sf::Keyboard::Key>()));
+				configuration.open_gl_settings.depth_bits = cell.value<uint32>();
+				LOG(LOG_INFO, "depth bits: %u", cell.value<uint32>());
 			}
-			else if (key == "DOWN")
+			else if (key == "STENCIL_BITS")
 			{
-				properties.set<sf::Keyboard::Key>("down", lua.toValue<sf::Keyboard::Key>());
-				LOG(LOG_INFO, "Down %i", static_cast<int>(lua.toValue<sf::Keyboard::Key>()));
+				configuration.open_gl_settings.stencil_bits = cell.value<uint32>();
+				LOG(LOG_INFO, "stencil bits: %u", cell.value<uint32>());
 			}
-			else if (key == "LEFT")
-			{
-				properties.set<sf::Keyboard::Key>("left", lua.toValue<sf::Keyboard::Key>());
-				LOG(LOG_INFO, "Left %i", static_cast<int>(lua.toValue<sf::Keyboard::Key>()));
-			}
-			else if (key == "RIGHT")
-			{
-				properties.set<sf::Keyboard::Key>("right", lua.toValue<sf::Keyboard::Key>());
-				LOG(LOG_INFO, "Right %i", static_cast<int>(lua.toValue<sf::Keyboard::Key>()));
-			}
-			else if (key == "MAX_UPDATES")
-			{
-				properties.set<uint32>("max_updates", lua.toValue<uint32>());
-				LOG(LOG_INFO, "Setting max updates to: %u", lua.toValue<uint32>());
-			}
-			else if (key == "UPDATE_RATE")
-			{
-				properties.set<int32>("max_updates", lua.toValue<int32>());
-				LOG(LOG_INFO, "Setting max updates to: %u", lua.toValue<int32>());
-			}
+			else
+				UNKNOWN_VALUE(cell);
 		}
 	}
 
@@ -190,6 +224,32 @@ namespace game
 		}
 
 		return position;
+	}
+
+	std::pair<uint32, uint32> ConfigurationLoader::get_version(LuaIntf::LuaRef version)
+	{
+		std::pair<uint32, uint32> result = {3, 3};
+
+		try
+		{
+			for (auto cell : version)
+			{
+				auto key = utils::to_upper_copy(utils::trim_copy(cell.key<std::string>()));
+
+				if (key == "1" || key == "MAJOR")
+					result.first = cell.value<uint32>();
+				if (key == "2" || key == "MINOR")
+					result.second = cell.value<uint32>();
+				else
+					UNKNOWN_VALUE(cell);
+			}
+		}
+		catch(std::exception& ex)
+		{
+			LOG(LOG_ERROR, "Unable to read open gl version, %s", ex.what());
+		}
+
+		return result;
 	}
 
 	gl::Shader* ConfigurationLoader::load_shader(const std::string& file, const TShader& type)

@@ -42,7 +42,7 @@ namespace game
 		static inline entity_id_type next_id_ = 0;
 		const entity_id_type id_;
 
-		const entity_id_type get_id();
+		static const entity_id_type get_id();
 		std::string name_;
 
 		void erase_system(system_list_type::iterator pair);

@@ -8,7 +8,7 @@ namespace game
 	class PropertyManager
 	{
 	public:
-		typedef std::unordered_map<property_id_type, interfaces::IProperty*> list_type;
+		typedef std::unordered_map<property_id_type, interfaces::IProperty*> property_list_type;
 
 		PropertyManager();
 		PropertyManager(PropertyManager& other);
@@ -31,15 +31,17 @@ namespace game
 		void add(interfaces::IProperty* property);
 
 		void clear();
+		void remove(const property_id_type& property_id);
 
+		void clone(const PropertyManager& manager);
 	private:
-		list_type list_;
+		property_list_type list_;
 
 		template<class Type>
-		list_type::iterator find(const property_id_type& property_id);
+		property_list_type::iterator find(const property_id_type& property_id);
 
 		template<class Type>
-		void add_property(interfaces::TProperty<Type>& property);
+		void add_property(interfaces::TProperty<Type> property);
 	};
 
 	template <class Type>
@@ -56,6 +58,7 @@ namespace game
 		if (iterator != list_.end())
 			return *static_cast<interfaces::TProperty<Type>*>(iterator->second);
 
+		LOG(LOG_ERROR, "Unable to find property with id: %s", property_id.c_str());
 		throw std::runtime_error(std::string("Unable to find property with id: ") + property_id);
 	}
 
@@ -74,9 +77,9 @@ namespace game
 	void PropertyManager::add(const property_id_type& property_id, Type value)
 	{
 		if (!contains(property_id))
-		{
 			add_property<Type>(interfaces::TProperty<Type>(property_id, value));
-		}
+		else
+			LOG(LOG_WARNING, "Property already exists");
 	}
 	
 	template <class Type>
@@ -91,7 +94,7 @@ namespace game
 	}
 
 	template <class Type>
-	void PropertyManager::add_property(interfaces::TProperty<Type>& property)
+	void PropertyManager::add_property(interfaces::TProperty<Type> property)
 	{
 		list_[utils::to_upper_copy(utils::trim_copy(property.id()))] = property.clone();
 	}

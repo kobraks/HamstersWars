@@ -61,20 +61,20 @@ namespace game
 	};
 
 	template <class Type>
-	ConsoleArgument::ConsoleArgument(const std::string& name, const Type& value) : name_(name), to_string<Type>(value)
+	ConsoleArgument::ConsoleArgument(const std::string& name, const Type& value) : name_(name), utils::to_string<Type>(value)
 	{
 	}
 
 	template <class Type>
 	void ConsoleArgument::value(const Type& value)
 	{
-		value_ = to_string<Type>(value);
+		value_ = utils::to_string<Type>(value);
 	}
 
 	template <class Type>
 	ConsoleArgument& ConsoleArgument::operator=(const Type& value)
 	{
-		value_ = to_string<Type>(value);
+		value_ = utils::to_string<Type>(value);
 		return *this;
 	}
 

@@ -28,7 +28,6 @@ namespace game::component
 		void set_drawable(const bool& enable = true);
 
 		std::shared_ptr<model::Model> get_model() const;
-		void draw(gl::Program& program, game::Transform& transofrm) override;
 
 		void load(const std::string& file);
 

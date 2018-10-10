@@ -67,12 +67,15 @@
     <Filter Include="Source Files\game\interfaces">
       <UniqueIdentifier>{a602b36f-1f68-4831-9d76-117503b0a779}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\game\log">
+      <UniqueIdentifier>{834e1db9-354f-4641-9e3d-c227fb51f136}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game\log">
+      <UniqueIdentifier>{06bd80a9-657a-4dbf-a4fc-f24b06b44597}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameException.cpp">
@@ -187,6 +190,12 @@
       <Filter>Source Files\game</Filter>
     </ClCompile>
     <ClCompile Include="ConfigurationLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>Source Files\game\log</Filter>
+    </ClCompile>
+    <ClCompile Include="Configuration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -332,9 +341,6 @@
     <ClInclude Include="Action.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
-    <ClInclude Include="Log.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LuaAction.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
@@ -378,6 +384,12 @@
       <Filter>Header Files\game</Filter>
     </ClInclude>
     <ClInclude Include="ConfigurationLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.h">
+      <Filter>Header Files\game\log</Filter>
+    </ClInclude>
+    <ClInclude Include="Configuration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

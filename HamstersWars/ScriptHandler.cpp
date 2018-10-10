@@ -59,7 +59,7 @@ void game::component::ScriptHandler::set_on_update(const std::string& code)
 {
 	try
 	{
-		LOG(LOG_DEBUG, "Adding on_update function to %s", get_owner()->get_type().c_str());
+		//LOG(LOG_DEBUG, "Adding on_update function to %s", get_owner()->get_type().c_str());
 
 		set_on_update(get_function(code));
 	}
@@ -71,7 +71,7 @@ void game::component::ScriptHandler::set_on_update(const std::string& code)
 
 void game::component::ScriptHandler::set_on_update(const LuaIntf::LuaRef& function)
 {
-	LOG(LOG_DEBUG, "Adding on_update function to %s", get_owner()->get_type().c_str());
+	//LOG(LOG_DEBUG, "Adding on_update function to %s", get_owner()->get_type().c_str());
 	if (!is_function(function))
 		throw exception::NotFunctionExcpetion(UPDATE_FUNCTION);
 
@@ -82,7 +82,7 @@ void game::component::ScriptHandler::set_on_destroy(const std::string& code)
 {
 	try
 	{
-		LOG(LOG_DEBUG, "Adding on_destroy function to %s", get_owner()->get_type().c_str());
+		//LOG(LOG_DEBUG, "Adding on_destroy function to %s", get_owner()->get_type().c_str());
 
 		set_on_destroy(get_function(code));
 	}
@@ -94,7 +94,7 @@ void game::component::ScriptHandler::set_on_destroy(const std::string& code)
 
 void game::component::ScriptHandler::set_on_destroy(const LuaIntf::LuaRef& function)
 {
-	LOG(LOG_DEBUG, "Adding on_destroy function to %s", get_owner()->get_type().c_str());
+	//LOG(LOG_DEBUG, "Adding on_destroy function to %s", get_owner()->get_type().c_str());
 	if (!is_function(function))
 		throw exception::NotFunctionExcpetion(DESTROY_FUNCTION);
 
@@ -105,7 +105,7 @@ void game::component::ScriptHandler::set_on_copy(const std::string& code)
 {
 	try
 	{
-		LOG(LOG_DEBUG, "Adding on_copy function to %s", get_owner()->get_type().c_str());
+		//LOG(LOG_DEBUG, "Adding on_copy function to %s", get_owner()->get_type().c_str());
 
 		set_on_copy(get_function(code));
 	}
@@ -117,7 +117,7 @@ void game::component::ScriptHandler::set_on_copy(const std::string& code)
 
 void game::component::ScriptHandler::set_on_copy(const LuaIntf::LuaRef& function)
 {
-	LOG(LOG_DEBUG, "Adding on_copy function to %s", get_owner()->get_type().c_str());
+	//LOG(LOG_DEBUG, "Adding on_copy function to %s", get_owner()->get_type().c_str());
 	if (!is_function(function))
 		throw exception::NotFunctionExcpetion(COPY_FUNCTION);
 
@@ -128,7 +128,7 @@ void game::component::ScriptHandler::set_on_create(const std::string& code)
 {
 	try
 	{
-		LOG(LOG_DEBUG, "Adding on_create function to %s", get_owner()->get_type().c_str());
+		//LOG(LOG_DEBUG, "Adding on_create function to %s", get_owner()->get_type().c_str());
 
 		set_on_create(get_function(code));
 	}
@@ -141,7 +141,7 @@ void game::component::ScriptHandler::set_on_create(const std::string& code)
 
 void game::component::ScriptHandler::set_on_create(const LuaIntf::LuaRef& function)
 {
-	LOG(LOG_DEBUG, "Adding on_create function to %s", get_owner()->get_type().c_str());
+	//LOG(LOG_DEBUG, "Adding on_create function to %s", get_owner()->get_type().c_str());
 	if (!is_function(function))
 		throw exception::NotFunctionExcpetion(CREATE_FUNCTION);
 
@@ -152,7 +152,7 @@ void game::component::ScriptHandler::set_on_collision(const std::string& code)
 {
 	try
 	{
-		LOG(LOG_DEBUG, "Adding on_collision function to %s", get_owner()->get_type().c_str());
+		//LOG(LOG_DEBUG, "Adding on_collision function to %s", get_owner()->get_type().c_str());
 
 		set_on_collision(get_function(code));
 	}
@@ -164,7 +164,7 @@ void game::component::ScriptHandler::set_on_collision(const std::string& code)
 
 void game::component::ScriptHandler::set_on_collision(const LuaIntf::LuaRef& function)
 {
-	LOG(LOG_DEBUG, "Adding on_collision function to %s", get_owner()->get_type().c_str());
+	//LOG(LOG_DEBUG, "Adding on_collision function to %s", get_owner()->get_type().c_str());
 	if (!is_function(function))
 		throw exception::NotFunctionExcpetion(COLLISION_FUNCTION);
 
@@ -289,7 +289,7 @@ void game::component::ScriptHandler::run_function(LuaIntf::LuaRef& function) con
 		}
 		catch (LuaIntf::LuaException& ex)
 		{
-			LOG(LOG_ERROR, "Entity [%s] Component [%s] throws lua exception: %s", get_owner()->get_type().c_str(), "Script", ex.what());
+			//LOG(LOG_ERROR, "Entity [%s] Component [%s] throws lua exception: %s", get_owner()->get_type().c_str(), "Script", ex.what());
 		}
 	}
 }

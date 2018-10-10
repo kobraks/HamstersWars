@@ -32,36 +32,35 @@ void game::SceneManager::remove(const Entity& entity)
 
 void game::SceneManager::clone(const Entity& entity)
 {
-	auto clone = Entity(entity->copy());
-	add(clone);
+	/*auto clone = Entity(entity->copy());
+	add(clone);*/
 }
 
 void game::SceneManager::load_entity(const std::string& entity_file, const std::string& entity_name)
 {
-	add(EntityLoader::load_entity(entity_name, entity_file));
+	/*add(EntityLoader::load_entity(entity_name, entity_file));*/
 }
 
 void game::SceneManager::load_entittes(const std::string& entities_file)
 {
-	entities_ = EntityLoader::load(entities_file);
+	/*entities_ = EntityLoader::load(entities_file);*/
 }
 
 void game::SceneManager::register_class(LuaIntf::LuaBinding& binding) const
 {
 }
 
-void game::SceneManager::draw(gl::Program& program, game::Transform& transform)
-{
-	for (auto entity : entities_)
+/*{
+	/*for (auto entity : entities_)
 	{
 		auto graphic = entity->get_component<component::GraphicComponent>();
 
 		if (graphic)
 			graphic->draw(program, transform);
-	}
-}
+	}#1#
+}*/
 
-void game::SceneManager::update(const float& time_step)
+/*void game::SceneManager::update(const float& time_step)
 {
 	remove();
 
@@ -72,11 +71,11 @@ void game::SceneManager::update(const float& time_step)
 		if (handler)
 			handler->on_update();
 	}
-}
+}*/
 
 void game::SceneManager::remove()
 {
-	while(!to_remove_.empty())
+	/*while(!to_remove_.empty())
 	{
 		auto entity = to_remove_.pop();
 		auto handler = entity->get_component<component::ScriptHandler>();
@@ -86,7 +85,7 @@ void game::SceneManager::remove()
 
 		auto pos = std::find(entities_.begin(), entities_.end(), entity);
 		entities_.erase(pos);
-	}
+	}*/
 }
 
 /*void game::SceneManager::initialize(const gl::Program& program, shader_behavior behavior)

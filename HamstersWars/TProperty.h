@@ -12,7 +12,7 @@ namespace game::interfaces
 		explicit TProperty(const property_id_type& property_id);
 		TProperty(const property_id_type& property_id, value_type value);
 
-		virtual ~TProperty();
+		virtual ~TProperty() = default;
 
 		value_type get_value() const;
 
@@ -33,13 +33,9 @@ namespace game::interfaces
 	}
 
 	template <class Type>
-	TProperty<Type>::TProperty(const property_id_type& property_id, value_type value) : TProperty(property_id)
-	{
-		value_ = value;
-	}
-
-	template <class Type>
-	TProperty<Type>::~TProperty()
+	TProperty<Type>::
+	TProperty(const property_id_type& property_id, value_type value) :
+		IProperty(GET_TYPE_NAME(value_type), property_id), value(value_), value_(std::move(value))
 	{
 	}
 

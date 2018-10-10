@@ -13,8 +13,7 @@ namespace game
 
 	PropertyManager& PropertyManager::operator=(const PropertyManager& other)
 	{
-		for (auto pair : other.list_)
-			add(pair.second->clone());
+		clone(other);
 
 		return *this;
 	}
@@ -42,5 +41,27 @@ namespace game
 			delete pair.second;
 
 		list_.clear();
+	}
+
+	void PropertyManager::remove(const property_id_type& property_id)
+	{
+		property_list_type::iterator iterator = list_.find(utils::to_upper_copy(utils::trim_copy(property_id)));
+
+		if (iterator != list_.end())
+		{
+			LOG(LOG_INFO, "Removing %s property", property_id.c_str());
+
+			delete iterator->second;
+			list_.erase(iterator);
+		}
+	}
+
+	void PropertyManager::clone(const PropertyManager& manager)
+	{
+		for (auto pair : manager.list_)
+		{
+			if (!contains(pair.first))
+				add(pair.second->clone());
+		}
 	}
 }

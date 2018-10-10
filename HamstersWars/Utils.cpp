@@ -288,4 +288,32 @@ namespace game::utils
 	{
 		return trim(string);
 	}
+
+	std::string get_string(const char* format, va_list args)
+	{
+		va_list args_copy;
+		va_copy(args_copy, args);
+
+		const auto length = vsnprintf(nullptr, 0, format, args);
+
+		if (length <= 0)
+			return "";
+
+		const auto string = new char[length + 1];
+		vsnprintf(string, length + 1, format, args_copy);
+		std::string result = string;
+
+		delete[] string;
+		return result;
+	}
+
+	std::string print_to_string(const char* format, ...)
+	{
+		va_list args;
+		va_start(args, format);
+		auto string = get_string(format, args);
+		va_end(args);
+
+		return string;
+	}
 }
