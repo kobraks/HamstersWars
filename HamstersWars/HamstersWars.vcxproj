@@ -159,6 +159,7 @@
     <ClCompile Include="ScriptHandler.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ProgramParameter.cpp" />
+    <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="System.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -216,6 +217,7 @@
     <ClInclude Include="ScriptHandler.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ProgramParameter.h" />
+    <ClInclude Include="ShaderLoader.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="System.h" />

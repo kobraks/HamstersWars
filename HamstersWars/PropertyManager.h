@@ -10,6 +10,50 @@ namespace game
 	public:
 		typedef std::unordered_map<property_id_type, interfaces::IProperty*> property_list_type;
 
+		class iterator
+		{
+		public:
+			typedef iterator self_type;
+			typedef interfaces::IProperty value_type;
+			typedef value_type*& reference;
+			typedef value_type* pointer;
+			typedef std::forward_iterator_tag iterator_category;
+			typedef std::ptrdiff_t difference_type;
+
+			explicit iterator(property_list_type::iterator iterator);
+			self_type& operator++();
+
+			reference operator*() const;
+			pointer operator->() const;
+
+			bool operator==(const self_type& right) const;
+			bool operator!=(const self_type& right) const;
+		private:
+			property_list_type::iterator current_;
+		};
+
+		class const_iterator
+		{
+		public:
+			typedef const_iterator self_type;
+			typedef interfaces::IProperty value_type;
+			typedef value_type*& reference;
+			typedef value_type* pointer;
+			typedef std::forward_iterator_tag iterator_category;
+			typedef std::ptrdiff_t difference_type;
+
+			explicit const_iterator(property_list_type::const_iterator iterator);
+			self_type& operator++();
+
+			const value_type* operator*()const;
+			const pointer operator->() const;
+
+			bool operator==(const self_type& right) const;
+			bool operator!=(const self_type& right) const;
+		private:
+			property_list_type::const_iterator current_;
+		};
+
 		PropertyManager();
 		PropertyManager(PropertyManager& other);
 		PropertyManager& operator=(const PropertyManager& other);
@@ -34,6 +78,15 @@ namespace game
 		void remove(const property_id_type& property_id);
 
 		void clone(const PropertyManager& manager);
+
+		iterator find(const property_id_type& property_id);
+		const_iterator find(const property_id_type& property_id) const;
+
+		iterator begin();
+		const_iterator begin() const;
+
+		iterator end();
+		const_iterator end() const;
 	private:
 		property_list_type list_;
 

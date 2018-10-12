@@ -87,7 +87,7 @@ namespace game
 			get_instance()->on_key_released_(event.key.code);
 			break;
 		default:
-			assert(false);
+			break;
 		}
 	}
 
@@ -122,7 +122,7 @@ namespace game
 		if (key != sf::Keyboard::Unknown && key < sf::Keyboard::KeyCount)
 			return true;
 
-		LOG(LOG_WARNING, "Unknown key %i", key);
+		LOG(LOG_WARNING, "Unknown keyboard key %i", key);
 		return false;
 	}
 

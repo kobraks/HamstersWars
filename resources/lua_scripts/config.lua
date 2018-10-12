@@ -1,15 +1,15 @@
 local config = {
 	up = keyboard.keys.w;
 	down = keyboard.keys.w;
-	eft = keyboard.keys.w;
+	left = keyboard.keys.w;
 	right = keyboard.keys.w;
 	
 	window = {
 		title = "Hamsters Wars";
 		size = { 800, 600 };
-		position = center;
+		position = window.position.center;
 
-		style = default;
+		style = window.default;
 	};
 
 	debug = true;
@@ -24,7 +24,7 @@ local config = {
 
 	open_gl = 
 	{
-		version = { 3, 3};
+		version = { 3, 3 };
 		depth_bits = 24;
 		stencil_bits = 8;
 

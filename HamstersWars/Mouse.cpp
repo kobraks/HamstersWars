@@ -64,7 +64,8 @@ bool game::Mouse::is_pressed(const int& button)
 	case Buttons::middle:
 		return keys[1];
 	default:
-		assert(false);
+		LOG(LOG_WARNING, "Unknown mouse key %i", button);
+		return false;
 	}
 }
 
@@ -81,7 +82,8 @@ bool game::Mouse::is_down(const int& button)
 	case Buttons::middle:
 		return keys[1];
 	default:
-		assert(false);
+		LOG(LOG_WARNING, "Unknown mouse key %i", button);
+		return false;
 	}
 }
 
@@ -98,7 +100,8 @@ bool game::Mouse::is_up(const int& button)
 	case Buttons::middle:
 		return keys[1];
 	default:
-		assert(false);
+		LOG(LOG_WARNING, "Unknown mouse key %i", button);
+		return false;
 	}
 }
 
@@ -224,7 +227,7 @@ void game::Mouse::clear_up_buttons()
 }
 
 
-game::Mouse::Mouse()
+game::Mouse::Mouse(): window_(nullptr)
 {
 	for (size_t i = 0; i < 3; ++i)
 	{
@@ -325,7 +328,7 @@ void game::Mouse::parse_event(sf::Event& event)
 		break;
 
 	default:
-		assert(false);
+		break;
 	}
 }
 

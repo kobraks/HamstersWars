@@ -161,17 +161,28 @@ namespace game
 	void Game::init_renderer()
 	{
 		auto config = properties.get<Configuration>("config");
-		sf::ContextSettings context_settings;
-		context_settings.depthBits = config.open_gl_settings.depth_bits;
-		context_settings.stencilBits = config.open_gl_settings.stencil_bits;
-		context_settings.majorVersion = config.open_gl_settings.major_version;
-		context_settings.minorVersion = config.open_gl_settings.minor_version;
 
 		auto window = new sf::Window(sf::VideoMode(config.window_settings.size.x, config.window_settings.size.y),
-		                             config.window_settings.title, config.window_settings.style, context_settings);
+		                             config.window_settings.title, config.window_settings.style, config.context_settings);
 		window->setPosition(sf::Vector2i(config.window_settings.position.x, config.window_settings.position.y));
 
 		window_ = window;
+
+		if (!window->setActive())
+		{
+			LOG(LOG_ERROR, "Unable to set valid opengl contex");
+			quit(status_game_init_failed);
+		}
+
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_TEXTURE_2D);
+
+		glewExperimental = GL_TRUE;
+		GLenum glew_init_result;
+		if (GLEW_OK != (glew_init_result = glewInit()))
+			throw gl::exception::GlewException(glew_init_result);
+
+		config.load_shaders();
 	}
 
 	void Game::draw()
@@ -217,6 +228,9 @@ namespace game
 				}
 			}
 		}
+
+		if (Keyboard::is_up(sf::Keyboard::Escape))
+			quit();
 	}
 
 	void Game::main_loop()
@@ -242,6 +256,10 @@ namespace game
 					on_reshape(size.x, size.y);
 				}
 
+				Keyboard::parse_event(event);
+				Mouse::parse_event(event);
+
+				/*
 				if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased)
 					Keyboard::parse_event(event);
 
@@ -249,6 +267,8 @@ namespace game
 					type == sf::Event::MouseEntered || event.type == sf::Event::MouseLeft || event.type == sf::Event::
 					MouseMoved || event.type == sf::Event::MouseWheelMoved || event.type == sf::Event::MouseWheelScrolled)
 					Mouse::parse_event(event);
+					*/
+
 			}
 
 			int32 updates = 0;
@@ -334,6 +354,9 @@ namespace game
 					addConstant("close", sf::Style::Close).
 					addConstant("fullscreen", sf::Style::Fullscreen).
 					addConstant("default", sf::Style::Default).
+					beginModule("position").
+						addConstant("center", 1)
+					.endModule().
 				endModule();
 		});
 	}
