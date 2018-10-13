@@ -1,29 +1,28 @@
 #pragma once
-#include <Lua/lua.hpp>
-#include <Lua/LuaIntf.h>
-
-#include "Entity.h"
 #include "Component.h"
-#include "Transformable.h"
-namespace game::component
+
+namespace game
 {
-	class TransformComponent : public Component, public Transformable
+	namespace component
 	{
-	public:
-		TransformComponent(std::shared_ptr<Entity> entity, const LuaIntf::LuaRef& table);
-		TransformComponent(const TransformComponent&) = default;
-		TransformComponent(TransformComponent&&) = default;
+		class TransformComponent : public interfaces::Component
+		{
+		public:
+			TransformComponent();
+			~TransformComponent();
 
-		TransformComponent& operator=(const TransformComponent&) = default;
-		TransformComponent& operator=(TransformComponent&&) = default;
+			void parse_table(LuaIntf::LuaRef table) override;
+			Component* clone() const override;
 
-		virtual ~TransformComponent();
+			void set_position(const gl::Vector3D& position);
+			gl::Vector3D get_position() const;
 
-		Component* copy() const override;
-		std::string get_name() const override;
+			void set_scale(const gl::Vector3D& position);
+			gl::Vector3D get_scale() const;
 
-	private:
-		void parse_table(const LuaIntf::LuaRef& table);
-	};
-
+			void set_rotation(const gl::Vector3D& rotation);
+			gl::Vector3D get_rotation() const;
+		};
+	}
 }
+

@@ -60,10 +60,10 @@ namespace game
 		~PropertyManager();
 
 		template<class Type>
-		Type get(const property_id_type& property_id);
+		Type get(const property_id_type& property_id) const;
 
 		template<class Type>
-		interfaces::TProperty<Type>& get_property(const property_id_type& property_id);
+		interfaces::TProperty<Type> get_property(const property_id_type& property_id) const;
 
 		template<class Type>
 		void set(const property_id_type& property_id, Type value);
@@ -94,17 +94,20 @@ namespace game
 		property_list_type::iterator find(const property_id_type& property_id);
 
 		template<class Type>
+		property_list_type::const_iterator find(const property_id_type& property_id) const;
+
+		template<class Type>
 		void add_property(interfaces::TProperty<Type> property);
 	};
 
 	template <class Type>
-	Type PropertyManager::get(const property_id_type& property_id)
+	Type PropertyManager::get(const property_id_type& property_id) const
 	{
 		return get_property<Type>(property_id).get_value();
 	}
 
 	template <class Type>
-	interfaces::TProperty<Type>& PropertyManager::get_property(const property_id_type& property_id)
+	interfaces::TProperty<Type> PropertyManager::get_property(const property_id_type& property_id) const
 	{
 		auto iterator = find<Type>(property_id);
 
@@ -134,10 +137,21 @@ namespace game
 		else
 			LOG(LOG_WARNING, "Property already exists");
 	}
-	
+
 	template <class Type>
 	std::unordered_map<std::basic_string<char>, interfaces::IProperty*>::iterator PropertyManager::find(
 		const property_id_type& property_id)
+	{
+		auto iterator = list_.find(utils::to_upper_copy(utils::trim_copy(property_id)));
+		if (iterator != list_.end() && iterator->second->type()->name() != GET_TYPE_NAME(Type))
+			iterator = list_.end();
+
+		return iterator;
+	}
+
+	template <class Type>
+	std::unordered_map<std::basic_string<char>, interfaces::IProperty*>::const_iterator PropertyManager::find(
+		const property_id_type& property_id) const
 	{
 		auto iterator = list_.find(utils::to_upper_copy(utils::trim_copy(property_id)));
 		if (iterator != list_.end() && iterator->second->type()->name() != GET_TYPE_NAME(Type))

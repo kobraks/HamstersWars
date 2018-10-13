@@ -2,9 +2,6 @@
 
 #include <functional>
 
-#include <Lua/lua.hpp>
-#include <Lua/LuaIntf.h>
-
 #include "Action.h"
 #include "LuaAction.h"
 #include "Register.h"

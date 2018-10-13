@@ -31,6 +31,8 @@ local config = {
 		--antyaliasing = 0; -- not supported
 	};
 
+
+	entity_list_file = "entities.lua";
 }
 
 return config;

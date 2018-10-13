@@ -2,118 +2,61 @@
 #include "EntityScriptHandler.h"
 #include "Log.h"
 
-#include "SceneManager.h"
-#include "GraphicComponent.h"
-
 #define ADD_FUNCTION(x) addFunction(#x, &EntityScriptHandler::x)
 #define ADD_FUNCTION_PARAMS(x,params) addFunction(#x, &EntityScriptHandler::x, params)
 
-game::script::EntityScriptHandler::EntityScriptHandler(std::shared_ptr<Entity> entity) : entity_(entity)
+namespace game::entity
 {
-}
-
-
-game::script::EntityScriptHandler::~EntityScriptHandler()
-{
-}
-
-float game::script::EntityScriptHandler::get_elapsed_time()
-{
-	return 1.f;
-}
-
-void game::script::EntityScriptHandler::rotate(const gl::Vector3D& axis)
-{
-	auto component = nullptr;//entity_->get_component<component::GraphicComponent>();
-
-	if (!component)
+	EntityScriptHandler::EntityScriptHandler()
 	{
-		//LOG(LOG_WARNING, "%s has no grahpic component to rotate", entity_->get_type().c_str());
 	}
-	else
+
+	EntityScriptHandler::EntityScriptHandler(Entity* entity)
 	{
-		//component->rotate(axis);
 	}
-}
 
-void game::script::EntityScriptHandler::translate(const gl::Vector3D& axis)
-{
-	auto component = nullptr;//entity_->get_component<component::GraphicComponent>();
-
-	if (!component)
+	void EntityScriptHandler::add_property(const property_id_type& property_id, LuaIntf::LuaRef lua)
 	{
-		//LOG(LOG_WARNING, "%s has no grahpic component to rotate", entity_->get_type().c_str());
+		entity_->properties.add<LuaIntf::LuaRef>(property_id, lua);
 	}
-	else
+
+	LuaIntf::LuaRef EntityScriptHandler::get_property(const property_id_type& property_id)
 	{
-		//component->translate(axis);
+		try
+		{
+			return entity_->properties.get<LuaIntf::LuaRef>(property_id);
+
+		}
+		catch(std::exception& ex)
+		{
+			LOG(LOG_WARNING, "No property with id %s", property_id.c_str());
+			return LuaIntf::LuaRef();
+		}
 	}
-}
 
-void game::script::EntityScriptHandler::set_position(const gl::Vector3D& pos)
-{
-	translate(pos);
-}
-
-void game::script::EntityScriptHandler::move(const gl::Vector3D& vector)
-{
-	auto component = nullptr;//entity_->get_component<component::GraphicComponent>();
-
-	if (!component)
+	void EntityScriptHandler::clone()
 	{
-		//LOG(LOG_WARNING, "%s has no grahpic component to move", entity_->get_type().c_str());
 	}
-	else
+
+	void EntityScriptHandler::destroy()
 	{
-		//component->move(vector);
+	}
+
+	void EntityScriptHandler::register_class(LuaIntf::LuaBinding& binding) const
+	{
+		LOG(LOG_INFO, "Registering entity functions");
+
+		binding
+			.beginClass<EntityScriptHandler>("EntityScriptHandler")
+				.ADD_FUNCTION(add_property)
+				.ADD_FUNCTION(get_property)
+				.ADD_FUNCTION(clone)
+				.ADD_FUNCTION(destroy)
+			.endClass();
 	}
 }
 
-glm::vec3 game::script::EntityScriptHandler::get_position()
-{
-	return glm::vec3();
-}
-
-void game::script::EntityScriptHandler::scale(const gl::Vector3D& axis)
-{
-	//auto component = entity_->get_component<component::GraphicComponent>();
-
-	//if (!component)
-	{
-		//LOG(LOG_WARNING, "%s has no grahpic component to scale", entity_->get_type().c_str());
-	}
-	//else
-	{
-		//component->scale(axis);
-	}
-}
-
-void game::script::EntityScriptHandler::destroy()
-{
-
-}
-
-bool game::script::EntityScriptHandler::is_colliding()
-{
-	return false;
-}
-
-std::vector<game::script::EntityScriptHandler> game::script::EntityScriptHandler::get_colliders()
-{
-	std::vector<game::script::EntityScriptHandler> result;
-	return result;
-}
-
-void game::script::EntityScriptHandler::set_texture(const std::string& file)
-{
-
-}
-
-void game::script::EntityScriptHandler::set_model(const std::string& file)
-{
-}
-
-void game::script::EntityScriptHandler::register_class(LuaIntf::LuaBinding& binding) const
+/*void game::script::EntityScriptHandler::register_class(LuaIntf::LuaBinding& binding) const
 {
 	LOG(LOG_INFO, "Registering lua handlers");
 	using namespace game::script;
@@ -130,4 +73,4 @@ void game::script::EntityScriptHandler::register_class(LuaIntf::LuaBinding& bind
 		.ADD_FUNCTION(is_colliding)
 		.ADD_FUNCTION(destroy)
 		.endClass();
-}
+}*/

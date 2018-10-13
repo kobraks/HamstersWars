@@ -4,8 +4,6 @@
 #include <unordered_map>
 #include <functional>
 
-#include <Lua/Lua.hpp>
-#include <Lua/LuaIntf.h>
 #include <typeindex>
 
 #include "Register.h"

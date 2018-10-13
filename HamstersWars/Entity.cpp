@@ -2,7 +2,7 @@
 #include "Entity.h"
 #include "System.h"
 
-namespace game
+namespace game::entity
 {
 	Entity::Entity() : id_(get_id())
 	{

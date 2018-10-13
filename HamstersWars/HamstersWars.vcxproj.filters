@@ -34,9 +34,6 @@
     <Filter Include="Source Files\game">
       <UniqueIdentifier>{7f15039c-f9bf-4975-95de-4ee49b0df214}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\game\script">
-      <UniqueIdentifier>{3a8c1664-d8f4-497d-9f1e-f9cd63b67cbf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\lua scripts">
       <UniqueIdentifier>{2a51de14-f87d-4c22-b884-8ce053c4d15e}</UniqueIdentifier>
     </Filter>
@@ -58,9 +55,6 @@
     <Filter Include="Source Files\game\lua">
       <UniqueIdentifier>{5d4006b3-f429-497e-9048-4311b441e61e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\game\system">
-      <UniqueIdentifier>{ad7e01d1-8d9e-4263-bcfa-f09d170450c5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\game\interfaces">
       <UniqueIdentifier>{999a247c-135f-4e73-9948-9e10d5507974}</UniqueIdentifier>
     </Filter>
@@ -73,6 +67,24 @@
     <Filter Include="Source Files\game\log">
       <UniqueIdentifier>{06bd80a9-657a-4dbf-a4fc-f24b06b44597}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\game\entity">
+      <UniqueIdentifier>{53d2a2b9-5626-4536-b3bb-790645ba51f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game\entity">
+      <UniqueIdentifier>{1739d2e0-0b79-417d-89b4-6a037b9adc9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game\systems">
+      <UniqueIdentifier>{a3bcab2c-6e28-4d58-b23c-8499caecd215}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game\systems">
+      <UniqueIdentifier>{ad7e01d1-8d9e-4263-bcfa-f09d170450c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game\managers">
+      <UniqueIdentifier>{20a7d723-43b7-49e7-96fb-0a825fc245af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game\managers">
+      <UniqueIdentifier>{1336a232-a7e5-4931-acb8-d09d1392dca4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -80,9 +92,6 @@
     </ClCompile>
     <ClCompile Include="GameException.cpp">
       <Filter>Source Files\exception</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TextureLoader.cpp">
       <Filter>Source Files\game\model</Filter>
@@ -117,29 +126,11 @@
     <ClCompile Include="BoundingBox.cpp">
       <Filter>Source Files\game\model</Filter>
     </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Source Files\game</Filter>
-    </ClCompile>
     <ClCompile Include="Image.cpp">
       <Filter>Source Files\gl</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files\gl</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Source Files\game</Filter>
-    </ClCompile>
-    <ClCompile Include="EntityScriptHandler.cpp">
-      <Filter>Source Files\game</Filter>
-    </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>Source Files\game\component</Filter>
-    </ClCompile>
-    <ClCompile Include="ScriptHandler.cpp">
-      <Filter>Source Files\game\component</Filter>
-    </ClCompile>
-    <ClCompile Include="ColliderComponent.cpp">
-      <Filter>Source Files\game\component</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Source Files\game</Filter>
@@ -149,12 +140,6 @@
     </ClCompile>
     <ClCompile Include="Script.cpp">
       <Filter>Source Files\game\lua</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicComponent.cpp">
-      <Filter>Source Files\game\component</Filter>
-    </ClCompile>
-    <ClCompile Include="TransformComponent.cpp">
-      <Filter>Source Files\game\component</Filter>
     </ClCompile>
     <ClCompile Include="Keyboard.cpp">
       <Filter>Source Files\game</Filter>
@@ -168,9 +153,6 @@
     <ClCompile Include="Utils.cpp">
       <Filter>Source Files\game</Filter>
     </ClCompile>
-    <ClCompile Include="PropertyManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -180,26 +162,56 @@
     <ClCompile Include="System.cpp">
       <Filter>Source Files\game\interfaces</Filter>
     </ClCompile>
-    <ClCompile Include="EntityLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ConsoleArgumentContainer.cpp">
       <Filter>Source Files\game</Filter>
     </ClCompile>
     <ClCompile Include="ConsoleArgument.cpp">
       <Filter>Source Files\game</Filter>
     </ClCompile>
-    <ClCompile Include="ConfigurationLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Log.cpp">
       <Filter>Source Files\game\log</Filter>
     </ClCompile>
     <ClCompile Include="Configuration.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigurationLoader.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\game</Filter>
     </ClCompile>
     <ClCompile Include="ShaderLoader.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\game\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityLoader.cpp">
+      <Filter>Source Files\game\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityScriptHandler.cpp">
+      <Filter>Source Files\game\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyManager.cpp">
+      <Filter>Source Files\game\managers</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentManager.cpp">
+      <Filter>Source Files\game\managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Source Files\game\interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicComponent.cpp">
+      <Filter>Source Files\game\component</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptComponent.cpp">
+      <Filter>Source Files\game\component</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Source Files\game\component</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Source Files\game\managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -208,9 +220,6 @@
     </ClInclude>
     <ClInclude Include="GameException.h">
       <Filter>Header Files\exception</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BadLogStreamException.h">
       <Filter>Header Files\exception</Filter>
@@ -257,9 +266,6 @@
     <ClInclude Include="Camera.h">
       <Filter>Header Files\gl</Filter>
     </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Header Files\game</Filter>
-    </ClInclude>
     <ClInclude Include="Image.h">
       <Filter>Header Files\gl</Filter>
     </ClInclude>
@@ -272,29 +278,11 @@
     <ClInclude Include="OpenFileException.h">
       <Filter>Header Files\gl</Filter>
     </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>Header Files\game\component</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Header Files\game</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityScriptHandler.h">
-      <Filter>Header Files\game\script</Filter>
-    </ClInclude>
-    <ClInclude Include="ScriptHandler.h">
-      <Filter>Header Files\game\component</Filter>
-    </ClInclude>
-    <ClInclude Include="ColliderComponent.h">
-      <Filter>Header Files\game\component</Filter>
-    </ClInclude>
     <ClInclude Include="Transformable.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Header Files\game</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicComponent.h">
-      <Filter>Header Files\game\component</Filter>
     </ClInclude>
     <ClInclude Include="Context.h">
       <Filter>Header Files\gl</Filter>
@@ -332,9 +320,6 @@
     <ClInclude Include="LogDefines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TransformComponent.h">
-      <Filter>Header Files\game\component</Filter>
-    </ClInclude>
     <ClInclude Include="Mouse.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
@@ -359,9 +344,6 @@
     <ClInclude Include="Stack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PropertyManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -374,29 +356,59 @@
     <ClInclude Include="System.h">
       <Filter>Header Files\game\interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="Type_T.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ConsoleArgument.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
     <ClInclude Include="ConsoleArgumentContainer.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
-    <ClInclude Include="ConfigurationLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Log.h">
       <Filter>Header Files\game\log</Filter>
     </ClInclude>
-    <ClInclude Include="Configuration.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Type_T.h">
+      <Filter>Header Files\game</Filter>
     </ClInclude>
     <ClInclude Include="ShaderLoader.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigurationLoader.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="Configuration.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files\game\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityLoader.h">
+      <Filter>Header Files\game\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityScriptHandler.h">
+      <Filter>Header Files\game\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyManager.h">
+      <Filter>Header Files\game\managers</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentManager.h">
+      <Filter>Header Files\game\managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Header Files\game\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformComponent.h">
+      <Filter>Header Files\game\component</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptComponent.h">
+      <Filter>Header Files\game\component</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicComponent.h">
+      <Filter>Header Files\game\component</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Header Files\game\managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

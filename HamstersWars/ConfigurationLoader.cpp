@@ -148,6 +148,16 @@ namespace game
 				configuration.update_rate = value.toValue<int32>();
 				LOG(LOG_INFO, "Setting update rate to: %u", value.toValue<int32>());
 			}
+			else if (key == "ENTITY_LIST_FILE")
+			{
+				auto path = value.toValue<std::string>();
+
+				if (utils::is_local_path(path))
+					path.insert(0, LUA_SCRIPTS_PATH);
+
+				configuration.entities_list_file = path;
+				LOG(LOG_INFO, "Setting entity list file to: %s", path.c_str());
+			}
 			else
 			{
 				configuration.properties.add<LuaIntf::LuaRef>(key, value);

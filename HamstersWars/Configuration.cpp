@@ -20,6 +20,7 @@ namespace game
 		max_updates = config.max_updates;
 		update_rate = config.update_rate;
 		debug = config.debug;
+		entities_list_file = config.entities_list_file;
 
 		properties = config.properties;
 
@@ -43,6 +44,7 @@ namespace game
 		max_updates = config.max_updates;
 		update_rate = config.update_rate;
 		debug = config.debug;
+		entities_list_file = config.entities_list_file;
 
 		shader_list.reserve(config.shader_list.size());
 		for (auto shader : config.shader_list)

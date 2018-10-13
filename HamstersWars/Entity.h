@@ -2,7 +2,7 @@
 
 #include "Types.h"
 #include "PropertyManager.h"
-#include "Component.h"
+#include "ComponentManager.h"
 
 namespace game
 {
@@ -11,41 +11,45 @@ namespace game
 		class System;
 	}
 
-	class Entity
+	namespace entity
 	{
-	public:
-		typedef std::unordered_map<system_id_type, interfaces::System*> system_list_type;
-		PropertyManager properties;
+		class Entity
+		{
+		public:
+			typedef std::unordered_map<system_id_type, interfaces::System*> system_list_type;
+			PropertyManager properties;
+			ComponentManager components;
 
-		Entity();
-		explicit Entity(const std::string name);
-		Entity(const Entity& other);
+			Entity();
+			explicit Entity(const std::string name);
+			Entity(const Entity& other);
 
-		Entity& operator=(const Entity& other);
-		~Entity();
+			Entity& operator=(const Entity& other);
+			~Entity();
 
-		const entity_id_type& id() const;
-		
-		void add_system(interfaces::System* system);
+			const entity_id_type& id() const;
 
-		void drop_system(const system_id_type& system_id);
-		void drop_all_systems();
+			void add_system(interfaces::System* system);
 
-		bool has_system(const system_id_type& system_id);
+			void drop_system(const system_id_type& system_id);
+			void drop_all_systems();
 
-		void set_name(const std::string& name);
-		std::string get_name() const;
-	protected:
-		system_list_type systems_;
+			bool has_system(const system_id_type& system_id);
 
-	private:
-		static inline entity_id_type next_id_ = 0;
-		const entity_id_type id_;
+			void set_name(const std::string& name);
+			std::string get_name() const;
+		protected:
+			system_list_type systems_;
 
-		static const entity_id_type get_id();
-		std::string name_;
+		private:
+			static inline entity_id_type next_id_ = 0;
+			const entity_id_type id_;
 
-		void erase_system(system_list_type::iterator pair);
-	};
+			static const entity_id_type get_id();
+			std::string name_;
+
+			void erase_system(system_list_type::iterator pair);
+		};
+	}
 }
 

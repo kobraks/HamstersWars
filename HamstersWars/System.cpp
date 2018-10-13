@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "System.h"
-#include "Entity.h"
 #include "Log.h"
+#include "Entity.h"
 
 namespace game::interfaces
 {

@@ -131,8 +131,8 @@
   <ItemGroup>
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="ColliderComponent.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ComponentManager.cpp" />
     <ClCompile Include="Configuration.cpp" />
     <ClCompile Include="ConfigurationLoader.cpp" />
     <ClCompile Include="ConsoleArgument.cpp" />
@@ -156,7 +156,7 @@
     <ClCompile Include="PropertyManager.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Script.cpp" />
-    <ClCompile Include="ScriptHandler.cpp" />
+    <ClCompile Include="ScriptComponent.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ProgramParameter.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
@@ -177,10 +177,10 @@
     <ClInclude Include="BadLogStreamException.h" />
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="ColliderComponent.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="CompileException.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentManager.h" />
     <ClInclude Include="Configuration.h" />
     <ClInclude Include="ConfigurationLoader.h" />
     <ClInclude Include="ConsoleArgument.h" />
@@ -214,7 +214,7 @@
     <ClInclude Include="Register.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Script.h" />
-    <ClInclude Include="ScriptHandler.h" />
+    <ClInclude Include="ScriptComponent.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ProgramParameter.h" />
     <ClInclude Include="ShaderLoader.h" />

@@ -49,6 +49,7 @@ namespace game
 		PropertyManager properties;
 
 	private:
+		std::string entities_list_file;
 		uint32 max_updates = 5;
 		int32 update_rate = static_cast<uint32>(1000.0f / 60.0f);
 		bool debug = false;

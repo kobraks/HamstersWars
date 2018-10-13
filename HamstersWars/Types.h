@@ -1,12 +1,6 @@
 #pragma once
-#include <memory>
-#include "Model.h"
-#include "Program.h"
-
 namespace game
 {
-	class Entity;
-
 	typedef unsigned char key_t;
 
 	typedef unsigned int uint;
@@ -31,8 +25,7 @@ namespace game
 
 	typedef std::string property_id_type;
 	typedef std::string system_id_type;
+	typedef std::string component_id_type;
 	typedef uint32 entity_id_type;
 	typedef uint32 layer_id_type;
-
-	typedef Entity* entity_pointer_type;
 }

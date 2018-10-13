@@ -53,3 +53,11 @@
 #define COLLISION_FUNCTION "ON_COLLISION"
 
 #pragma endregion
+
+#pragma region transform_component_elements
+
+#define TRANSFORM_POSITION "POSITION"
+#define TRANSFORM_ROTATE "ROTATE"
+#define TRANSFORM_SCALE "SCALE"
+
+#pragma endregion

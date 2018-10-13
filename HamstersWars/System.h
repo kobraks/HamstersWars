@@ -4,11 +4,21 @@
 
 #include "Types.h"
 
+
+namespace game
+{
+	namespace entity
+	{
+		class Entity;
+	}
+}
+
 namespace game::interfaces
 {
 	class System
 	{
 	public:
+		typedef entity::Entity* entity_pointer_type;
 		typedef std::unordered_map<entity_id_type, entity_pointer_type> entity_list_type;
 		explicit System(const system_id_type& system_id);
 		virtual ~System();

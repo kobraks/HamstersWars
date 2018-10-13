@@ -14,9 +14,10 @@
 #include "Script.h"
 #include "Timer.h"
 #include "EntityScriptHandler.h"
-#include "SceneManager.h"
 #include "ConsoleArgumentContainer.h"
 #include "ConfigurationLoader.h"
+#include "EntityLoader.h"
+#include "ScriptComponent.h"
 
 #define ADD_FUNCTION(TYPE, X) addFunction(#X, TYPE::X)
 #define ADD_FUNCTION_PARAMS(TYPE, X, PARAMS) addFunction(#X, TYPE::X, PARAMS)
@@ -299,7 +300,7 @@ namespace game
 					addVariable("z", &gl::Vector3D::z, true).
 				endClass();
 		});
-		REGISTER_CLASS_CONSTRUCTOR(game::script::EntityScriptHandler, nullptr);
+		REGISTER_CLASS(game::entity::EntityScriptHandler);
 		REGISTER_FUNCTION(log::Log, [](LuaIntf::LuaBinding& binding)
 		{
 			LOG(LOG_INFO, "Registering log");

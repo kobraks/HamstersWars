@@ -1,6 +1,4 @@
 #pragma once
-#include <Lua/Lua.hpp>
-#include <Lua/LuaIntf.h>
 
 namespace game::lua
 {

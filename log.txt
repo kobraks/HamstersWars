@@ -1,118 +1,133 @@
-- Fri Oct 12 23:42:50 2018  INFO: Processing program arguments
-- Fri Oct 12 23:42:50 2018  INFO: Registering keyboard interactions
-- Fri Oct 12 23:42:50 2018  INFO: Registering mouse functions
-- Fri Oct 12 23:42:50 2018  INFO: Registering Timer
-- Fri Oct 12 23:42:50 2018  INFO: Registering Vector3D
-- Fri Oct 12 23:42:50 2018  INFO: Registering lua handlers
-- Fri Oct 12 23:42:50 2018  INFO: Registering log
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				down
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				update_rate
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				up
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				left
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				debug
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				shader = table
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				texture
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				some
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				open_gl = table
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				depth_bits
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				stencil_bits
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				version = table
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				1
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				2
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				window = table
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				title
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				size = table
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				1
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				2
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				position
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				style
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				right
-- Fri Oct 12 23:42:50 2018  DEBUG4: 				max_updates
-- Fri Oct 12 23:42:50 2018  INFO: Parsing down
-- Fri Oct 12 23:42:50 2018  INFO: Adding properties
-- Fri Oct 12 23:42:50 2018  INFO: Parsing update_rate
-- Fri Oct 12 23:42:50 2018  INFO: Setting update rate to: 16
-- Fri Oct 12 23:42:50 2018  INFO: Parsing up
-- Fri Oct 12 23:42:50 2018  INFO: Adding properties
-- Fri Oct 12 23:42:50 2018  INFO: Parsing left
-- Fri Oct 12 23:42:50 2018  INFO: Adding properties
-- Fri Oct 12 23:42:50 2018  INFO: Parsing debug
-- Fri Oct 12 23:42:50 2018  INFO: Develop mode: 
-- Fri Oct 12 23:42:50 2018  INFO: Parsing shader table
-- Fri Oct 12 23:42:50 2018  INFO: shader path: ../resources/shaders/texture
-- Fri Oct 12 23:42:50 2018  INFO: shader path: ../resources/shaders/2d
-- Fri Oct 12 23:42:50 2018  INFO: Parsing open gl settings
-- Fri Oct 12 23:42:50 2018  INFO: depth bits: 24
-- Fri Oct 12 23:42:50 2018  INFO: stencil bits: 8
-- Fri Oct 12 23:42:50 2018  WARNING: Unknown value: 1
-- Fri Oct 12 23:42:50 2018  INFO: open gl version: 3,3
-- Fri Oct 12 23:42:50 2018  INFO: Parsing window configuration
-- Fri Oct 12 23:42:50 2018  INFO: WIndow title: Hamsters Wars
-- Fri Oct 12 23:42:50 2018  INFO: Window size (800x600)
-- Fri Oct 12 23:42:50 2018  INFO: position center
-- Fri Oct 12 23:42:50 2018  INFO: Window position(960x540)
-- Fri Oct 12 23:42:50 2018  INFO: Window style: 7
-- Fri Oct 12 23:42:50 2018  INFO: Parsing right
-- Fri Oct 12 23:42:50 2018  INFO: Adding properties
-- Fri Oct 12 23:42:50 2018  INFO: Parsing max_updates
-- Fri Oct 12 23:42:50 2018  INFO: Setting max updates to: 5
-- Fri Oct 12 23:42:51 2018  DEBUG: Loading vertex shader form: ../resources/shaders/texture.vert
-- Fri Oct 12 23:42:51 2018  DEBUG: Loading shader from source file
-- Fri Oct 12 23:42:51 2018  DEBUG: Compiling shader
-- Fri Oct 12 23:42:52 2018  DEBUG: Loading fragment shader form: ../resources/shaders/texture.frag
-- Fri Oct 12 23:42:52 2018  DEBUG: Loading shader from source file
-- Fri Oct 12 23:42:52 2018  DEBUG: Compiling shader
-- Fri Oct 12 23:42:52 2018  DEBUG: Loading geometry shader form: ../resources/shaders/texture.geo
-- Fri Oct 12 23:42:52 2018  DEBUG: Loading shader from source file
-- Fri Oct 12 23:42:52 2018  ERROR: Unable to read shader source: ios_base::failbit set: iostream stream error
-- Fri Oct 12 23:42:52 2018  DEBUG: Attaching vertex shader
-- Fri Oct 12 23:42:52 2018  DEBUG: Attaching fragment shader
-- Fri Oct 12 23:42:52 2018  WARNING: No geometry shader
-- Fri Oct 12 23:42:52 2018  DEBUG: Linking the shader
-- Fri Oct 12 23:42:52 2018  DEBUG: Program attributes count: 6
-- Fri Oct 12 23:42:52 2018  DEBUG1: 	Attribute: 0
+- Sat Oct 13 09:51:02 2018  INFO: Processing program arguments
+- Sat Oct 13 09:51:02 2018  INFO: Registering keyboard interactions
+- Sat Oct 13 09:51:02 2018  INFO: Registering mouse functions
+- Sat Oct 13 09:51:02 2018  INFO: Registering Timer
+- Sat Oct 13 09:51:02 2018  INFO: Registering Vector3D
+- Sat Oct 13 09:51:02 2018  INFO: Registering entity functions
+- Sat Oct 13 09:51:02 2018  INFO: Registering log
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				window = table
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				style
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				title
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				position
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				size = table
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				1
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				2
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				up
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				debug
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				down
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				left
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				right
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				update_rate
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				shader = table
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				texture
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				some
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				max_updates
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				entity_list_file
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				open_gl = table
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				version = table
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				1
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				2
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				depth_bits
+- Sat Oct 13 09:51:02 2018  DEBUG4: 				stencil_bits
+- Sat Oct 13 09:51:02 2018  INFO: Parsing window configuration
+- Sat Oct 13 09:51:02 2018  INFO: Window style: 7
+- Sat Oct 13 09:51:02 2018  INFO: WIndow title: Hamsters Wars
+- Sat Oct 13 09:51:02 2018  INFO: position center
+- Sat Oct 13 09:51:02 2018  INFO: Window position(960x540)
+- Sat Oct 13 09:51:02 2018  INFO: Window size (800x600)
+- Sat Oct 13 09:51:02 2018  INFO: Parsing up
+- Sat Oct 13 09:51:02 2018  INFO: Adding properties
+- Sat Oct 13 09:51:02 2018  INFO: Parsing debug
+- Sat Oct 13 09:51:02 2018  INFO: Develop mode: 
+- Sat Oct 13 09:51:02 2018  INFO: Parsing down
+- Sat Oct 13 09:51:02 2018  INFO: Adding properties
+- Sat Oct 13 09:51:02 2018  INFO: Parsing left
+- Sat Oct 13 09:51:02 2018  INFO: Adding properties
+- Sat Oct 13 09:51:02 2018  INFO: Parsing right
+- Sat Oct 13 09:51:02 2018  INFO: Adding properties
+- Sat Oct 13 09:51:02 2018  INFO: Parsing update_rate
+- Sat Oct 13 09:51:02 2018  INFO: Setting update rate to: 16
+- Sat Oct 13 09:51:02 2018  INFO: Parsing shader table
+- Sat Oct 13 09:51:02 2018  INFO: shader path: ../resources/shaders/texture
+- Sat Oct 13 09:51:02 2018  INFO: shader path: ../resources/shaders/2d
+- Sat Oct 13 09:51:02 2018  INFO: Parsing max_updates
+- Sat Oct 13 09:51:02 2018  INFO: Setting max updates to: 5
+- Sat Oct 13 09:51:02 2018  INFO: Parsing entity_list_file
+- Sat Oct 13 09:51:02 2018  INFO: Setting entity list file to: ../resources/lua_scripts/entities.lua
+- Sat Oct 13 09:51:02 2018  INFO: Parsing open gl settings
+- Sat Oct 13 09:51:02 2018  WARNING: Unknown value: 1
+- Sat Oct 13 09:51:02 2018  INFO: open gl version: 3,3
+- Sat Oct 13 09:51:02 2018  INFO: depth bits: 24
+- Sat Oct 13 09:51:02 2018  INFO: stencil bits: 8
+- Sat Oct 13 09:51:02 2018  DEBUG: Loading vertex shader form: ../resources/shaders/texture.vert
+- Sat Oct 13 09:51:02 2018  DEBUG: Loading shader from source file
+- Sat Oct 13 09:51:02 2018  DEBUG: Compiling shader
+- Sat Oct 13 09:51:02 2018  DEBUG: Loading fragment shader form: ../resources/shaders/texture.frag
+- Sat Oct 13 09:51:02 2018  DEBUG: Loading shader from source file
+- Sat Oct 13 09:51:02 2018  DEBUG: Compiling shader
+- Sat Oct 13 09:51:02 2018  DEBUG: Loading geometry shader form: ../resources/shaders/texture.geo
+- Sat Oct 13 09:51:02 2018  DEBUG: Loading shader from source file
+- Sat Oct 13 09:51:02 2018  ERROR: Unable to read shader source: ios_base::failbit set: iostream stream error
+- Sat Oct 13 09:51:02 2018  DEBUG: Attaching vertex shader
+- Sat Oct 13 09:51:02 2018  DEBUG: Attaching fragment shader
+- Sat Oct 13 09:51:02 2018  WARNING: No geometry shader
+- Sat Oct 13 09:51:02 2018  DEBUG: Linking the shader
+- Sat Oct 13 09:51:02 2018  DEBUG: Program attributes count: 6
+- Sat Oct 13 09:51:02 2018  DEBUG1: 	Attribute: 0
 	name: Model
 	type: 35676
 	length: 5
 	size: 1
-- Fri Oct 12 23:42:52 2018  DEBUG1: 	Attribute: 1
+- Sat Oct 13 09:51:02 2018  DEBUG1: 	Attribute: 1
 	name: Projection
 	type: 35676
 	length: 10
 	size: 1
-- Fri Oct 12 23:42:52 2018  DEBUG1: 	Attribute: 2
+- Sat Oct 13 09:51:02 2018  DEBUG1: 	Attribute: 2
 	name: View
 	type: 35676
 	length: 4
 	size: 1
-- Fri Oct 12 23:42:52 2018  DEBUG1: 	Attribute: 3
+- Sat Oct 13 09:51:02 2018  DEBUG1: 	Attribute: 3
 	name: color
 	type: 35666
 	length: 5
 	size: 1
-- Fri Oct 12 23:42:52 2018  DEBUG1: 	Attribute: 4
+- Sat Oct 13 09:51:02 2018  DEBUG1: 	Attribute: 4
 	name: my_texture
 	type: 35678
 	length: 10
 	size: 1
-- Fri Oct 12 23:42:52 2018  DEBUG1: 	Attribute: 5
+- Sat Oct 13 09:51:02 2018  DEBUG1: 	Attribute: 5
 	name: mode
 	type: 5124
 	length: 4
 	size: 1
-- Fri Oct 12 23:42:52 2018  DEBUG: Loading vertex shader form: ../resources/shaders/2d.vert
-- Fri Oct 12 23:42:52 2018  DEBUG: Loading shader from source file
-- Fri Oct 12 23:42:52 2018  ERROR: Unable to read shader source: ios_base::failbit set: iostream stream error
-- Fri Oct 12 23:42:52 2018  DEBUG: Loading fragment shader form: ../resources/shaders/2d.frag
-- Fri Oct 12 23:42:52 2018  DEBUG: Loading shader from source file
-- Fri Oct 12 23:42:52 2018  ERROR: Unable to read shader source: ios_base::failbit set: iostream stream error
-- Fri Oct 12 23:42:52 2018  DEBUG: Loading geometry shader form: ../resources/shaders/2d.geo
-- Fri Oct 12 23:42:52 2018  DEBUG: Loading shader from source file
-- Fri Oct 12 23:42:52 2018  ERROR: Unable to read shader source: ios_base::failbit set: iostream stream error
-- Fri Oct 12 23:42:52 2018  WARNING: No vertex shader
-- Fri Oct 12 23:42:52 2018  WARNING: No fragment shader
-- Fri Oct 12 23:42:52 2018  WARNING: No geometry shader
-- Fri Oct 12 23:42:52 2018  DEBUG: Linking the shader
-- Fri Oct 12 23:42:52 2018  ERROR: Unable to link shaders Link called without any attached shader objects.
+- Sat Oct 13 09:51:02 2018  DEBUG: Loading vertex shader form: ../resources/shaders/2d.vert
+- Sat Oct 13 09:51:02 2018  DEBUG: Loading shader from source file
+- Sat Oct 13 09:51:02 2018  ERROR: Unable to read shader source: ios_base::failbit set: iostream stream error
+- Sat Oct 13 09:51:02 2018  DEBUG: Loading fragment shader form: ../resources/shaders/2d.frag
+- Sat Oct 13 09:51:02 2018  DEBUG: Loading shader from source file
+- Sat Oct 13 09:51:02 2018  ERROR: Unable to read shader source: ios_base::failbit set: iostream stream error
+- Sat Oct 13 09:51:02 2018  DEBUG: Loading geometry shader form: ../resources/shaders/2d.geo
+- Sat Oct 13 09:51:02 2018  DEBUG: Loading shader from source file
+- Sat Oct 13 09:51:02 2018  ERROR: Unable to read shader source: ios_base::failbit set: iostream stream error
+- Sat Oct 13 09:51:02 2018  WARNING: No vertex shader
+- Sat Oct 13 09:51:02 2018  WARNING: No fragment shader
+- Sat Oct 13 09:51:02 2018  WARNING: No geometry shader
+- Sat Oct 13 09:51:02 2018  DEBUG: Linking the shader
+- Sat Oct 13 09:51:02 2018  ERROR: Unable to link shaders Link called without any attached shader objects.
 
-- Fri Oct 12 23:42:57 2018  INFO: Exit code: 0
+- Sat Oct 13 09:51:02 2018  WARNING: Unrecognized component Collider
+- Sat Oct 13 09:51:02 2018  DEBUG: Loading Graphic component
+- Sat Oct 13 09:51:02 2018  DEBUG: Loading Transform component
+- Sat Oct 13 09:51:02 2018  DEBUG: Reading position
+- Sat Oct 13 09:51:02 2018  DEBUG1: 	Position: x = 1.000000, y = 2.000000, z = 3.000000
+- Sat Oct 13 09:51:02 2018  DEBUG: Reading scale
+- Sat Oct 13 09:51:02 2018  DEBUG1: 	Scale: x = 0.005000, y = 0.005000, z = 0.005000
+- Sat Oct 13 09:51:02 2018  DEBUG: Reading rotation
+- Sat Oct 13 09:51:02 2018  DEBUG1: 	Rotate: x = 0.000000, y = 0.000000, z = 0.000000
+- Sat Oct 13 09:51:02 2018  DEBUG: Loading Script component
+- Sat Oct 13 09:51:02 2018  INFO: Setting update function
+- Sat Oct 13 09:51:02 2018  INFO: Setting create function
+- Sat Oct 13 09:51:02 2018  DEBUG: update

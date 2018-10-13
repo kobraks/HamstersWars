@@ -1,45 +1,26 @@
 #pragma once
 #include "Entity.h"
 
-#include <Lua/lua.hpp>
-#include <Lua/LuaIntf.h>
-#include <memory>
-#include "Register.h"
-#include "Vector3D.h"
 
-namespace game::script
+#include "Register.h"
+
+namespace game::entity
 {
 	class EntityScriptHandler : public lua::Register
 	{
 	public:
-		EntityScriptHandler() = default;
-		EntityScriptHandler(std::shared_ptr<Entity> entity);
-		~EntityScriptHandler();
+		EntityScriptHandler();
+		explicit EntityScriptHandler(Entity* entity);
 
-		float get_elapsed_time();
+		void add_property(const property_id_type& property_id, LuaIntf::LuaRef lua);
+		LuaIntf::LuaRef get_property(const property_id_type& property_id);
 
-		void rotate(const gl::Vector3D& axis);
-		void translate(const gl::Vector3D& axis);
-		
-		void set_position(const gl::Vector3D& pos);
-		void move(const gl::Vector3D& vector);
-
-		glm::vec3 get_position();
-
-		void scale(const gl::Vector3D& axis);
-
+		void clone();
 		void destroy();
-
-		bool is_colliding();
-
-		std::vector<EntityScriptHandler> get_colliders();
-
-		void set_texture(const std::string& file);
-		void set_model(const std::string& file);
 	protected:
 		void register_class(LuaIntf::LuaBinding& binding) const override;
 
 	private:
-		std::shared_ptr<Entity> entity_;
+		entity::Entity* entity_ = nullptr;
 	};
 }

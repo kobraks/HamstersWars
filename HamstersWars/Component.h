@@ -1,30 +1,25 @@
 #pragma once
-#include <memory>
-#include <string>
-
-namespace game {
-	class Entity;
-}
+#include "PropertyManager.h"
 
 namespace game
 {
-	namespace component
+	namespace interfaces
 	{
 		class Component
 		{
 		public:
-			explicit Component(std::shared_ptr<Entity> owner = nullptr);
-			Component(const Component&) = default;
+			PropertyManager properties;
 
+			explicit Component(const component_id_type& component_id);
 			virtual ~Component() = default;
 
-			virtual Component* copy() const = 0;
-			virtual std::string get_name()  const = 0;
+			const component_id_type& id() const;
 
-			std::shared_ptr<Entity> get_owner() const;
-			void set_owner(std::shared_ptr<Entity> entity);
+			virtual void parse_table(LuaIntf::LuaRef table) = 0;
+			virtual Component* clone() const = 0;
 		private:
-			std::shared_ptr<Entity> owner_;
+			const component_id_type& id_;
 		};
 	}
 }
+
